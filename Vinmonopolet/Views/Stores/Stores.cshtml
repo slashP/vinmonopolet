@@ -1,0 +1,24 @@
+﻿@model System.Collections.Generic.IEnumerable<Vinmonopolet.Models.Store>
+
+<table class="table table-condensed">
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>IsActive</th>
+    </tr>
+    @foreach (var store in Model)
+    {
+        <tr>
+            <td>@store.Id</td>
+            <td>@store.Name</td>
+            @if (store.IsActive)
+            {
+                <td class=""><span class="glyphicon glyphicon-ok"></span></td>
+            }
+            else
+            {
+                <td></td>
+            }
+        </tr>
+    }
+</table>
