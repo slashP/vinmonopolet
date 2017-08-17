@@ -1,0 +1,25 @@
+﻿@using System.Collections.Generic
+@using System.Linq
+@model System.Collections.Generic.IEnumerable<System.Linq.IGrouping<string, BeerLocation>>
+
+
+@foreach (var pol in Model)
+{
+    <table class="table table-condensed">
+        <tr>
+            <th>@pol.Key</th>
+            <th>Pris</th>
+            <th>Alc</th>
+            <th>Antall</th>
+        </tr>
+        @foreach (var location in pol.OrderByDescending(x => x.WatchedBeer.AlcoholPercentage))
+        {
+            <tr>
+                <td><a href="https://untappd.com/search?q=@location.WatchedBeer.Name">@location.WatchedBeer.Name</a></td>
+                <td>@location.WatchedBeer.Price</td>
+                <td>@(location.WatchedBeer.AlcoholPercentage) %</td>
+                <td>@location.StockLevel</td>
+            </tr>
+        }
+    </table>
+}
