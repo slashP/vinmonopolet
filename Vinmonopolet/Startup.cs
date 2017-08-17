@@ -31,6 +31,7 @@ namespace Vinmonopolet
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<IWebCrawler, WebCrawler>();
 
             services.AddMvc();
 
