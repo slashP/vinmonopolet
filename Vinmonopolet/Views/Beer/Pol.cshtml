@@ -16,17 +16,17 @@
     <table class="table table-condensed">
         <tr>
             <th>@pol.Key</th>
-            <th>Pris</th>
-            <th>Alc</th>
-            <th>Antall</th>
+            <th class="text-right">Pris</th>
+            <th class="text-right">Alc</th>
+            <th class="text-right">Antall</th>
         </tr>
         @foreach (var location in pol.OrderByDescending(x => x.WatchedBeer.AlcoholPercentage))
         {
             <tr>
                 <td><a href="https://untappd.com/search?q=@location.WatchedBeer.Name">@location.WatchedBeer.Name</a></td>
-                <td>@location.WatchedBeer.Price</td>
-                <td>@(location.WatchedBeer.AlcoholPercentage) %</td>
-                <td>@location.StockLevel</td>
+                <td class="text-right">@location.WatchedBeer.Price</td>
+                <td class="text-right">@(location.WatchedBeer.AlcoholPercentage) %</td>
+                <td class="text-right">@location.StockLevel</td>
             </tr>
         }
     </table>
