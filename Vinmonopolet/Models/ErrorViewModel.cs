@@ -1,5 +1,3 @@
-using System;
-
 namespace Vinmonopolet.Models
 {
     public class ErrorViewModel
