@@ -43,14 +43,14 @@ namespace Vinmonopolet
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseDeveloperExceptionPage();
+            app.UseDatabaseErrorPage();
             if (env.IsDevelopment())
             {
                 app.UseBrowserLink();
-                app.UseDatabaseErrorPage();
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                // app.UseExceptionHandler("/Home/Error");
             }
 
             app.UseStaticFiles();
