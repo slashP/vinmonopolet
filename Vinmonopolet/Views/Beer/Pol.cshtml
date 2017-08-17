@@ -1,0 +1,33 @@
+﻿@using System.Linq
+@using System.Web
+@model Vinmonopolet.Models.BeerViewModels.PolViewModel
+
+<h3>@Model.SearchTerm</h3>
+
+<div class="btn-group" role="group" aria-label="Beer types">
+    @foreach (var type in Model.Types)
+    {
+        <a href="/?query=@(HttpUtility.UrlEncode(type))" class="btn btn-primary">@type</a>
+    }
+</div>
+
+@foreach (var pol in Model.GroupedBeers)
+{
+    <table class="table table-condensed">
+        <tr>
+            <th>@pol.Key</th>
+            <th>Pris</th>
+            <th>Alc</th>
+            <th>Antall</th>
+        </tr>
+        @foreach (var location in pol.OrderByDescending(x => x.WatchedBeer.AlcoholPercentage))
+        {
+            <tr>
+                <td><a href="https://untappd.com/search?q=@location.WatchedBeer.Name">@location.WatchedBeer.Name</a></td>
+                <td>@location.WatchedBeer.Price</td>
+                <td>@(location.WatchedBeer.AlcoholPercentage) %</td>
+                <td>@location.StockLevel</td>
+            </tr>
+        }
+    </table>
+}
