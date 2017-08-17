@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
@@ -37,6 +33,10 @@ namespace Vinmonopolet
             services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddMvc();
+
+            var serviceProvider = services.BuildServiceProvider();
+            new ApplicationDbContext(
+                serviceProvider.GetService<DbContextOptions<ApplicationDbContext>>()).Database.Migrate();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,7 +54,6 @@ namespace Vinmonopolet
             }
 
             app.UseStaticFiles();
-
             app.UseAuthentication();
 
             app.UseMvc(routes =>
