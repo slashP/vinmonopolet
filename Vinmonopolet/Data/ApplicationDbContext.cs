@@ -17,6 +17,8 @@ namespace Vinmonopolet.Data
 
         public DbSet<Store> Stores { get; set; }
 
+        public DbSet<UserStorePreference> UserStorePreferences { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<BeerLocation>().HasKey(x => new {x.StoreId, x.WatchedBeerId});

@@ -7,7 +7,7 @@
 <div class="btn-group" role="group" aria-label="Beer types">
     @foreach (var type in Model.Types)
     {
-        <a href="/?query=@(HttpUtility.UrlEncode(type))" class="btn btn-primary">@type</a>
+        <a href="?query=@(HttpUtility.UrlEncode(type))" class="btn btn-primary">@type</a>
     }
 </div>
 
