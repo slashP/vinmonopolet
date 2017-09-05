@@ -56,5 +56,11 @@ namespace Vinmonopolet.Extensions
         {
             return Regex.Replace(value, @"\t|\n|\r", "").Trim();
         }
+
+        public static string Substring(this string value, int length)
+        {
+            var s = value ?? string.Empty;
+            return s.Substring(0, s.Length > length ? length : s.Length);
+        }
     }
 }
