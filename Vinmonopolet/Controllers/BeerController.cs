@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Vinmonopolet.Data;
 using Vinmonopolet.Models;
 using Vinmonopolet.Models.BeerViewModels;
+using Vinmonopolet.Services;
 
 namespace Vinmonopolet.Controllers
 {
@@ -14,11 +15,13 @@ namespace Vinmonopolet.Controllers
     {
         readonly ApplicationDbContext _db;
         readonly UserManager<ApplicationUser> _userManager;
+        readonly ITime _time;
 
-        public BeerController(ApplicationDbContext db, UserManager<ApplicationUser> userManager)
+        public BeerController(ApplicationDbContext db, UserManager<ApplicationUser> userManager, ITime time)
         {
             _db = db;
             _userManager = userManager;
+            _time = time;
         }
 
         [Route("")]
@@ -46,7 +49,8 @@ namespace Vinmonopolet.Controllers
             var toBeAnnounced = await _db.BeerLocations
                 .Include(x => x.Store)
                 .Include(x => x.WatchedBeer)
-                .Where(x => x.StockStatus == StockStatus.ToBeAnnounced).ToListAsync();
+                .Where(x => x.StockStatus == StockStatus.ToBeAnnounced
+                        || (x.AnnouncedDate != null && x.AnnouncedDate > _time.OsloDate.AddMonths(-3))).ToListAsync();
             return View(toBeAnnounced.GroupBy(x => x.Store.Name));
         }
 

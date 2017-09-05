@@ -22,6 +22,8 @@ namespace Vinmonopolet.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<BeerLocation>().HasKey(x => new {x.StoreId, x.WatchedBeerId});
+            builder.Entity<BeerLocation>().HasIndex(x => x.AnnouncedDate);
+            builder.Entity<BeerLocation>().HasIndex(x => x.StockStatus);
             base.OnModelCreating(builder);
         }
     }
