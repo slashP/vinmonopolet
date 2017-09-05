@@ -25,6 +25,7 @@ namespace Vinmonopolet.Data
             builder.Entity<BeerLocation>().HasIndex(x => x.AnnouncedDate);
             builder.Entity<BeerLocation>().HasIndex(x => x.StockStatus);
             builder.Entity<WatchedBeer>().HasIndex(x => x.Name);
+            builder.Entity<WatchedBeer>().HasIndex(x => x.BeerCategory);
             base.OnModelCreating(builder);
         }
     }

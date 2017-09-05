@@ -56,16 +56,18 @@ namespace Vinmonopolet.Services
                 return null;
             }
 
+            var beerType = productInfo.SiblingOfElementStartingWithInnerText("dt", "Varetype")?.InnerText?.Split(',').LastOrDefault()?.Trim().Substring(64);
             return new WatchedBeer
             {
                 Name = htmlDoc.DocumentNode.FirstElementWithClass("div", "product")?.Descendants("h1").First().InnerText.RemoveEmptyCharacters().Substring(256),
                 AlcoholPercentage = alcohol.Value,
-                Type = productInfo.SiblingOfElementStartingWithInnerText("dt", "Varetype")?.InnerText?.Split(',').LastOrDefault()?.Trim().Substring(64),
+                Type = beerType,
                 //Brewery = productInfo.SiblingOfElementStartingWithInnerText("dt", "Produsent")?.InnerText,
                 //Country = productInfo.SiblingOfElementStartingWithInnerText("dt", "Land")?.InnerText.RemoveEmptyCharacters().Split(',').First(),
                 //Volume = (htmlDoc.DocumentNode.FirstElementWithClass("span", "product__amount")?.InnerText.ExtractDecimal() ?? 0) / 100,
                 MaterialNumber = basicProduct.ProductNumber,
-                Price = htmlDoc.DocumentNode.FirstElementWithClass("span", "product__price")?.InnerText.ExtractDecimal() ?? 0
+                Price = htmlDoc.DocumentNode.FirstElementWithClass("span", "product__price")?.InnerText.ExtractDecimal() ?? 0,
+                BeerCategory = WatchedBeer.Category(beerType)
             };
         }
 

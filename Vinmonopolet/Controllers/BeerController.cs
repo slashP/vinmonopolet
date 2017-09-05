@@ -1,5 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Humanizer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -25,20 +28,21 @@ namespace Vinmonopolet.Controllers
         }
 
         [Route("")]
-        public async Task<ActionResult> Pol(string query = "Stout")
+        public async Task<ActionResult> Pol(string query = "PorterStout")
         {
+            var beerCategory = BeerCategoryFromQuery(query);
+
             var groupedBeers =
                 (await _db.BeerLocations.Include(x => x.WatchedBeer).Include(x => x.Store)
-                    .Where(x => x.WatchedBeer.Name.Contains(query) || x.WatchedBeer.Type.Contains(query))
+                    .Where(x => x.WatchedBeer.Name.Contains(query) || x.WatchedBeer.BeerCategory == beerCategory)
                     .ToListAsync())
                 .GroupBy(x => x.Store.Name)
                 .OrderByDescending(x => x.Count())
                 .ToList();
-            var types = await _db.WatchedBeers.Select(x => x.Type).Distinct().ToListAsync();
             return View(new PolViewModel
             {
                 GroupedBeers = groupedBeers,
-                Types = types,
+                Types = await BeerTypes(),
                 SearchTerm = query
             });
         }
@@ -56,26 +60,47 @@ namespace Vinmonopolet.Controllers
 
         [Route("my")]
         [Authorize]
-        public async Task<ActionResult> My(string query = "Stout")
+        public async Task<ActionResult> My(string query = "PorterStout")
         {
+            var beerCategory = BeerCategoryFromQuery(query);
             var user = await _userManager.GetUserAsync(User);
             var userStoreIds = await _db.UserStorePreferences.Include(x => x.Store)
                 .Where(x => x.ApplicationUserId == user.Id).Select(x => x.StoreId).ToListAsync();
             var groupedBeers =
                 (await _db.BeerLocations.Include(x => x.WatchedBeer).Include(x => x.Store)
                     .Where(x => userStoreIds.Contains(x.StoreId) &&
-                                (x.WatchedBeer.Name.Contains(query) || x.WatchedBeer.Type.Contains(query)))
+                                (x.WatchedBeer.Name.Contains(query) || x.WatchedBeer.BeerCategory == beerCategory))
                     .ToListAsync())
                 .GroupBy(x => x.Store.Name)
                 .OrderByDescending(x => x.Count())
                 .ToList();
-            var types = await _db.WatchedBeers.Select(x => x.Type).Distinct().ToListAsync();
             return View("Pol", new PolViewModel
             {
                 GroupedBeers = groupedBeers,
-                Types = types,
+                Types = await BeerTypes(),
                 SearchTerm = query
             });
+        }
+
+        private static BeerCategory BeerCategoryFromQuery(string query)
+        {
+            var beerCategory = WatchedBeer.Category(query);
+            if (beerCategory == BeerCategory.Unknown)
+            {
+                var enumValue = query.DehumanizeTo(typeof(BeerCategory), OnNoMatch.ReturnsNull);
+                if (enumValue != null)
+                {
+                    return (BeerCategory) enumValue;
+                }
+            }
+
+            return beerCategory;
+        }
+
+        private async Task<IEnumerable<string>> BeerTypes()
+        {
+            var types = await _db.WatchedBeers.Select(x => x.BeerCategory).Distinct().ToListAsync();
+            return types.Select(x => x.Humanize()).OrderBy(x => x);
         }
     }
 }

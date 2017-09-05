@@ -20,5 +20,46 @@ namespace Vinmonopolet.Models
         public decimal Price { get; set; }
 
         public virtual ICollection<BeerLocation> BeerLocations { get; set; }
+
+        public BeerCategory BeerCategory { get; set; }
+
+        public static BeerCategory Category(string vareType)
+        {
+            switch (vareType)
+            {
+                case "Porter & stout":
+                    return BeerCategory.PorterStout;
+                case "Surøl":
+                    return BeerCategory.Sour;
+                case "Barley wine":
+                    return BeerCategory.BarleyWine;
+                case "Lys ale":
+                    return BeerCategory.LightAle;
+                case "Lys lager":
+                    return BeerCategory.LightLager;
+                case "Mørk lager":
+                    return BeerCategory.DarkLager;
+                case "India pale ale":
+                    return BeerCategory.Ipa;
+                case "Saison farmhouse ale":
+                    return BeerCategory.Saison;
+                case "Spesial":
+                    return BeerCategory.Special;
+                case "Pale ale":
+                    return BeerCategory.PaleAle;
+                case "Hveteøl":
+                    return BeerCategory.Wheat;
+                case "Klosterstil":
+                    return BeerCategory.Trapist;
+                case "Scotch ale":
+                    return BeerCategory.ScotchAle;
+                case "Red/amber":
+                    return BeerCategory.Amber;
+                case "Brown ale":
+                    return BeerCategory.BrownAle;
+                default:
+                    return BeerCategory.Unknown;
+            }
+        }
     }
 }

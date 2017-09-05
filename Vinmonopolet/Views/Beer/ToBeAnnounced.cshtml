@@ -1,5 +1,6 @@
 ﻿@using System.Collections.Generic
 @using System.Linq
+@using Humanizer
 @model System.Collections.Generic.IEnumerable<System.Linq.IGrouping<string, BeerLocation>>
 
 
@@ -18,7 +19,7 @@
         {
             <tr>
                 <td><a href="https://untappd.com/search?q=@location.WatchedBeer.Name">@location.WatchedBeer.Name</a></td>
-                <td>@location.WatchedBeer.Type</td>
+                <td>@location.WatchedBeer.BeerCategory.Humanize()</td>
                 <td class="text-right">@location.WatchedBeer.Price</td>
                 <td class="text-right">@(location.WatchedBeer.AlcoholPercentage) %</td>
                 <td class="text-right">@location.StockLevel</td>
