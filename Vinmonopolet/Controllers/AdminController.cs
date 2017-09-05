@@ -30,10 +30,10 @@ namespace Vinmonopolet.Controllers
         public async Task<string> Jj()
         {
             var stores = await _db.Stores.Where(x => x.IsActive).ToListAsync();
-            var materialNumbers = new HashSet<string>(await _db.WatchedBeers.Select(x => x.MaterialNumber).ToListAsync());
             foreach (var store in stores)
             {
                 var products = await _webCrawler.Products(store.Id);
+                var materialNumbers = new HashSet<string>(await _db.WatchedBeers.AsNoTracking().Select(x => x.MaterialNumber).ToListAsync());
                 var unknownProducts = products.Where(x => materialNumbers.Contains(x.ProductNumber) == false).ToList();
                 foreach (var unknownProduct in unknownProducts)
                 {
@@ -44,7 +44,7 @@ namespace Vinmonopolet.Controllers
                 await _db.SaveChangesAsync();
                 foreach (var basicProduct in products)
                 {
-                    var beer = await _db.WatchedBeers.Include(x => x.BeerLocations).FirstAsync(x => x.MaterialNumber == basicProduct.ProductNumber);
+                    var beer = await _db.WatchedBeers.AsNoTracking().Include(x => x.BeerLocations).FirstAsync(x => x.MaterialNumber == basicProduct.ProductNumber);
                     var location = await _db.BeerLocations.FirstOrDefaultAsync(x => x.WatchedBeerId == beer.MaterialNumber && x.StoreId == store.Id);
                     var stockLevel = basicProduct.QuantityInStock ?? 0;
                     if (location != null)
