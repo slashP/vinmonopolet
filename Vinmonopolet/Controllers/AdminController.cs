@@ -45,6 +45,7 @@ namespace Vinmonopolet.Controllers
                     if (location != null)
                     {
                         location.StockLevel = stockLevel;
+                        location.StockStatus = basicProduct.StockStatus;
                     }
                     else
                     {
