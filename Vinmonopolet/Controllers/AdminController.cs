@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NodaTime;
+using NodaTime.Extensions;
 using Vinmonopolet.Data;
 using Vinmonopolet.Models;
 using Vinmonopolet.Services;
@@ -13,11 +16,13 @@ namespace Vinmonopolet.Controllers
     {
         readonly IWebCrawler _webCrawler;
         readonly ApplicationDbContext _db;
+        readonly ITime _time;
 
-        public AdminController(IWebCrawler webCrawler, ApplicationDbContext db)
+        public AdminController(IWebCrawler webCrawler, ApplicationDbContext db, ITime time)
         {
             _webCrawler = webCrawler;
             _db = db;
+            _time = time;
         }
 
         [Route("admin/fetch")]
@@ -54,7 +59,8 @@ namespace Vinmonopolet.Controllers
                             StoreId = store.Id,
                             WatchedBeerId = beer.MaterialNumber,
                             StockLevel = stockLevel,
-                            StockStatus = basicProduct.StockStatus
+                            StockStatus = basicProduct.StockStatus,
+                            AnnouncedDate = basicProduct.StockStatus == StockStatus.ToBeAnnounced ? _time.OsloDate : (DateTime?) null
                         });
                     }
                 }

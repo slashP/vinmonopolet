@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Vinmonopolet.Models
 {
@@ -18,5 +18,7 @@ namespace Vinmonopolet.Models
         public int StockLevel { get; set; }
 
         public StockStatus StockStatus { get; set; }
+
+        public DateTime? AnnouncedDate { get; set; }
     }
 }
