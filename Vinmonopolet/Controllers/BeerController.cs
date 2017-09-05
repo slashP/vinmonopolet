@@ -28,7 +28,7 @@ namespace Vinmonopolet.Controllers
         }
 
         [Route("")]
-        public async Task<ActionResult> Pol(string query = "PorterStout")
+        public async Task<ActionResult> Pol(string query = "Porter stout")
         {
             var beerCategory = BeerCategoryFromQuery(query);
 
@@ -60,7 +60,7 @@ namespace Vinmonopolet.Controllers
 
         [Route("my")]
         [Authorize]
-        public async Task<ActionResult> My(string query = "PorterStout")
+        public async Task<ActionResult> My(string query = "Porter stout")
         {
             var beerCategory = BeerCategoryFromQuery(query);
             var user = await _userManager.GetUserAsync(User);
