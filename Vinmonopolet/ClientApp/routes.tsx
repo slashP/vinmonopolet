@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import Home from './components/Home';
-import FetchData from './components/FetchData';
+import FetchData from './components/FetchBeerType';
 import Counter from './components/Counter';
 import AuthService from './services/Auth';
 import { SignIn, Register } from './components/Auth';
@@ -34,5 +34,5 @@ export const routes = <Layout>
     <Route path={RoutePaths.Register} component={Register} />
     <Route exact path='/' component={ Home } />
     <Route path='/counter' component={ Counter } />
-    <DefaultLayout path='/fetchdata/:startDateIndex?' component={ FetchData } />
+    <DefaultLayout path='/beers' component={ FetchData } />
 </Layout>;

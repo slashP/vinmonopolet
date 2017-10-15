@@ -20,9 +20,6 @@
     <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ClientApp\components\" />
-  </ItemGroup>
     <ItemGroup>
         <!-- Files not to publish (note that the 'dist' subfolders are re-added below) -->
         <Content Remove="ClientApp\**" />

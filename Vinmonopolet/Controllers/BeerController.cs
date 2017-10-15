@@ -27,8 +27,8 @@ namespace Vinmonopolet.Controllers
             _time = time;
         }
 
-        [Route("werwer")]
-        public async Task<ActionResult> Pol(string query = "Porter stout")
+        [Route("beers")]
+        public async Task<PolViewModel> Pol(string query = "Porter stout")
         {
             var beerCategory = BeerCategoryFromQuery(query);
 
@@ -38,13 +38,18 @@ namespace Vinmonopolet.Controllers
                     .ToListAsync())
                 .GroupBy(x => x.Store.Name)
                 .OrderByDescending(x => x.Count())
+                .Select(x => new BeerLocationAtPol
+                {
+                    StoreName = x.Key,
+                    BeerLocations = x.OrderByDescending(y => y.WatchedBeer.AlcoholPercentage)
+                })
                 .ToList();
-            return View(new PolViewModel
+            return new PolViewModel
             {
                 GroupedBeers = groupedBeers,
                 Types = await BeerTypes(),
                 SearchTerm = query
-            });
+            };
         }
 
         [Route("new")]
@@ -73,6 +78,11 @@ namespace Vinmonopolet.Controllers
                     .ToListAsync())
                 .GroupBy(x => x.Store.Name)
                 .OrderByDescending(x => x.Count())
+                .Select(x => new BeerLocationAtPol
+                {
+                    StoreName = x.Key,
+                    BeerLocations = x.OrderByDescending(y => y.WatchedBeer.AlcoholPercentage)
+                })
                 .ToList();
             return View("Pol", new PolViewModel
             {
