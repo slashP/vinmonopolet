@@ -74,7 +74,7 @@ namespace Vinmonopolet.Services
         static async Task<HtmlDocument> HtmlFromSearchPage(HttpClient client, string storeId, int pageNumber, string visibleInSearch)
         {
             var html = await client.GetStringAsync(
-                $"vmpSite/search?q=%3Arelevance%3AavailableInStores%3A{storeId}%3AmainCategory%3A%C3%B8l%3AvisibleInSearch%3A{visibleInSearch}&page={pageNumber}");
+                $"search?q=%3Arelevance%3AavailableInStores%3A{storeId}%3AmainCategory%3A%C3%B8l%3AvisibleInSearch%3A{visibleInSearch}&page={pageNumber}");
             var htmlDoc = new HtmlDocument();
             htmlDoc.LoadHtml(html);
             return htmlDoc;
