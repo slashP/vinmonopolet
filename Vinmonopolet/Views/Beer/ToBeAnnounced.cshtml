@@ -15,7 +15,7 @@
             <th class="text-right">Antall</th>
             <th class="text-right">Dato</th>
         </tr>
-        @foreach (var location in pol.OrderBy(x => x.AnnouncedDate).ThenBy(x => x.WatchedBeer.AlcoholPercentage))
+        @foreach (var location in pol.OrderBy(x => x.AnnouncedDate).ThenByDescending(x => x.WatchedBeer.AlcoholPercentage))
         {
             <tr>
                 <td><a href="https://untappd.com/search?q=@location.WatchedBeer.Name">@location.WatchedBeer.Name</a></td>
