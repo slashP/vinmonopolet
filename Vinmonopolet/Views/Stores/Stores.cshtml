@@ -8,7 +8,7 @@
     </tr>
     @foreach (var store in Model)
     {
-        <tr>
+        <tr onclick="toggleStore(@store.Id)">
             <td>@store.Id</td>
             <td>@store.Name</td>
             @if (store.IsActive)
@@ -22,3 +22,13 @@
         </tr>
     }
 </table>
+<script>
+    function toggleStore(storeId) {
+        fetch(new Request('stores/toggle/' + storeId, {
+            method: "POST",
+            credentials: 'same-origin'
+        })).then(function() {
+            window.location.reload();
+        });
+    }
+</script>
