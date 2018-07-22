@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Vinmonopolet.Models;
+using Vinmonopolet.Models.UntappdData;
 
 namespace Vinmonopolet.Data
 {
@@ -19,6 +20,10 @@ namespace Vinmonopolet.Data
 
         public DbSet<UserStorePreference> UserStorePreferences { get; set; }
 
+        public DbSet<BasicBeer> UntappdBeers { get; set; }
+
+        public DbSet<Brewery> UntappdBreweries { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<BeerLocation>().HasKey(x => new {x.StoreId, x.WatchedBeerId});
@@ -26,6 +31,8 @@ namespace Vinmonopolet.Data
             builder.Entity<BeerLocation>().HasIndex(x => x.StockStatus);
             builder.Entity<WatchedBeer>().HasIndex(x => x.Name);
             builder.Entity<WatchedBeer>().HasIndex(x => x.BeerCategory);
+            builder.Entity<BasicBeer>().HasIndex(x => x.Id);
+            builder.Entity<Brewery>().HasIndex(x => x.Id);
             base.OnModelCreating(builder);
         }
     }

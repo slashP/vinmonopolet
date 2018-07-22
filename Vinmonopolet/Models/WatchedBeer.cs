@@ -23,6 +23,9 @@ namespace Vinmonopolet.Models
 
         public BeerCategory BeerCategory { get; set; }
 
+        [MaxLength(32)]
+        public string UntappdId { get; set; }
+
         public static BeerCategory Category(string vareType)
         {
             switch (vareType)
