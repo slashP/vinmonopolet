@@ -70,5 +70,15 @@ namespace Vinmonopolet.Controllers
 
             return "ok";
         }
+
+        [Route("admin/linkids")]
+        [HttpPost]
+        public async Task<string> LinkIds(string matnr, string bid)
+        {
+            _db.WatchedBeers.Find(matnr).UntappdId = bid;
+            await _db.SaveChangesAsync();
+
+            return $"All OK. Matnr: {matnr} now corresponds to Untappd Id: {bid}";
+        }
     }
 }
