@@ -8,6 +8,6 @@ namespace Vinmonopolet.Services
 {
     public interface IUntappdClient
     {
-        Task<string> BeerInfoCompact(string id);
+        Task<string> GetCompactBeerInfo(string id);
     }
 }

@@ -32,7 +32,9 @@ namespace Vinmonopolet.Data
             builder.Entity<WatchedBeer>().HasIndex(x => x.Name);
             builder.Entity<WatchedBeer>().HasIndex(x => x.BeerCategory);
             builder.Entity<BasicBeer>().HasIndex(x => x.Id);
+            builder.Entity<BasicBeer>().HasKey(x => x.Id);
             builder.Entity<Brewery>().HasIndex(x => x.Id);
+            builder.Entity<Brewery>().HasKey(x => x.Id);
             base.OnModelCreating(builder);
         }
     }

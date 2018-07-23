@@ -29,11 +29,11 @@ namespace Vinmonopolet.Services
             _clientSecret = _config["ClientSecret"];
         }
 
-        public Task<string> BeerInfoCompact(string id)
+        public Task<string> GetCompactBeerInfo(string id)
         {
             var endpoint = $"beer/info/{id}?compact=true&{_auth}";
-            var response = _client.GetAsync(endpoint).Result;
-            return response.Content.ReadAsStringAsync();
+            var response = _client.GetStringAsync(endpoint);
+            return response;
         }
     }
 }
