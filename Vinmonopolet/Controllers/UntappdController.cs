@@ -38,5 +38,16 @@ namespace Vinmonopolet.Controllers
 
             return JsonConvert.SerializeObject(beer);
         }
+        
+        [HttpPost]
+        public async Task<string> LinkIds(string matnr, string bid)
+        {
+            _db.WatchedBeers.Find(matnr).UntappdId = bid;
+            await _db.SaveChangesAsync();
+
+            await UpdateBeer(bid);
+
+            return $"All OK. Matnr: {matnr} now corresponds to Untappd Id: {bid}";
+        }
     }
 }

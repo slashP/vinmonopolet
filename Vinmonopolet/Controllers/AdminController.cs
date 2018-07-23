@@ -78,6 +78,8 @@ namespace Vinmonopolet.Controllers
             _db.WatchedBeers.Find(matnr).UntappdId = bid;
             await _db.SaveChangesAsync();
 
+            
+
             return $"All OK. Matnr: {matnr} now corresponds to Untappd Id: {bid}";
         }
     }
