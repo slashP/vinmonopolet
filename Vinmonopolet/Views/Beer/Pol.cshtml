@@ -16,8 +16,8 @@
     <table class="table table-condensed">
         <tr>
             <th></th>
-            <th>Matnr</th>
             <th>@pol.Key</th>
+            <th></th>
             <th class="text-right">Checkins</th>
             <th class="text-right">Rating</th>
             <th class="text-right">IBU</th>
@@ -30,8 +30,26 @@
             var beer = Model.UntappdBeers.FirstOrDefault(x => x.Id == location.WatchedBeer?.UntappdId);
         <tr>
             <td class="img-responsive"><img style="height:30px" class="img-responsive" src="@beer?.LabelUrl" /></td>
-            <td>@location.WatchedBeer.MaterialNumber</td>
             <td><a href="https://untappd.com/search?q=@location.WatchedBeer.Name">@location.WatchedBeer.Name</a></td>
+            <td class="media-right">
+                @if (beer == null)
+                {
+                    using (Html.BeginForm("LinkAction", "Untappd", new { matnr = location.WatchedBeer.MaterialNumber }, FormMethod.Post))
+                    {
+                            <div class="input-group-sm" style="display: flex; float: right">
+                                <input style="max-width:80px" class="form-control" type="text" name="bid" />
+                                <input class="btn btn-sm btn-default" type="submit" value="Link" />
+                            </div>
+                    }
+                }
+                else
+                {
+                    using (Html.BeginForm("UpdateAction", "Untappd", new { id = beer.Id }, FormMethod.Post))
+                    {
+                        <input style="display: flex; float: right" class="btn btn-sm btn-default" type="submit" value="Update" />
+                    }
+                }
+            </td>
             <td class="text-right">@beer?.Ratings</td>
             <td class="text-right">@(beer?.AverageScore.ToString("0.00"))</td>
             <td class="text-right">@beer?.Ibu</td>

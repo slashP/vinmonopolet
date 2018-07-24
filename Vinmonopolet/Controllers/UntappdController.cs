@@ -49,5 +49,21 @@ namespace Vinmonopolet.Controllers
 
             return $"All OK. Matnr: {matnr} now corresponds to Untappd Id: {bid}";
         }
+
+        [HttpPost]
+        public async Task<ActionResult> LinkAction(string matnr, string bid)
+        {
+            await LinkIds(matnr, bid);
+            return new RedirectResult(Request.Headers["Referer"].ToString());
+        }
+
+
+        [HttpPost]
+        public async Task<ActionResult> UpdateAction(string id)
+        {
+            await UpdateBeer(id);
+            return new RedirectResult(Request.Headers["Referer"].ToString());
+        }
+
     }
 }
