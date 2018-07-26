@@ -39,10 +39,14 @@ namespace Vinmonopolet.Controllers
                 .GroupBy(x => x.Store.Name)
                 .OrderByDescending(x => x.Count())
                 .ToList();
+
+            var bids = groupedBeers.SelectMany(x => x.Select(y => y.WatchedBeer.UntappdId)).ToList();
+            var untappdBeers = _db.UntappdBeers.Where(x => bids.Contains(x.Id)).ToList();
             return View(new PolViewModel
             {
                 GroupedBeers = groupedBeers,
                 Types = await BeerTypes(),
+                UntappdBeers = untappdBeers,
                 SearchTerm = query
             });
         }
