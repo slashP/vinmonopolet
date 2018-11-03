@@ -30,7 +30,16 @@
             var beer = Model.UntappdBeers.FirstOrDefault(x => x.Id == location.WatchedBeer?.UntappdId);
         <tr>
             <td class="img-responsive"><img style="height:30px" class="img-responsive" src="@beer?.LabelUrl" /></td>
-            <td><a href="https://untappd.com/search?q=@location.WatchedBeer.Name">@location.WatchedBeer.Name</a></td>
+            <td>
+                @if (beer != null)
+                {
+                    <a href="https://untappd.com/beer/@beer.Id" target="_blank" rel=”noopener noreferrer”>@location.WatchedBeer.Name</a>
+                }
+                else
+                {
+                    <a href="https://untappd.com/search?q=@location.WatchedBeer.Name">@location.WatchedBeer.Name</a>
+                }
+            </td>
             <td class="media-right">
                 @if (beer == null)
                 {
