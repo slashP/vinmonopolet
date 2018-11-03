@@ -10,7 +10,7 @@ namespace Vinmonopolet.Models.UntappdData
     public class BasicBeer
     {
         public DateTime UpdatedAt { get; set; }
-        
+
         [Key]
         public string Id { get; set; }
 
@@ -35,7 +35,7 @@ namespace Vinmonopolet.Models.UntappdData
         public int TotalUserCount { get; set; }
 
         public string Description { get; set; }
-        
+
         public string Slug { get; set; }
 
         public string FullJson { get; set; }
