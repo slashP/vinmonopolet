@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Vinmonopolet.Data;
 using Vinmonopolet.Extensions;
@@ -21,7 +23,27 @@ namespace Vinmonopolet.Controllers
             _untappdClient = _client;
             _db = db;
         }
-        
+
+        [HttpGet]
+        [Route("asdf")]
+        public async Task<string> Test()
+        {
+            var someBeers = await _db.WatchedBeers.Where(x => x.UntappdId == null).ToListAsync();
+            var untappdCrawler = new UntappdCrawler();
+            foreach (var watchedBeer in someBeers)
+            {
+                var basicBeer = await untappdCrawler.CrawlBeer(watchedBeer.Name);
+                if (basicBeer != null && await _db.UntappdBeers.FindAsync(basicBeer.Id) == null)
+                {
+                    _db.UntappdBeers.Add(basicBeer);
+                    watchedBeer.UntappdId = basicBeer.Id;
+                    await _db.SaveChangesAsync();
+                }
+            }
+
+            return string.Join(", ", Enumerable.Empty<string>());
+        }
+
         [HttpPost]
         public async Task<string> UpdateBeer(string id)
         {
@@ -38,7 +60,7 @@ namespace Vinmonopolet.Controllers
 
             return JsonConvert.SerializeObject(beer);
         }
-        
+
         [HttpPost]
         public async Task<string> LinkIds(string matnr, string bid)
         {
@@ -64,6 +86,5 @@ namespace Vinmonopolet.Controllers
             await UpdateBeer(id);
             return new RedirectResult(Request.Headers["Referer"].ToString());
         }
-
     }
 }

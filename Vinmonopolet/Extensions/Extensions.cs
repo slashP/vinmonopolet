@@ -10,17 +10,20 @@ namespace Vinmonopolet.Extensions
     {
         public static int? ExtractInteger(this string value)
         {
-            int i;
-            return int.TryParse(Regex.Match(value, @"\d+").Value, out i) ? i : (int?) null;
+            return int.TryParse(Regex.Match(value, @"\d+").Value, out var i) ? i : (int?) null;
         }
 
         public static decimal? ExtractDecimal(this string value)
         {
-            decimal i;
             var s = Regex.Split(value?.Replace(",", ".") ?? string.Empty, @"[^0-9\.]+").FirstOrDefault(c => c != "." && c.Trim() != "");
-            return decimal.TryParse(s, out i) ? i : (decimal?)null;
+            return decimal.TryParse(s, out var i) ? i : (decimal?)null;
         }
 
+        public static double? ExtractDouble(this string value)
+        {
+            var s = Regex.Split(value?.Replace(",", ".") ?? string.Empty, @"[^0-9\.]+").FirstOrDefault(c => c != "." && c.Trim() != "");
+            return double.TryParse(s, out var i) ? i : (double?)null;
+        }
 
         [CanBeNull]
         public static HtmlNode FirstElementWithClass(this HtmlNode node, string elementType, string className)
@@ -30,7 +33,7 @@ namespace Vinmonopolet.Extensions
 
         public static IEnumerable<HtmlNode> ElementsWithClass(this HtmlNode node, string elementType, string className)
         {
-            return node.Descendants(elementType).Where(x => x.GetAttributeValue("class", string.Empty) == className);
+            return node.Descendants(elementType).Where(x => x.GetAttributeValue("class", string.Empty).Contains(className));
         }
 
         [CanBeNull]
