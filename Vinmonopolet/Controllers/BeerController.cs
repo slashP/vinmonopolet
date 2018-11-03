@@ -34,7 +34,7 @@ namespace Vinmonopolet.Controllers
 
             var groupedBeers =
                 (await _db.BeerLocations.Include(x => x.WatchedBeer).Include(x => x.Store)
-                    .Where(x => x.WatchedBeer.Name.Contains(query) || x.WatchedBeer.BeerCategory == beerCategory)
+                    .Where(x => x.StockStatus == StockStatus.InStock && (x.WatchedBeer.Name.Contains(query) || x.WatchedBeer.BeerCategory == beerCategory))
                     .ToListAsync())
                 .GroupBy(x => x.Store.Name)
                 .OrderByDescending(x => x.Count())

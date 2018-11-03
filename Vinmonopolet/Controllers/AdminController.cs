@@ -4,8 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using NodaTime;
-using NodaTime.Extensions;
 using Vinmonopolet.Data;
 using Vinmonopolet.Models;
 using Vinmonopolet.Services;
@@ -39,6 +37,19 @@ namespace Vinmonopolet.Controllers
                 {
                     var product = await _webCrawler.ProductFromProductPage(unknownProduct);
                     _db.WatchedBeers.Add(product);
+                }
+
+                var productsNoLongerOnWeb =
+                    (await _db.BeerLocations.AsNoTracking().Where(x => x.StoreId == store.Id)
+                        .Select(x => x.WatchedBeerId).ToListAsync()).Except(products.Select(x => x.ProductNumber));
+                foreach (var removedProductId in productsNoLongerOnWeb)
+                {
+                    var location = await _db.BeerLocations.FirstOrDefaultAsync(x => x.WatchedBeerId == removedProductId && x.StoreId == store.Id);
+                    if (location != null)
+                    {
+                        location.StockLevel = 0;
+                        location.StockStatus = StockStatus.OutOfStock;
+                    }
                 }
 
                 await _db.SaveChangesAsync();
@@ -77,9 +88,6 @@ namespace Vinmonopolet.Controllers
         {
             _db.WatchedBeers.Find(matnr).UntappdId = bid;
             await _db.SaveChangesAsync();
-
-            
-
             return $"All OK. Matnr: {matnr} now corresponds to Untappd Id: {bid}";
         }
     }
