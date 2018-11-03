@@ -1,10 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Vinmonopolet.Data;
 using Vinmonopolet.Extensions;
+using Vinmonopolet.Models;
 using Vinmonopolet.Models.UntappdData;
 using Vinmonopolet.Models.UntappdData.ApiDtos;
 using Vinmonopolet.Models.UntappdData.Mappers;
@@ -24,21 +26,38 @@ namespace Vinmonopolet.Controllers
             _db = db;
         }
 
-        [HttpGet]
-        [Route("asdf")]
+        [HttpPost]
+        [Route("admin/crawlUntappd")]
         public async Task<string> Test()
         {
-            var someBeers = await _db.WatchedBeers.Where(x => x.UntappdId == null).ToListAsync();
+            var someBeers = await _db.WatchedBeers
+                .Where(x => x.UntappdFetchStatus == UntappdFetchStatus.Untouched)
+                .OrderByDescending(x => x.AlcoholPercentage).Take(50).ToListAsync();
             var untappdCrawler = new UntappdCrawler();
             foreach (var watchedBeer in someBeers)
             {
-                var basicBeer = await untappdCrawler.CrawlBeer(watchedBeer.Name);
+                BasicBeer basicBeer;
+                try
+                {
+                    basicBeer = await untappdCrawler.CrawlBeer(watchedBeer);
+                }
+                catch (Exception)
+                {
+                    break;
+                }
+
                 if (basicBeer != null && await _db.UntappdBeers.FindAsync(basicBeer.Id) == null)
                 {
                     _db.UntappdBeers.Add(basicBeer);
                     watchedBeer.UntappdId = basicBeer.Id;
-                    await _db.SaveChangesAsync();
+                    watchedBeer.UntappdFetchStatus = UntappdFetchStatus.Success;
                 }
+                else if(basicBeer == null)
+                {
+                    watchedBeer.UntappdFetchStatus = UntappdFetchStatus.Failed;
+                }
+
+                await _db.SaveChangesAsync();
             }
 
             return string.Join(", ", Enumerable.Empty<string>());

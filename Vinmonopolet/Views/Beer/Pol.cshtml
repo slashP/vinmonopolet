@@ -67,7 +67,7 @@
             <td class="text-right">@location.StockLevel</td>
             <td class="text-right">@location.WatchedBeer.Price</td>
             <td class="text-right">
-                @if (location.WatchedBeer.IsHumanlyVerified)
+                @if (location.WatchedBeer.UntappdFetchStatus == UntappdFetchStatus.Verified)
                 {
                     <span class="text-right glyphicon glyphicon-check"></span>
                 }

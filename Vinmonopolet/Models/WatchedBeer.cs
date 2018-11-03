@@ -26,7 +26,7 @@ namespace Vinmonopolet.Models
         [MaxLength(32)]
         public string UntappdId { get; set; }
 
-        public bool IsHumanlyVerified { get; set; }
+        public UntappdFetchStatus UntappdFetchStatus { get; set; }
 
         public static BeerCategory Category(string vareType)
         {
