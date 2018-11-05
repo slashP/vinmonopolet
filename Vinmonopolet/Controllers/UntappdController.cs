@@ -48,13 +48,18 @@ namespace Vinmonopolet.Controllers
                     break;
                 }
 
-                if (basicBeer != null && await _db.UntappdBeers.FindAsync(basicBeer.Id) == null)
+                if (basicBeer != null)
                 {
-                    _db.UntappdBeers.Add(basicBeer);
+                    var untappdBeer = await _db.UntappdBeers.FindAsync(basicBeer.Id);
+                    if (untappdBeer == null)
+                    {
+                        _db.UntappdBeers.Add(basicBeer);
+                    }
+
                     watchedBeer.UntappdId = basicBeer.Id;
                     watchedBeer.UntappdFetchStatus = UntappdFetchStatus.Success;
                 }
-                else if(basicBeer == null)
+                else
                 {
                     watchedBeer.UntappdFetchStatus = UntappdFetchStatus.Failed;
                 }
