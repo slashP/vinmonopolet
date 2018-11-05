@@ -15,14 +15,13 @@ namespace Vinmonopolet.Services
 {
     public class UntappdCrawler
     {
-        static readonly string[] UseLessTerms =
-        {
+        static readonly string[] UseLessTerms = new[] {
             "ipa", "barleywine", "barley wine", "double", "quad", "strong ale", "tripel", "blonde ale", "bock",
             "doppelbock", "helles", "brown ale", "cider", "dark ale", "bitter", "fruit beer", "heffeweizen",
             "new england", "imperial", "stout", "lager", "lambic", "mead", "old ale", "pale ale", "pilsner", "porter",
             "red ale", "saison", "sour", "berliner weisse", "flanders", "oud bruin", "gose", "geuze", "wit", "edition",
             "ed.", "barrel aged", "imp.", "christmas"
-        };
+        }.Select(x => new[] { $" {x}", $"{x} " }).SelectMany(x => x).ToArray();
 
         public async Task<BasicBeer> CrawlBeer(WatchedBeer watchedBeer)
         {

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Rest.TransientFaultHandling;
 using Newtonsoft.Json;
 using Vinmonopolet.Data;
 using Vinmonopolet.Extensions;
@@ -41,7 +43,7 @@ namespace Vinmonopolet.Controllers
                 {
                     basicBeer = await untappdCrawler.CrawlBeer(watchedBeer);
                 }
-                catch (Exception)
+                catch (HttpRequestWithStatusException e) when (e.StatusCode == (HttpStatusCode) 429)
                 {
                     break;
                 }
