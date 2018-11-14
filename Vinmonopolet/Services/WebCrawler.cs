@@ -94,8 +94,7 @@ namespace Vinmonopolet.Services
                 .Select(x =>
                 {
                     var quantityInStock = x.StockStatusString?.RemoveEmptyCharacters()
-                        .Split(':').LastOrDefault()
-                        ?.Replace("på lager", string.Empty).ExtractInteger();
+                        .Split('\n').FirstOrDefault()?.ExtractInteger();
                     return new BasicProduct
                     {
                         LinkToProductPage = x.LinkToProductPage,
