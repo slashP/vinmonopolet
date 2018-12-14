@@ -4,6 +4,7 @@
     <UserSecretsId>aspnet-Vinmonopolet-B59B2533-A5EA-468E-ACFC-D5DE00FC0E06</UserSecretsId>
     <ApplicationInsightsResourceId>/subscriptions/d8ff5204-d623-45c2-84f7-153b73005012/resourcegroups/vinmonopolet/providers/microsoft.insights/components/vinmonopolet</ApplicationInsightsResourceId>
     <ApplicationInsightsAnnotationResourceId>/subscriptions/d8ff5204-d623-45c2-84f7-153b73005012/resourcegroups/vinmonopolet/providers/microsoft.insights/components/vinmonopolet</ApplicationInsightsAnnotationResourceId>
+    <FrontendBuildDir>wwwroot\build</FrontendBuildDir>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
@@ -29,4 +30,38 @@
   <ItemGroup>
     <Folder Include="Config\" />
   </ItemGroup>
+    <ItemGroup>
+        <!-- Files not to publish (note that the 'dist' subfolders are re-added below) -->
+        <Content Remove="ClientApp\**" />
+    </ItemGroup>
+
+    <Target Name="DebugRunBuild" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug'">
+        <!-- Ensure Node.js is installed -->
+        <Exec Command="npm --version" ContinueOnError="true">
+            <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+        </Exec>
+        <Error Condition="'$(ErrorCode)' != '0'" Text="Npm is required to build and run this project. To continue, please install npm, and then restart your command prompt or IDE." />
+
+        <!-- In development, the dist files won't exist on the first run or when cloning to
+            a different machine, so rebuild them if not already present. -->
+        <RemoveDir Directories="$(FrontendBuildDir)" />
+        <Message Importance="high" Text="Performing first-run npm build..." />
+
+        <Exec WorkingDirectory="ClientApp\" Command="npm run build" />
+    </Target>
+
+    <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
+        <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
+        <Exec WorkingDirectory="ClientApp\" Command="npm install" />
+        <Exec WorkingDirectory="ClientApp\" Command="npm run build" />
+
+        <!-- Include the newly-built files in the publish output -->
+        <ItemGroup>
+            <DistFiles Include="wwwroot\build\**; ClientApp\build\**" />
+            <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+                <RelativePath>%(DistFiles.Identity)</RelativePath>
+                <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+            </ResolvedFileToPublish>
+        </ItemGroup>
+    </Target>
 </Project>

@@ -1,0 +1,49 @@
+.App {
+  min-height: 100vh;
+  background-color: #eee;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.app-header {
+  background-color: #eee;
+  border-bottom: 2px solid #ddd;
+  min-height: 100px;
+  width: 100%;
+  margin: auto;
+  max-width: 1400px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.searchButton {
+  display: inline;
+  margin-left: auto;
+}
+
+.searchArea {
+  display: inline;
+  margin-left: 10px;
+}
+
+.Select {
+  font-family: 'Areal', sans-serif;
+}
+
+ul {
+  max-width: 180px;
+  padding: 0px;
+  margin: 5px;
+  float: left;
+  list-style-type: none;
+  text-align: left;
+}
+
+.rating-text{
+  opacity: 0;
+}
+
+.rating-container:hover .rating-text{
+  opacity: 1;
+}
