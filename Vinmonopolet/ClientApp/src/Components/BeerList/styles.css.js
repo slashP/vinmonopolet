@@ -1,3 +1,6 @@
+
+let cardWidth = "220px";
+
 export default {
     beerList: {
         overflow: "hidden",
@@ -20,10 +23,10 @@ export default {
     },
 
     beerCard: {
+        width: cardWidth,
         margin: "5px",
         padding: "5px",
-        width: "250px",
-        height: "120px",
+        height: "122px",
         display: "flex",
         flexDirection: "row",
         flexWrap: "wrap",
@@ -31,30 +34,63 @@ export default {
         background: "#fff",
         borderRadius: "3px",
         border: "2px solid #ddd",
-        cursor: "pointer",
         overflow: "hidden"
-    },
-
-    beerName: {
-        fontWeight: "bold",
-        whiteSpace: "nowrap",
-        overflow: "hidden"
-    },
-
-    beerLogo: {
-        borderRadius: "4px",
-        border: "1px solid #ddd",
-        margin: "2px",
-        maxWidth: "60px",
-        maxHeight: "60px"
     },
 
     beerProps: {
-        maxWidth: "170px",
+        width: "210px",
         padding: "0px",
         margin: "5px",
         float: "left",
         listStyleType: "none",
         textAlign: "left"
+    },
+
+    cardTopbar: {
+        marginBottom:"2px",
+        width: "210px",
+    },
+
+    price: {
+        marginBottom: "2px"
+    },
+
+    beerName: {
+        width: "210px",
+        fontWeight: "bold",
+        whiteSpace: "nowrap",
+        overflow: "hidden"
+    },
+
+    storeStock: {
+        display: "inline-block",
+        whiteSpace: "nowrap",
+    },
+
+    stockList: {
+        padding: "0",
+        listStyle: "none",
+        margin: "2px 5px"
+    },
+
+    beerLogo: {
+        display: "inline-block",
+        float: "left",
+        borderRadius: "4px",
+        border: "1px solid #ddd",
+        height: "60px",
+        width: "60px"
+    },
+
+    externalLink: {
+        objectFit: "cover",
+        objectPosition: "0 0",
+        display: "inline-block",
+        height: "15px",
+        width: "15px",
+        float: "right",
+        border: "1px solid #ddd",
+        borderRadius: "2px",
+        cursor: "pointer",
     }
 }

@@ -31,17 +31,12 @@
   font-family: 'Areal', sans-serif;
 }
 
-ul {
-  max-width: 180px;
-  padding: 0px;
-  margin: 5px;
-  float: left;
-  list-style-type: none;
-  text-align: left;
-}
-
 .rating-text{
   opacity: 0;
+}
+
+.rating-container{
+  display: inline-block;
 }
 
 .rating-container:hover .rating-text{

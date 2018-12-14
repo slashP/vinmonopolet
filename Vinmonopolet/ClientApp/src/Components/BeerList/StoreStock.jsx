@@ -1,23 +1,19 @@
 import React from 'react';
 import Tooltip from 'react-tooltip-lite';
+import styles from './styles.css';
 
 const tooltip = (stocks) => {
     return stocks.map(stock => <div>{stock.storeName} : {stock.stockLevel}</div>);
 }
 
-const twoWithTooltip = (stocks) => {
-    
-}
-
-
 const StoreStock = ({ stocks, activeStores }) => {
     if (!activeStores.length) {
         return (
-            <div>
+            <div style={styles.storeStock}>
                 <Tooltip useDefaultStyles content={tooltip(stocks)}>
-                    <ul>
+                    <ul style={styles.stockList}>
                         {stocks.map(stock =>
-                            <li key={stock.storeName}>{stock.storeName}: {stock.stockLevel}</li>
+                            <li key={stock.storeName}>{stock.storeName} : {stock.stockLevel}</li>
                         )}
                     </ul>
                 </Tooltip>
@@ -25,10 +21,10 @@ const StoreStock = ({ stocks, activeStores }) => {
         )
     } else {
         return (
-            <div>
-                <ul>
+            <div style={styles.storeStock}>
+                <ul style={styles.stockList}>
                     {stocks.map(stock =>
-                        activeStores.includes(stock.storeId) && <li key={stock.storeName}>{stock.storeName}: {stock.stockLevel}</li>
+                        activeStores.includes(stock.storeId) && <li key={stock.storeName}>{stock.storeName} : {stock.stockLevel}</li>
                     )}
                 </ul>
             </div>
