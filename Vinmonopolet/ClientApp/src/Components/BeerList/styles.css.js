@@ -1,15 +1,14 @@
 
-let cardWidth = "220px";
+
+let cardWidth = 220;
 
 export default {
     beerList: {
         overflow: "hidden",
         margin: "auto",
-        minWidth: "350px",
-        maxWidth: "1370px",
         minHeight: "100%",
-        width: "100%",
         fontSize: "12px",
+        position: "relative"
     },
 
     beerListLoading: {
@@ -23,10 +22,9 @@ export default {
     },
 
     beerCard: {
-        width: cardWidth,
+        width: cardWidth + "px",
         margin: "5px",
         padding: "5px",
-        height: "122px",
         display: "flex",
         flexDirection: "row",
         flexWrap: "wrap",
@@ -34,7 +32,8 @@ export default {
         background: "#fff",
         borderRadius: "3px",
         border: "2px solid #ddd",
-        overflow: "hidden"
+        overflow: "hidden",
+        height: "135px"
     },
 
     beerProps: {
@@ -47,12 +46,12 @@ export default {
     },
 
     cardTopbar: {
-        marginBottom:"2px",
+        margin:"0 0 10px 0",
         width: "210px",
     },
 
     price: {
-        marginBottom: "2px"
+        margin: "0 0 5px 0"
     },
 
     beerName: {
@@ -85,9 +84,10 @@ export default {
     externalLink: {
         objectFit: "cover",
         objectPosition: "0 0",
+        margin: "0 0 0 4px",
         display: "inline-block",
-        height: "15px",
-        width: "15px",
+        height: "18px",
+        width: "18px",
         float: "right",
         border: "1px solid #ddd",
         borderRadius: "2px",

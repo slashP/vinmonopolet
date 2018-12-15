@@ -4,19 +4,6 @@
   font-family: 'Montserrat', sans-serif;
 }
 
-.app-header {
-  background-color: #eee;
-  border-bottom: 2px solid #ddd;
-  min-height: 100px;
-  width: 100%;
-  margin: auto;
-  max-width: 1400px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-}
-
 .searchButton {
   display: inline;
   margin-left: auto;

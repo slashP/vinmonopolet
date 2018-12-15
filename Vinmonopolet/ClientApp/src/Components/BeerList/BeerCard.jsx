@@ -4,7 +4,6 @@ import StarRating from './StarRating';
 import styles from './styles.css';
 
 const BeerCard = ({ beer, activeStores }) => {
-    console.log(beer);
     return (
         <div style={styles.beerCard}>
             <div style={styles.beerProps}>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import BeerCard from './BeerCard';
 import styles from './styles.css';
+import './beerList.css';
 
 export default class BeerList extends Component {
     render() {
@@ -13,7 +14,7 @@ export default class BeerList extends Component {
         } else {
             return (
                 <div >
-                    <div style={styles.beerList}>
+                    <div className="beerList" style={styles.beerList}>
                         {
                             beers.map(beer =>
                                 <BeerCard key={beer.materialNumber + beer.storeName} activeStores={activeStores} beer={beer} />
