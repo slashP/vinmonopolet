@@ -1,4 +1,4 @@
-@media (min-width: 1466px) {
+@media (min-width: 1222px) {
     .header {
         width: 1222px;
     }
@@ -11,6 +11,9 @@
 @media (max-width: 978px) {
     .header {
         width: 734px;
+    }
+    .openMenu {
+      flex-direction: column;
     }
 }
 @media (max-width: 734px) {

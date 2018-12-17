@@ -17,7 +17,7 @@ const icons = {
 };
 
 export default (props) => (
-  <svg width="22" height="22" viewBox="0 0 1024 1024" style={{fill: props.fill}}>
+  <svg width={props.width} height={props.height} viewBox="0 0 1024 1024" style={{ fill: props.fill }}>
     <path d={icons[props.icon]}></path>
   </svg>
 );

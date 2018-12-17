@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styles from './styles.css';
 import Icon from '../icons';
 
-export default class SearchButton extends Component {
+export default class SearchArea extends Component {
     constructor(props) {
         super(props);
         this.state =
@@ -30,9 +30,10 @@ export default class SearchButton extends Component {
         return (
             <div style={styles.searchArea} >
                 <form onSubmit={this.handleSubmit} style={{ display: "flex" }}>
-                    <input style={styles.searchInput} placeholder=" Search" type="text" value={this.state.searchValue} onChange={this.handleChange} />
+                    <input style={styles.searchInput} placeholder="Search" type="text" value={this.state.searchValue} onChange={this.handleChange} />
+                    <span style={styles.separatorSpan}></span>
                     <div style={styles.searchSubmitButton} onClick={this.handleSubmit} >
-                        <Icon icon="search" fill="#ccc" />
+                        <Icon icon="search" fill="#ccc" width="18" height="18" />
                     </div>
                 </form>
             </div>

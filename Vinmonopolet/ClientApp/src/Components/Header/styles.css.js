@@ -1,6 +1,7 @@
 export default {
     header: {
         backgroundColor: "#eee",
+        padding: "4px 0px",
         borderBottom: "2px solid #ddd",
         minHeight: "100px",
         margin: "0px auto 5px auto",
@@ -14,41 +15,51 @@ export default {
         maxWidth: "800px",
         height: "auto",
         fontSize: "12px",
-        minWidth: "70px",
-        margin:"0 0 4px 0"
+        minWidth: "130px",
+        margin:"2px"
     },
 
     sortingSelect: {
         maxWidth: "800px",
         height: "auto",
         fontSize: "12px",
-        minWidth: "70px",
-        margin:"0 0 4px 0"
+        minWidth: "130px",
+        margin:"2px"
     },
 
     searchArea: {
-        margin:"3px 0 3px 0",
+        padding: "2px",
+        backgroundColor: "#fff",
+        margin:"2px",
+        borderRadius: "4px",
+        border: "1px solid #ccc",
     },
 
     searchInput: {
         fontSize: "12px",
         minWidth: "70px",
         maxWidth: "800px",
-        height: "36px",
-        padding: "0 0 0 10px",
-        border: "1px solid #ccc",
+        border: "none",
+        height: "32px",
+        padding: "0 0 0 8px",
         fontFamily: "'Montserrat', sans-serif",
-        borderRadius:"4px",
         width:"100%"
     },
 
     searchSubmitButton: {
-        width: "40px",
-        padding: "7px 0px 1px 6px",
+        width: "32px",
+        padding: "7px 2px 1px 9px",
         backgroundColor: "#fff",
-        borderRadius: "4px",
-        border: "1px solid #ccc",
-        flexGrow: "0"
+        flexGrow: "none",
+        border: "none"
+    },
+
+    separatorSpan: {
+        backgroundColor: "#ccc",
+        width: "1px",
+        alignSelf: "stretch",
+        marginTop: "6px",
+        marginBottom: "6px",
     },
 
     logo: {
@@ -61,12 +72,11 @@ export default {
 
     openMenu: {
         display: "flex",
-        flexDirection: "column"
     },
 
     menuIcon: {
         padding: "6px 8px 3px 8px",
-        margin: "auto 20px",
+        margin: "auto 10px",
         borderRadius: "2px",
         border: "1px solid #ccc",
         float: "right",
