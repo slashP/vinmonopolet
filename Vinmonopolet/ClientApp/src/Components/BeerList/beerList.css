@@ -1,0 +1,26 @@
+
+@media (min-width: 1466px) {
+    .beerList {
+        width: 1222px;
+    }
+}
+@media (max-width: 1222px) {
+    .beerList {
+        width: 978px;
+    }
+}
+@media (max-width: 978px) {
+    .beerList {
+        width: 734px;
+    }
+}
+@media (max-width: 734px) {
+    .beerList {
+        width: 490px;
+    }
+}
+@media (max-width: 490px) {
+    .beerList {
+        width: 246px;
+    }
+}

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styles from './styles.css';
+import Icon from '../icons';
 
 export default class SearchButton extends Component {
     constructor(props) {
@@ -28,8 +29,11 @@ export default class SearchButton extends Component {
     render() {
         return (
             <div style={styles.searchArea} >
-                <form onSubmit={this.handleSubmit}>
-                    <input style={styles.searchInput} type="text" placeholder=" Search" value={this.state.searchValue} onChange={this.handleChange} />
+                <form onSubmit={this.handleSubmit} style={{ display: "flex" }}>
+                    <input style={styles.searchInput} placeholder=" Search" type="text" value={this.state.searchValue} onChange={this.handleChange} />
+                    <div style={styles.searchSubmitButton} onClick={this.handleSubmit} >
+                        <Icon icon="search" fill="#ccc" />
+                    </div>
                 </form>
             </div>
         )
