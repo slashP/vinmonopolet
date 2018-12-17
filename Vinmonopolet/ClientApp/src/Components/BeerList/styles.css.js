@@ -12,13 +12,10 @@ export default {
     },
 
     beerListLoading: {
-        display: "inline-block",
         overflow: "hidden",
         width: "auto",
-        maxWidth:"500px",
-        margin: "50px auto",
-        height: "auto",
-        fontSize: "30px"
+        maxWidth:"300px",
+        margin: "auto",
     },
 
     beerCard: {

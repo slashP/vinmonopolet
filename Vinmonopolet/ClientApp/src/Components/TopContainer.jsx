@@ -6,7 +6,7 @@ export default class TopContainer extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            searchString: 'Stout',
+            searchString: '*',
             isLoaded: false,
             beerListSorting: 'averageRating',
             activeStores: [],
@@ -28,22 +28,24 @@ export default class TopContainer extends Component {
     }
 
     fetchBeers = () => {
-        fetch(`/api/beers?query=${this.state.searchString}`)
-            .then(res => res.json())
-            .then(
-                (result) => {
-                    this.setState({
-                        isLoaded: true,
-                        beerApiResult: result.sort((a, b) => b.averageScore - a.averageScore)
-                    })
-                },
-                (error) => {
-                    this.setState({
-                        isLoaded: true,
-                        error
-                    });
-                }
-            )
+        this.setState({ isLoaded: false }, () =>
+            fetch(`/api/beers?query=${this.state.searchString}`)
+                .then(res => res.json())
+                .then(
+                    (result) => {
+                        this.setState({
+                            isLoaded: true,
+                            beerApiResult: result.sort((a, b) => b.averageScore - a.averageScore)
+                        })
+                    },
+                    (error) => {
+                        this.setState({
+                            isLoaded: true,
+                            error
+                        });
+                    }
+                )
+        )
     }
 
     filteredBeers = () => {

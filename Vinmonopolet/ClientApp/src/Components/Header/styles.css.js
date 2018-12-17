@@ -3,9 +3,7 @@ export default {
         backgroundColor: "#eee",
         borderBottom: "2px solid #ddd",
         minHeight: "100px",
-        width: "100%",
         margin: "0px auto 5px auto",
-        maxWidth: "1470px",
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
@@ -58,7 +56,7 @@ export default {
         fontSize: "30px",
         fontFamily: "'Montserrat', sans-serif",
         color: "#555",
-        margin: "40px 20px",
+        margin: "20px 20px",
     },
 
     openMenu: {

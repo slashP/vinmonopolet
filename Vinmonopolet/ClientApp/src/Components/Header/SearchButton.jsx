@@ -7,7 +7,7 @@ export default class SearchButton extends Component {
         super(props);
         this.state =
             {
-                searchValue: 'Stout'
+                searchValue: ''
             }
 
         this.handleChange = this.handleChange.bind(this);
@@ -29,9 +29,9 @@ export default class SearchButton extends Component {
     render() {
         return (
             <div style={styles.searchArea} >
-                <form onSubmit={this.handleSubmit} style={{display: "flex"}}>
-                    <input style={styles.searchInput} type="text" value={this.state.searchValue} onChange={this.handleChange} />
-                    <div style={styles.searchSubmitButton} onClick={this.handleSubmit} > 
+                <form onSubmit={this.handleSubmit} style={{ display: "flex" }}>
+                    <input style={styles.searchInput} placeholder=" Search" type="text" value={this.state.searchValue} onChange={this.handleChange} />
+                    <div style={styles.searchSubmitButton} onClick={this.handleSubmit} >
                         <Icon icon="search" fill="#ccc" />
                     </div>
                 </form>
