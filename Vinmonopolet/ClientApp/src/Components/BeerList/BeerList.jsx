@@ -9,27 +9,27 @@ export default class BeerList extends Component {
         super(props)
         this.state = {
             beersToShow: [],
-            hasMoreItems: true
+            hasMoreItems: true,
+            beersPerPage: 50
         }
     }
 
     componentDidUpdate = (prevProps) => {
-        if (this.props.beers !== prevProps.beers || this.props.activeStores !== prevProps.activeStores) {
+        if (this.props.beers !== prevProps.beers) {
             this.setState({
-                beersToShow: [],
-                hasMoreItems: true
+                beersToShow: this.props.beers.slice(0, this.state.beersPerPage),
+                hasMoreItems: this.props.beers.length > this.state.beersPerPage
             })
             if (this.scroll) {
-                this.scroll.pageLoaded = -1;
+                this.scroll.pageLoaded = 0;
             }
         }
     }
 
     loadItems = (page) => {
-        let beersPerPage = 20;
         this.setState({
-            beersToShow: this.state.beersToShow.concat(this.props.beers.slice((page * beersPerPage), ((page + 1) * beersPerPage))),
-            hasMoreItems: this.props.beers.length > (page * beersPerPage)
+            beersToShow: this.state.beersToShow.concat(this.props.beers.slice((page * this.state.beersPerPage), ((page + 1) * this.state.beersPerPage))),
+            hasMoreItems: this.props.beers.length > (page * this.state.beersPerPage)
         })
     }
 
@@ -51,7 +51,7 @@ export default class BeerList extends Component {
                     <div className="beerList" style={styles.beerList}>
                         <InfiniteScroll
                             ref={(scroll) => { this.scroll = scroll; }}
-                            pageStart={-1}
+                            pageStart={0}
                             loadMore={this.loadItems.bind(this)}
                             hasMore={this.state.hasMoreItems}
                             loader={<span key={"loading"}>loading</span>}>
