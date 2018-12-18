@@ -5,7 +5,7 @@ import styles from './styles.css';
 
 const BeerCard = ({ beer, activeStores }) => {
     return (
-        <div style={styles.beerCard}>
+        <div className="beerCard" style={styles.beerCard}>
             <div style={styles.beerProps}>
                 <div style={styles.cardTopbar}>
                     <StarRating rating={beer.averageScore} />

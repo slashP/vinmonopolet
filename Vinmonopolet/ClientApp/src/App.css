@@ -4,14 +4,8 @@
   font-family: 'Montserrat', sans-serif;
 }
 
-.searchButton {
-  display: inline;
-  margin-left: auto;
-}
-
-.searchArea {
-  display: inline;
-  margin-left: 10px;
+form {
+  margin: 0px;
 }
 
 .Select {
@@ -28,4 +22,52 @@
 
 .rating-container:hover .rating-text{
   opacity: 1;
+}
+
+
+@media (min-width: 490px) {
+  .beerList {
+      width: 490px;
+  }
+}
+@media (min-width: 1222px) {
+  .header {
+      width: 1222px;
+  }
+  .beerList {
+      width: 1222px;
+  }
+}
+@media (max-width: 1222px) {
+  .header {
+      width: 978px;
+  }
+  .beerList {
+      width: 978px;
+  }
+}
+@media (max-width: 978px) {
+  .header {
+      width: 734px;
+  }
+  .beerList {
+      width: 734px;
+  }
+  .openMenu {
+    flex-direction: column;
+  }
+}
+@media (max-width: 734px) {
+  .header {
+      width: 100%;
+      max-width: 490px;
+  }
+  .beerList {
+      width: 490px;
+  }
+}
+@media (max-width: 490px) {
+    .beerList {
+        width: 240px;
+    }
 }

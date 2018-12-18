@@ -15,22 +15,22 @@ export default {
         maxWidth: "800px",
         height: "auto",
         fontSize: "12px",
-        minWidth: "130px",
-        margin:"2px"
+        minWidth: "150px",
+        margin:"2px 5px 2px 0px",
     },
 
     sortingSelect: {
         maxWidth: "800px",
         height: "auto",
         fontSize: "12px",
-        minWidth: "130px",
-        margin:"2px"
+        minWidth: "150px",
+        margin:"2px 5px 2px 0px",
     },
 
     searchArea: {
         padding: "2px",
         backgroundColor: "#fff",
-        margin:"2px",
+        margin:"2px 5px 2px 0px",
         borderRadius: "4px",
         border: "1px solid #ccc",
     },

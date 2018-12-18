@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import BeerCard from './BeerCard';
 import styles from './styles.css';
-import './beerList.css';
 import { Loading } from './../media';
 import InfiniteScroll from 'react-infinite-scroller';
 

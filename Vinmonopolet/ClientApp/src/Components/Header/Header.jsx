@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Menu from './Menu';
 import styles from './styles.css';
-import './header.css';
 
 export default class Header extends Component {
     render() {

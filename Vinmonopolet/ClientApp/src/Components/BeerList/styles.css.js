@@ -6,7 +6,6 @@ export default {
     beerList: {
         overflow: "hidden",
         margin: "auto",
-        minHeight: "100%",
         fontSize: "12px",
         position: "relative"
     },

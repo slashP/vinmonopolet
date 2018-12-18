@@ -14,7 +14,16 @@ export default class StoreDropdown extends Component {
   onSelect = (options) => {
     this.setState({ selectedStores: options }, () => {
       this.props.setStoresFilter(options.map((x) => x.value));
+      localStorage.setItem('storeFilter', JSON.stringify(options))
     });
+  }
+
+  componentDidMount = () => {
+    let storedStores = JSON.parse(localStorage.getItem('storeFilter'));
+    if (storedStores && storedStores.length > 0) {
+      this.setState({ selectedStores: storedStores });
+      this.props.setStoresFilter(storedStores.map((x) => x.value));
+    }
   }
 
   storesFromApi = () => {
@@ -51,6 +60,7 @@ export default class StoreDropdown extends Component {
         <div style={styles.storeSelect} >
           <Select
             isMulti
+            value={this.state.selectedStores}
             placeholder="Filter stores:"
             hideSelectedOptions={true}
             closeMenuOnSelect={false}

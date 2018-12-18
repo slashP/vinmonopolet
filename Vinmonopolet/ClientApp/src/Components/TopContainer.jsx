@@ -6,7 +6,7 @@ export default class TopContainer extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            searchString: '*',
+            searchString: '',
             isLoaded: false,
             beerListSorting: 'averageRating',
             activeStores: [],
@@ -29,7 +29,7 @@ export default class TopContainer extends Component {
 
     fetchBeers = () => {
         this.setState({ isLoaded: false }, () =>
-            fetch(`/api/beers?query=${this.state.searchString}`)
+            fetch(`/api/beers?query=${this.state.searchString || '*'}`)
                 .then(res => res.json())
                 .then(
                     (result) => {
@@ -51,9 +51,10 @@ export default class TopContainer extends Component {
     filteredBeers = () => {
         var filteredBeers = this.state.beerApiResult.slice(0);
         if (this.state.beerApiResult.length && this.state.activeStores.length) {
+
             filteredBeers = filteredBeers.filter((x) => {
                 var beerstores = x.storeStocks.map(store => store.storeId);
-                return beerstores.some(store => this.state.activeStores.map(fil => fil === store).some(x => x === true));
+                return beerstores.some(store => this.state.activeStores.map(filter => filter === store).some(x => x === true));
             })
         }
         filteredBeers.sort((a, b) => b[this.state.beerListSorting] - a[this.state.beerListSorting]);
