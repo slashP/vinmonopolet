@@ -65,6 +65,7 @@ namespace Vinmonopolet.Services
                     LabelUrl = beer.Image,
                     MonthlyCheckins = beerInfo.MonthlyCheckins.ExtractInteger() ?? 0,
                     Name = beer.Name,
+                    Brewery = beer.Brewery,
                     Ratings = beerInfo.Ratings.ExtractInteger() ?? 0,
                     Style = beer.Style,
                     TotalCheckins = beerInfo.TotalCheckins.ExtractInteger() ?? 0,

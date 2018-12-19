@@ -62,9 +62,9 @@ namespace Vinmonopolet.Services
                 Name = htmlDoc.DocumentNode.FirstElementWithClass("div", "product")?.Descendants("h1").First().InnerText.RemoveEmptyCharacters().SafeSubstring(256),
                 AlcoholPercentage = alcohol.Value,
                 Type = beerType,
-                //Brewery = productInfo.SiblingOfElementStartingWithInnerText("dt", "Produsent")?.InnerText,
+                Brewery = productInfo.SiblingOfElementStartingWithInnerText("dt", "Produsent")?.InnerText,
                 //Country = productInfo.SiblingOfElementStartingWithInnerText("dt", "Land")?.InnerText.RemoveEmptyCharacters().Split(',').First(),
-                //Volume = (htmlDoc.DocumentNode.FirstElementWithClass("span", "product__amount")?.InnerText.ExtractDecimal() ?? 0) / 100,
+                Volume = (htmlDoc.DocumentNode.FirstElementWithClass("span", "product__amount")?.InnerText.ExtractDecimal() ?? 0),
                 MaterialNumber = basicProduct.ProductNumber,
                 Price = htmlDoc.DocumentNode.FirstElementWithClass("span", "product__price")?.InnerText.ExtractDecimal() ?? 0,
                 BeerCategory = WatchedBeer.Category(beerType)

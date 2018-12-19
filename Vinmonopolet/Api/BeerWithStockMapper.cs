@@ -20,11 +20,13 @@ namespace Vinmonopolet.Api
                 {
                     MaterialNumber = matnr.Key,
                     Name = uBeer?.Name ?? watchedBeer.Name,
+                    Brewery = uBeer?.Brewery ?? watchedBeer.Brewery,
                     Type = watchedBeer.Type,
                     Price = watchedBeer.Price,
                     UntappdId = watchedBeer.UntappdId,
                     LabelUrl = uBeer?.LabelUrl,
                     Style = uBeer?.Style,
+                    Volume = watchedBeer?.Volume,
                     Abv = (decimal?) uBeer?.Abv ?? watchedBeer.AlcoholPercentage,
                     Ibu = (decimal?) uBeer?.Ibu,
                     Ratings = uBeer?.Ratings,
