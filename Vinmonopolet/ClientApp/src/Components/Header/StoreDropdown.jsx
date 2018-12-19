@@ -50,9 +50,7 @@ export default class StoreDropdown extends Component {
           label: store.storeName
         })
       })
-      console.log("Options pre sort: ", options);
       options.sort((a, b) => a.label.localeCompare(b.label));
-      console.log("Options post sort: ", options);
     }
     return options;
   }
@@ -65,6 +63,7 @@ export default class StoreDropdown extends Component {
         <div style={styles.storeSelect} >
           <Select
             isMulti
+            isSearchable={false}
             value={this.state.selectedStores}
             placeholder="Filter stores:"
             hideSelectedOptions={true}

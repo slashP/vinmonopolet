@@ -31,6 +31,7 @@ export default {
         margin:"2px 5px 2px 0px",
         borderRadius: "4px",
         border: "1px solid #ccc",
+        height: "32px"
     },
 
     searchInput: {

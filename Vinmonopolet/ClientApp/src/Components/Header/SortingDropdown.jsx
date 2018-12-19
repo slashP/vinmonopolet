@@ -16,6 +16,7 @@ export default class SortingDropdown extends Component {
             <div style={styles.sortingSelect}>
                 <Select
                     placeholder="Order by:"
+                    isSearchable={false}
                     closeMenuOnSelect={true}
                     options={this.optionsList}
                     onChange={this.props.onSortingSelected} />

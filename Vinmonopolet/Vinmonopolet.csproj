@@ -44,19 +44,12 @@
         </Exec>
         <Error Condition="'$(ErrorCode)' != '0'" Text="Npm is required to build and run this project. To continue, please install npm, and then restart your command prompt or IDE." />
 
-        <Message Importance="high" Text="Deleting old root build folder..." />
-        <RemoveDir Directories="wwwroot\build" />
-
         <Message Importance="high" Text="Running npm cache clean and npm install." />
         <Exec WorkingDirectory="ClientApp\" Command="npm cache clean --force" />
         <Exec WorkingDirectory="ClientApp\" Command="npm install" />
 
-        <Message Importance="high" Text="Building frontend." />
+        <Message Importance="high" Text="Building frontend. Npm run build should output to wwwroot\build" />
         <Exec WorkingDirectory="ClientApp\" Command="npm run build" />
-
-        <Message Importance="high" Text="Moving built frontend to wwwroot" />
-        <Exec WorkingDirectory="ClientApp\" Command="move build ../wwwroot" />
-
     </Target>
 
     <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
@@ -64,19 +57,12 @@
             <Content Remove="ClientApp\**; wwwroot\build\** " />
         </ItemGroup>
 
-        <Message Importance="high" Text="Deleting old root build folder." />
-        <RemoveDir Directories="wwwroot\build" />
-
         <Message Importance="high" Text="Running npm cache clean and npm install." />
         <Exec WorkingDirectory="ClientApp\" Command="npm cache clean --force" />
         <Exec WorkingDirectory="ClientApp\" Command="npm install" />
 
-        <Message Importance="high" Text="Building frontend." />
+        <Message Importance="high" Text="Building frontend. Npm run build should output to wwwroot\build" />
         <Exec WorkingDirectory="ClientApp\" Command="npm run build" />
-
-        <Message Importance="high" Text="Moving built frontend to wwwroot" />
-        <Exec WorkingDirectory="ClientApp\" Command="move build ../wwwroot" />
-
         <!-- Include the newly-built files in the publish output -->
         <ItemGroup>
             <Content Include ="wwwroot\build\**;"/>

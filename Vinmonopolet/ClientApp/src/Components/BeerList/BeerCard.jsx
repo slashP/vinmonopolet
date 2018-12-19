@@ -6,7 +6,7 @@ import styles from './styles.css';
 const BeerCard = ({ beer, activeStores }) => {
     var abvString = () => beer.abv > 0 && (beer.abv.toFixed(1) + " %");
     var volumeString = () => beer.volume > 0 && (beer.volume.toFixed(1) + " cl");
-    var priceString = () => beer.price > 0 && (beer.price.toFixed(1) + " kr");
+    var priceString = () => beer.price > 0 && (beer.price.toFixed(0) + " kr");
 
     return (
         <div className="beerCard" style={styles.beerCard}>
