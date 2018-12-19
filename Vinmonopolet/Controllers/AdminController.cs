@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Vinmonopolet.Data;
+using Vinmonopolet.Dto;
+using Vinmonopolet.Extensions;
 using Vinmonopolet.Models;
 using Vinmonopolet.Services;
 
@@ -81,6 +84,47 @@ namespace Vinmonopolet.Controllers
 
             return "ok";
         }
+
+        [Route("admin/updateProducts")]
+        [HttpPost]
+        public string UpdateProducts([CanBeNull] string materialNumbers)
+        {
+            var updateCount = 0;
+            var products = materialNumbers?.Split(",").ToList() ?? _db.WatchedBeers.Where(x => x.Brewery == null).OrderByDescending(x => x.AlcoholPercentage).Select(x => x.MaterialNumber).ToList();
+            foreach (var watchedBeer in products)
+            {
+                var basicProduct = new BasicProduct
+                {
+                    LinkToProductPage = $"http://www.vinmonopolet.no/p/{watchedBeer}",
+                    ProductNumber = watchedBeer
+                };
+                var newWatchedInfo = new WatchedBeer();
+                try
+                {
+                    newWatchedInfo = _webCrawler.ProductFromProductPage(basicProduct).Result;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+
+                var dbObject = _db.WatchedBeers.SingleOrDefault(x => x.MaterialNumber == newWatchedInfo.MaterialNumber);
+                if (dbObject != null)
+                {
+                    dbObject.AlcoholPercentage = newWatchedInfo.AlcoholPercentage;
+                    dbObject.Brewery = newWatchedInfo.Brewery;
+                    dbObject.Price = newWatchedInfo.Price;
+                    dbObject.Volume = newWatchedInfo.Volume;
+                    _db.SaveChanges();
+                    updateCount++;
+                }
+            }
+
+            return $"{updateCount} products updated.";
+        }
+
+
 
         [Route("admin/linkids")]
         [HttpPost]

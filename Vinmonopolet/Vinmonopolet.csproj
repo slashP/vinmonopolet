@@ -44,19 +44,33 @@
 
         <!-- In development, the dist files won't exist on the first run or when cloning to
             a different machine, so rebuild them if not already present. -->
+        <Message Importance="high" Text="Deleting old root build folder..." />
         <RemoveDir Directories="$(FrontendBuildDir)" />
-        <Message Importance="high" Text="Performing first-run npm build..." />
-        
-        <Exec WorkingDirectory="ClientApp\" Command="npm cache clean --force" />
+
+        <Message Importance="high" Text="Running npm install." />
         <Exec WorkingDirectory="ClientApp\" Command="npm install" />
+
+        <Message Importance="high" Text="Building frontend and moving folder." />
         <Exec WorkingDirectory="ClientApp\" Command="npm run build" />
+
+        <Message Importance="high" Text="Moving built frontend to wwwroot" />
+        <Exec WorkingDirectory="ClientApp\" Command="move build ../wwwroot" />
+
     </Target>
 
     <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
-        <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
-        <Exec WorkingDirectory="ClientApp\" Command="npm cache clean --force" />
+
+        <Message Importance="high" Text="Deleting old root build folder." />
+        <RemoveDir Directories="$(FrontendBuildDir)" />
+
+        <Message Importance="high" Text="Running npm install." />
         <Exec WorkingDirectory="ClientApp\" Command="npm install" />
+
+        <Message Importance="high" Text="Building frontend." />
         <Exec WorkingDirectory="ClientApp\" Command="npm run build" />
+
+        <Message Importance="high" Text="Moving built frontend to wwwroot" />
+        <Exec WorkingDirectory="ClientApp\" Command="move build ../wwwroot" />
 
         <!-- Include the newly-built files in the publish output -->
         <ItemGroup>
