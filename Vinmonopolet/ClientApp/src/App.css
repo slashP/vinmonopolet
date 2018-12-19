@@ -46,8 +46,11 @@ form {
       width: 978px;
   }
 }
-@media (min-width: 979px){  
+@media (min-width: 979px){
   .openMenu {
+    font-size: 13px;
+  }
+  .openMenu input {
     font-size: 13px;
   }
 }
@@ -60,6 +63,9 @@ form {
   }
   .openMenu {
     flex-direction: column;
+    font-size: 16px;
+  }
+  .openMenu input {
     font-size: 16px;
   }
 }
