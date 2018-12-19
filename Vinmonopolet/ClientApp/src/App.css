@@ -24,6 +24,10 @@ form {
   opacity: 1;
 }
 
+::placeholder {
+  color: #777;
+}
+
 
 @media (min-width: 490px) {
   .beerList {

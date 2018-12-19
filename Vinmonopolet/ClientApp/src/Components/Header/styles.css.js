@@ -45,14 +45,17 @@ export default {
     },
 
     searchSubmitButton: {
-        width: "32px",
-        padding: "7px 2px 1px 9px",
+        flexShrink: "0",
+        flexGrow:"0",
+        width: "18px",
+        padding: "7px 8px 1px 8px",
         backgroundColor: "#fff",
-        flexGrow: "none",
         border: "none"
     },
 
     separatorSpan: {
+        flexShrink: "0",
+        flexGrow:"0",
         backgroundColor: "#ccc",
         width: "1px",
         alignSelf: "stretch",
@@ -71,13 +74,4 @@ export default {
     openMenu: {
         display: "flex",
     },
-
-    menuIcon: {
-        padding: "6px 8px 3px 8px",
-        margin: "auto 10px",
-        borderRadius: "2px",
-        border: "1px solid #ccc",
-        float: "right",
-        backgroundColor: "#fff"
-    }
 }
