@@ -14,15 +14,13 @@ export default {
     storeSelect: {
         maxWidth: "800px",
         height: "auto",
-        fontSize: "12px",
-        minWidth: "150px",
+        minWidth: "200px",
         margin:"2px 5px 2px 0px",
     },
 
     sortingSelect: {
         maxWidth: "800px",
         height: "auto",
-        fontSize: "12px",
         minWidth: "150px",
         margin:"2px 5px 2px 0px",
     },
@@ -36,7 +34,6 @@ export default {
     },
 
     searchInput: {
-        fontSize: "12px",
         minWidth: "70px",
         maxWidth: "800px",
         border: "none",

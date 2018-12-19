@@ -6,7 +6,7 @@ export default class TopContainer extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            searchString: 'Stout',
+            searchString: '',
             isLoaded: false,
             beerListSorting: 'averageRating',
             activeStores: [],

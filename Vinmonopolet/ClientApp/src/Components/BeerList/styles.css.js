@@ -65,6 +65,7 @@ export default {
     },
 
     storeStock: {
+        maxWidth:"140px",
         display: "inline-block",
         whiteSpace: "nowrap",
     },

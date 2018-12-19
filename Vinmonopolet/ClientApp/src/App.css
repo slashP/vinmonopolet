@@ -46,6 +46,11 @@ form {
       width: 978px;
   }
 }
+@media (min-width: 979px){  
+  .openMenu {
+    font-size: 13px;
+  }
+}
 @media (max-width: 978px) {
   .header {
       width: 734px;
@@ -55,6 +60,7 @@ form {
   }
   .openMenu {
     flex-direction: column;
+    font-size: 16px;
   }
 }
 @media (max-width: 734px) {

@@ -17,7 +17,7 @@ const BeerCard = ({ beer, activeStores }) => {
                     <img alt="VinmonopoletLink" style={styles.externalLink} src="https://upload.wikimedia.org/wikipedia/en/e/e4/Vinmonopolet_logo.svg" onClick={() => window.open(`https://www.vinmonopolet.no/p/${beer.materialNumber}`)} ></img>
                 </div>
                 <div style={styles.brewery}>{beer.brewery || '\u00A0'}</div>
-                <div style={styles.beerName}>{beer.name}</div>
+                <div style={styles.beerName} title={beer.name}>{beer.name}</div>
                 <div style={styles.price}>{abvString()} - {volumeString()}  - {priceString()}</div>
                 <div >
                     <img alt="Logo" style={styles.beerLogo} src={beer.labelUrl || "https://untappd.akamaized.net/site/assets/images/temp/badge-beer-default.png"}></img>
