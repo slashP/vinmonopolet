@@ -47,10 +47,11 @@
         <Message Importance="high" Text="Deleting old root build folder..." />
         <RemoveDir Directories="$(FrontendBuildDir)" />
 
-        <Message Importance="high" Text="Running npm install." />
+        <Message Importance="high" Text="Running npm cache clean and npm install." />
+        <Exec WorkingDirectory="ClientApp\" Command="npm cache clean --force" />
         <Exec WorkingDirectory="ClientApp\" Command="npm install" />
 
-        <Message Importance="high" Text="Building frontend and moving folder." />
+        <Message Importance="high" Text="Building frontend." />
         <Exec WorkingDirectory="ClientApp\" Command="npm run build" />
 
         <Message Importance="high" Text="Moving built frontend to wwwroot" />
@@ -63,7 +64,8 @@
         <Message Importance="high" Text="Deleting old root build folder." />
         <RemoveDir Directories="$(FrontendBuildDir)" />
 
-        <Message Importance="high" Text="Running npm install." />
+        <Message Importance="high" Text="Running npm cache clean and npm install." />
+        <Exec WorkingDirectory="ClientApp\" Command="npm cache clean --force" />
         <Exec WorkingDirectory="ClientApp\" Command="npm install" />
 
         <Message Importance="high" Text="Building frontend." />
