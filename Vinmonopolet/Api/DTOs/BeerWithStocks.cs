@@ -7,6 +7,8 @@ namespace Vinmonopolet.Api.DTOs
         public string MaterialNumber { get; set; }
         
         public string Name { get; set; }
+
+        public string Brewery { get; set; }
         
         public string Type { get; set; }
 
@@ -17,6 +19,8 @@ namespace Vinmonopolet.Api.DTOs
         public string LabelUrl { get; set; }
 
         public string Style { get; set; }
+
+        public decimal? Volume { get; set; }
 
         public decimal? Abv { get; set; }
 

@@ -16,6 +16,8 @@ namespace Vinmonopolet.Models.UntappdData
 
         public string Name { get; set; }
 
+        public string Brewery { get; set; }
+
         public string LabelUrl { get; set; }
 
         public string Style { get; set; }

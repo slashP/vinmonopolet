@@ -12,9 +12,10 @@ using Vinmonopolet.Models;
 namespace Vinmonopolet.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181218110914_AddingVolumeAndBrewery")]
+    partial class AddingVolumeAndBrewery
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -246,8 +247,6 @@ namespace Vinmonopolet.Data.Migrations
                     b.Property<double>("Abv");
 
                     b.Property<double>("AverageScore");
-
-                    b.Property<string>("Brewery");
 
                     b.Property<string>("Description");
 

@@ -12,12 +12,16 @@ namespace Vinmonopolet.Models
         [MaxLength(256)]
         public string Name { get; set; }
 
+        public string Brewery { get; set; }
+
         public decimal AlcoholPercentage { get; set; }
 
         [MaxLength(64)]
         public string Type { get; set; }
 
         public decimal Price { get; set; }
+
+        public decimal Volume { get; set; }
 
         public virtual ICollection<BeerLocation> BeerLocations { get; set; }
 

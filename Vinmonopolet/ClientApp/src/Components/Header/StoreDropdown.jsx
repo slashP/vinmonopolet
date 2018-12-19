@@ -43,12 +43,17 @@ export default class StoreDropdown extends Component {
 
   dropdownOptions = (stores) => {
     var options = [];
-    stores.forEach(element => {
-      options.push({
-        value: element.storeId,
-        label: element.storeName
+    if (stores.length) {
+      stores.forEach(store => {
+        options.push({
+          value: store.storeId,
+          label: store.storeName
+        })
       })
-    });
+      console.log("Options pre sort: ", options);
+      options.sort((a, b) => a.label.localeCompare(b.label));
+      console.log("Options post sort: ", options);
+    }
     return options;
   }
 
