@@ -6,7 +6,7 @@ export default {
     beerList: {
         overflow: "hidden",
         margin: "auto",
-        fontSize: "12px",
+        fontSize: "14px",
         position: "relative"
     },
 
@@ -19,6 +19,7 @@ export default {
 
     beerCard: {
         width: cardWidth + "px",
+        height: "154px",
         margin: "5px",
         padding: "5px",
         display: "flex",
@@ -29,7 +30,6 @@ export default {
         borderRadius: "3px",
         border: "2px solid #ddd",
         overflow: "hidden",
-        height: "135px"
     },
 
     beerProps: {
@@ -50,6 +50,13 @@ export default {
         margin: "0 0 5px 0"
     },
 
+    brewery: {
+        width: "210px",
+        whiteSpace: "nowrap",
+        overflow: "hidden",
+        fontSize: "12px",
+    },
+
     beerName: {
         width: "210px",
         fontWeight: "bold",
@@ -65,7 +72,8 @@ export default {
     stockList: {
         padding: "0",
         listStyle: "none",
-        margin: "2px 5px"
+        margin: "2px 5px",
+        fontSize: "12px",
     },
 
     beerLogo: {
