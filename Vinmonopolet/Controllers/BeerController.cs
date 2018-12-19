@@ -27,7 +27,7 @@ namespace Vinmonopolet.Controllers
             _time = time;
         }
 
-        [Route("")]
+        [Route("beer")]
         public async Task<ActionResult> Pol(string query = "Porter stout")
         {
             var beerCategory = BeerCategoryFromQuery(query);
