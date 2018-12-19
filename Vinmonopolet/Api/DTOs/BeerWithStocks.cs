@@ -39,5 +39,7 @@ namespace Vinmonopolet.Api.DTOs
         public string Description { get; set; }
 
         public IList<StoreStock> StoreStocks { get; set; }
+
+        public bool OnNewProductList { get; set; }
     }
 }

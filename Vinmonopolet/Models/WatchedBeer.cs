@@ -32,6 +32,8 @@ namespace Vinmonopolet.Models
 
         public UntappdFetchStatus UntappdFetchStatus { get; set; }
 
+        public bool OnNewProductList { get; set; }
+
         public static BeerCategory Category(string vareType)
         {
             switch (vareType)

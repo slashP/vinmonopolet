@@ -10,8 +10,13 @@ export default class TopContainer extends Component {
             isLoaded: false,
             beerListSorting: 'averageRating',
             activeStores: [],
-            beerApiResult: []
+            beerApiResult: [],
+            onlyNew: false,
         }
+    }
+
+    setOnlyNew = () => {
+        this.setState((prevState) => {return {onlyNew: !prevState.onlyNew}})
     }
 
     setSorting = (sorting) => {
@@ -58,6 +63,9 @@ export default class TopContainer extends Component {
             })
         }
         filteredBeers.sort((a, b) => b[this.state.beerListSorting] - a[this.state.beerListSorting]);
+        if (this.state.onlyNew) {
+            filteredBeers = filteredBeers.filter(x => x.onNewProductList);
+        }
         return filteredBeers ? filteredBeers : [];
     }
 
@@ -69,7 +77,7 @@ export default class TopContainer extends Component {
     render() {
         return (
             <div className="main-container">
-                <Header beerApiResult={this.state.beerApiResult.slice(0)} submitSearch={this.submitSearch} setStoresFilter={this.setStoresFilter} onSortingSelected={this.setSorting} />
+                <Header beerApiResult={this.state.beerApiResult.slice(0)} submitSearch={this.submitSearch} setStoresFilter={this.setStoresFilter} onSortingSelected={this.setSorting} onOnlyNew={this.setOnlyNew} onlyNew={this.state.onlyNew} />
                 <BeerList error={this.state.error} beers={this.filteredBeers()} activeStores={this.state.activeStores} isLoaded={this.state.isLoaded} />
             </div>
         )

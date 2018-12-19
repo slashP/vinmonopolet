@@ -47,10 +47,20 @@ export default {
     searchSubmitButton: {
         flexShrink: "0",
         flexGrow:"0",
-        width: "18px",
         padding: "7px 8px 1px 8px",
         backgroundColor: "#fff",
         border: "none"
+    },
+
+    newCheckbox: {
+        flexShrink: "0",
+        flexGrow:"0",
+        width: "36px",
+        height: "36px",
+        backgroundColor: "#fff",
+        borderRadius: "4px",
+        border: "1px solid #ccc",
+        margin:"2px 5px 2px auto",
     },
 
     separatorSpan: {

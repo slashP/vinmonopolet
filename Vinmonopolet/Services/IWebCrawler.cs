@@ -9,5 +9,6 @@ namespace Vinmonopolet.Services
     {
         Task<IReadOnlyCollection<BasicProduct>> Products(string storeId);
         Task<WatchedBeer> ProductFromProductPage(BasicProduct basicProduct);
+        Task<List<string>> MaterialnrsFromNewProductsList();
     }
 }

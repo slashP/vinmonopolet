@@ -35,6 +35,7 @@ namespace Vinmonopolet.Api
                     MonthlyCheckins = uBeer?.MonthlyCheckins,
                     TotalUserCount = uBeer?.TotalUserCount,
                     Description = uBeer?.Description,
+                    OnNewProductList = watchedBeer.OnNewProductList,
                     StoreStocks = matnr.Select(x => new StoreStock()
                     {
                         StockLevel = x.StockLevel,

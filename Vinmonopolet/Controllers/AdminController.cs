@@ -124,7 +124,28 @@ namespace Vinmonopolet.Controllers
             return $"{updateCount} products updated.";
         }
 
+        [Route("admin/updateNewProductList")]
+        [HttpPost]
+        public async Task<string> UpdateNewProductList()
+        {
+            var oldNewProducts = _db.WatchedBeers.Where(x => x.OnNewProductList == true);
+            foreach (WatchedBeer beer in oldNewProducts)
+            {
+                beer.OnNewProductList = false;
+            }
 
+            var newProductnumbers = await _webCrawler.MaterialnrsFromNewProductsList();
+            var newProducts = _db.WatchedBeers.Where(x => newProductnumbers.Contains(x.MaterialNumber));
+            var changedProducts = newProducts.Count();
+            foreach (WatchedBeer beer in newProducts)
+            {
+                beer.OnNewProductList = true;
+            }
+
+            await _db.SaveChangesAsync();
+
+            return $"{changedProducts} new products added to newlist";
+        }
 
         [Route("admin/linkids")]
         [HttpPost]
