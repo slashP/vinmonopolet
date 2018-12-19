@@ -10,7 +10,9 @@ export default class Header extends Component {
                 <Menu beerApiResult={this.props.beerApiResult}
                     submitSearch={this.props.submitSearch}
                     setStoresFilter={this.props.setStoresFilter}
-                    onSortingSelected={this.props.onSortingSelected} />
+                    onSortingSelected={this.props.onSortingSelected} 
+                    onOnlyNew={this.props.onOnlyNew}
+                    onlyNew={this.props.onlyNew}/>
             </div>
         )
     }

@@ -13,7 +13,7 @@ const StoreStock = ({ stocks, activeStores }) => {
             <div title={tooltipTitle} style={styles.storeStock}>
                 <ul style={styles.stockList}>
                     {stocks.slice(0, 4).map(stock =>
-                        <li key={stock.storeName}>{stock.storeName} : {stock.stockLevel}</li>
+                        <li key={stock.storeName}>{stock.storeName.split(",").pop()} : {stock.stockLevel}</li>
                     )}
                 </ul>
             </div>
@@ -23,7 +23,7 @@ const StoreStock = ({ stocks, activeStores }) => {
             <div title={tooltipTitle} style={styles.storeStock}>
                 <ul style={styles.stockList}>
                     {showStocks.map(stock =>
-                        activeStores.includes(stock.storeId) && <li key={stock.storeName}>{stock.storeName} : {stock.stockLevel}</li>
+                        activeStores.includes(stock.storeId) && <li key={stock.storeName}>{stock.storeName.split(",").pop()} : {stock.stockLevel}</li>
                     )}
                 </ul>
             </div>

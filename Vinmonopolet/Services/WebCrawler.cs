@@ -71,10 +71,43 @@ namespace Vinmonopolet.Services
             };
         }
 
+        public async Task<List<string>> MaterialnrsFromNewProductsList()
+        {
+            var client = Client();
+            var products = new List<BasicProduct>();
+            var htmlDoc = await HtmlFromNewProductList(client,0);
+            var totalNumberOfProducts = htmlDoc.DocumentNode.FirstElementWithClass("div", "pagination-tag__totalresults")?.InnerText.ExtractInteger() ?? 0;
+            var firstPageProducts = BasicProductInfo(htmlDoc);
+            products.AddRange(firstPageProducts);
+            var productsPerPage = firstPageProducts.Count;
+            if (productsPerPage == 0)
+            {
+                return null;
+            }
+
+            var numberOfPages = (int)Math.Ceiling((decimal)totalNumberOfProducts / productsPerPage) - 1;
+            foreach (var pageNumber in Enumerable.Range(1, numberOfPages))
+            {
+                var html = await HtmlFromNewProductList(client, pageNumber);
+                products.AddRange(BasicProductInfo(html));
+            }
+
+            return products.Select(x => x.ProductNumber).ToList();
+        }
+
         static async Task<HtmlDocument> HtmlFromSearchPage(HttpClient client, string storeId, int pageNumber, string visibleInSearch)
         {
             var html = await client.GetStringAsync(
                 $"search?q=%3Arelevance%3AavailableInStores%3A{storeId}%3AmainCategory%3A%C3%B8l%3AvisibleInSearch%3A{visibleInSearch}&page={pageNumber}");
+            var htmlDoc = new HtmlDocument();
+            htmlDoc.LoadHtml(html);
+            return htmlDoc;
+        }
+
+        static async Task<HtmlDocument> HtmlFromNewProductList(HttpClient client, int pageNumber)
+        {
+            var html = await client.GetStringAsync(
+                $"Nettbutikk-kategorier/%C3%98l/c/%C3%B8l?q=%3Arelevance%3AmainCategory%3A%25C3%25B8l%3AvisibleInSearch%3Atrue%3ANewProducts%3Atrue&searchType=product&page={pageNumber}");
             var htmlDoc = new HtmlDocument();
             htmlDoc.LoadHtml(html);
             return htmlDoc;

@@ -97,5 +97,15 @@ export default {
         border: "1px solid #ddd",
         borderRadius: "2px",
         cursor: "pointer",
+    },
+
+    newTag: {
+        display: "inline-block",
+        height: "18px",
+        width: "18px",
+        float: "right",
+        margin: "0 0 0 4px",
+        color: "red",
+        fontSize: "16px"
     }
 }
