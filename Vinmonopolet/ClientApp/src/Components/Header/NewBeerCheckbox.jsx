@@ -3,7 +3,7 @@ import styles from './styles.css';
 
 const NewBeerCheckbox = ( props ) => {
     return (
-        <div style={styles.newCheckbox} className="onlynew-container" onClick={() => props.onOnlyNew()}>
+        <div style={styles.newCheckbox} className="onlynew-container" title="Show only beers on vinmonopolets 'new products'-list." onClick={() => props.onOnlyNew()}>
             <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-50 -50 370 370" enableBackground="new 0 0 300 300" space="preserve">     
                 <text  x="15" y="120" fontSize="100" fill="#999">Only</text>
                 <text x="23" y="230" fontSize="100" fill="#999">new</text>

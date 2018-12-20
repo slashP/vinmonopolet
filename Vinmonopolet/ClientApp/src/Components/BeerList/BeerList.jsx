@@ -10,7 +10,7 @@ export default class BeerList extends Component {
         this.state = {
             beersToShow: [],
             hasMoreItems: true,
-            beersPerPage: 100
+            beersPerPage: 20
         }
     }
 
