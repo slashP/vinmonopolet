@@ -18,14 +18,14 @@ export default class TopContainer extends Component {
     }
 
     addBookmark = (id) => {
-        this.setState((prevState) => { return { bookmarks: prevState.bookmarks.concat([id]) } }, localStorage.setItem("bookmarks", JSON.stringify(this.state.bookmarks)));
+        this.setState((prevState) => { return { bookmarks: prevState.bookmarks.concat([id]) } }, () => localStorage.setItem("bookmarks", JSON.stringify(this.state.bookmarks)));
     }
 
     removeBookmark = (id) => {
         let newBookmarks = this.state.bookmarks.filter(x => x !== id);
         this.setState(() => {
             return { bookmarks: newBookmarks }
-        }, localStorage.setItem("bookmarks", JSON.stringify(this.state.bookmarks)))
+        }, () => localStorage.setItem("bookmarks", JSON.stringify(this.state.bookmarks)))
     }
 
     setOnlyBookmarks = () => {

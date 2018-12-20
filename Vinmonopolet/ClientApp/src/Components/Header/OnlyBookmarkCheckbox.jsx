@@ -5,8 +5,8 @@ const OnlyBookmarkCheckbox = ( props ) => {
     return (
         <div style={styles.bookmarkOnlyCheckbox} className="onlynew-container" onClick={() => props.setOnlyBookmarks()}>
             <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-50 -50 370 370" enableBackground="new 0 0 300 300" space="preserve">
-                <text  x="0" y="120" fontWeight="bold" fontSize="100" fill="#999">Book</text>
-                <text x="-20" y="230" fontWeight="bold" fontSize="100" fill="#999">marks</text>
+                <text  x="0" y="120" fontSize="100" fill="#999">Book</text>
+                <text x="-20" y="230" fontSize="100" fill="#999">marks</text>
                 { props.showOnlyBookmarks &&
                     <g>
                         <path fill="#fff" d="M-20 -20 L 310 -20 L 310 310 L -20 310"/>

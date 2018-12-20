@@ -99,8 +99,8 @@ export default {
     },
 
     bookmarkButton: {
-        height: "15px",
-        width: "15px",
+        height: "17px",
+        width: "17px",
         fontSize: "16px",
         border: "1px solid #ddd",
         borderRadius: "2px",
