@@ -4,7 +4,7 @@ import styles from './styles.css'
 const NewTag = () => {
     return (
         <div style={styles.newTag} className="newTag" title="On Vinmonopolets new products list!">
-            <svg version="1.1" fill="gold" stroke="black" stroke-width="5" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" enable-background="new 0 0 512 512;" space="preserve">
+            <svg version="1.1" fill="gold" stroke="black" strokeWidth="5" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" enableBackground="new 0 0 512 512;" space="preserve">
                 <g>
                     <path d="M400.614,221.519l-90.837-17.556l-44.773-80.973l-44.773,80.973l-90.837,17.556l63.161,67.609L181.18,380.95
                         l83.823-39.194l83.82,39.194l-11.373-91.822L400.614,221.519z "/>

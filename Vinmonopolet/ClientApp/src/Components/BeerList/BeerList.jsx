@@ -34,7 +34,7 @@ export default class BeerList extends Component {
     }
 
     render() {
-        const { error, isLoaded, activeStores } = this.props;
+        const { error, isLoaded, activeStores, addBookmark, removeBookmark, bookmarks } = this.props;
         if (error) {
             console.log(error);
             return <div style={styles.beerListLoading}>Error: {error.message} </div>
@@ -57,7 +57,13 @@ export default class BeerList extends Component {
                             loader={<span key={"loading"}>loading</span>}>
                             {
                                 this.state.beersToShow.map(beer => {
-                                    return <BeerCard key={beer.materialNumber + beer.storeName} activeStores={activeStores} beer={beer} />
+                                    return <BeerCard key={beer.materialNumber + beer.storeName}
+                                        activeStores={activeStores}
+                                        beer={beer}
+                                        addBookmark={addBookmark}
+                                        removeBookmark={removeBookmark}
+                                        bookmarks={bookmarks}
+                                    />
                                 }
                                 )
                             }

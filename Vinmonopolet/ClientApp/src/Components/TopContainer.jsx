@@ -12,11 +12,28 @@ export default class TopContainer extends Component {
             activeStores: [],
             beerApiResult: [],
             onlyNew: false,
+            bookmarks: [],
+            showOnlyBookmarks: false,
         }
     }
 
+    addBookmark = (id) => {
+        this.setState((prevState) => { return { bookmarks: prevState.bookmarks.concat([id]) } }, localStorage.setItem("bookmarks", JSON.stringify(this.state.bookmarks)));
+    }
+
+    removeBookmark = (id) => {
+        let newBookmarks = this.state.bookmarks.filter(x => x !== id);
+        this.setState(() => {
+            return { bookmarks: newBookmarks }
+        }, localStorage.setItem("bookmarks", JSON.stringify(this.state.bookmarks)))
+    }
+
+    setOnlyBookmarks = () => {
+        this.setState((prevState) => { return { showOnlyBookmarks: !prevState.showOnlyBookmarks } })
+    }
+
     setOnlyNew = () => {
-        this.setState((prevState) => {return {onlyNew: !prevState.onlyNew}})
+        this.setState((prevState) => { return { onlyNew: !prevState.onlyNew } })
     }
 
     setSorting = (sorting) => {
@@ -66,10 +83,17 @@ export default class TopContainer extends Component {
         if (this.state.onlyNew) {
             filteredBeers = filteredBeers.filter(x => x.onNewProductList);
         }
+        if (this.state.showOnlyBookmarks) {
+            filteredBeers = filteredBeers.filter(x => this.state.bookmarks.includes(x.materialNumber));
+        }
         return filteredBeers ? filteredBeers : [];
     }
 
     componentDidMount = () => {
+        let bookmarks = JSON.parse(localStorage.getItem("bookmarks"));
+        if (bookmarks && bookmarks.length > 0) {
+            this.setState({ bookmarks: bookmarks });
+        }
         this.fetchBeers();
     }
 
@@ -77,8 +101,22 @@ export default class TopContainer extends Component {
     render() {
         return (
             <div className="main-container">
-                <Header beerApiResult={this.state.beerApiResult.slice(0)} submitSearch={this.submitSearch} setStoresFilter={this.setStoresFilter} onSortingSelected={this.setSorting} onOnlyNew={this.setOnlyNew} onlyNew={this.state.onlyNew} />
-                <BeerList error={this.state.error} beers={this.filteredBeers()} activeStores={this.state.activeStores} isLoaded={this.state.isLoaded} />
+                <Header
+                    beerApiResult={this.state.beerApiResult.slice(0)}
+                    submitSearch={this.submitSearch} setStoresFilter={this.setStoresFilter}
+                    onSortingSelected={this.setSorting}
+                    onOnlyNew={this.setOnlyNew}
+                    onlyNew={this.state.onlyNew}
+                    setOnlyBookmarks={this.setOnlyBookmarks}
+                    showOnlyBookmarks={this.state.showOnlyBookmarks} />
+                <BeerList
+                    error={this.state.error}
+                    beers={this.filteredBeers()}
+                    activeStores={this.state.activeStores}
+                    isLoaded={this.state.isLoaded}
+                    addBookmark={this.addBookmark}
+                    removeBookmark={this.removeBookmark}
+                    bookmarks={this.state.bookmarks} />
             </div>
         )
     }

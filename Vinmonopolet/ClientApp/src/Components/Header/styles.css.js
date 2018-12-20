@@ -55,12 +55,34 @@ export default {
     newCheckbox: {
         flexShrink: "0",
         flexGrow:"0",
+        display: "inline-block",
+        width: "36px",
+        height: "36px",
+        backgroundColor: "#fff",
+        borderRadius: "4px",
+        border: "1px solid #ccc",
+        margin:"2px 5px 2px 0px",
+        cursor: "pointer"
+    },
+
+    bookmarkOnlyCheckbox: {
+        flexShrink: "0",
+        flexGrow:"0",
+        display: "inline-block",
         width: "36px",
         height: "36px",
         backgroundColor: "#fff",
         borderRadius: "4px",
         border: "1px solid #ccc",
         margin:"2px 5px 2px auto",
+        cursor: "pointer"
+    },
+
+
+    checkboxContainer:{
+        flexShrink: "0",
+        flexGrow:"0",
+        display: "flex",
     },
 
     separatorSpan: {

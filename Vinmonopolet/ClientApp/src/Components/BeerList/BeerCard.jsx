@@ -3,8 +3,9 @@ import StoreStock from './StoreStock';
 import StarRating from './StarRating';
 import styles from './styles.css';
 import NewTag from './NewTag';
+import BookmarkButton from './BookmarkButton';
 
-const BeerCard = ({ beer, activeStores }) => {
+const BeerCard = ({ beer, activeStores, bookmarks, addBookmark, removeBookmark }) => {
     var abvString = () => beer.abv > 0 && (beer.abv.toFixed(1) + " %");
     var volumeString = () => beer.volume > 0 && (beer.volume.toFixed(1) + " cl");
     var priceString = () => beer.price > 0 && (beer.price.toFixed(0) + " kr");
@@ -26,6 +27,7 @@ const BeerCard = ({ beer, activeStores }) => {
                     <StoreStock stocks={beer.storeStocks} activeStores={activeStores} />
                 </div>
             </div>
+            <BookmarkButton materialNumber={beer.materialNumber} bookmarks={bookmarks} addBookmark={addBookmark} removeBookmark={removeBookmark} />
         </div>
     )
 }

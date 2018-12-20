@@ -1,5 +1,4 @@
 
-
 let cardWidth = 220;
 
 export default {
@@ -99,6 +98,18 @@ export default {
         cursor: "pointer",
     },
 
+    bookmarkButton: {
+        height: "15px",
+        width: "15px",
+        fontSize: "16px",
+        border: "1px solid #ddd",
+        borderRadius: "2px",
+        margin: "0 5px 0 auto",
+        position:"sticky",
+        bottom: "5px",
+        cursor: "pointer"
+    },
+
     newTag: {
         display: "inline-block",
         height: "18px",
@@ -107,5 +118,5 @@ export default {
         margin: "0 0 0 4px",
         color: "red",
         fontSize: "16px"
-    }
+    },
 }
