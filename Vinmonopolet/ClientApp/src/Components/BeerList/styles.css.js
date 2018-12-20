@@ -104,9 +104,7 @@ export default {
         fontSize: "16px",
         border: "1px solid #ddd",
         borderRadius: "2px",
-        margin: "0 5px 0 auto",
-        position:"sticky",
-        bottom: "5px",
+        margin: "-25px 5px 0 auto",
         cursor: "pointer"
     },
 
