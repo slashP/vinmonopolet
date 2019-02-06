@@ -76,7 +76,8 @@ namespace Vinmonopolet.Services
             var client = Client();
             var products = new List<BasicProduct>();
             var htmlDoc = await HtmlFromNewProductList(client,0);
-            var totalNumberOfProducts = htmlDoc.DocumentNode.FirstElementWithClass("div", "pagination-tag__totalresults")?.InnerText.ExtractInteger() ?? 0;
+            var totalNumberOfProductsNode = htmlDoc.DocumentNode.FirstElementWithClass("div", "in-page-nav");
+            var totalNumberOfProducts = totalNumberOfProductsNode?.InnerText.ExtractInteger() ?? 0;
             var firstPageProducts = BasicProductInfo(htmlDoc);
             products.AddRange(firstPageProducts);
             var productsPerPage = firstPageProducts.Count;
@@ -107,7 +108,8 @@ namespace Vinmonopolet.Services
         static async Task<HtmlDocument> HtmlFromNewProductList(HttpClient client, int pageNumber)
         {
             var html = await client.GetStringAsync(
-                $"Nettbutikk-kategorier/%C3%98l/c/%C3%B8l?q=%3Arelevance%3AmainCategory%3A%25C3%25B8l%3AvisibleInSearch%3Atrue%3ANewProducts%3Atrue&searchType=product&page={pageNumber}");
+                $"/search?q=%3Arelevance%3AvisibleInSearch%3Atrue%3AmainCategory%3A%25C3%25B8l%3AnewProducts%3Atrue&page={pageNumber}");
+
             var htmlDoc = new HtmlDocument();
             htmlDoc.LoadHtml(html);
             return htmlDoc;
