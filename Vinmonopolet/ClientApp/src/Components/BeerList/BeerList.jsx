@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import BeerCard from './BeerCard';
+import BeerCardLine from './BeerCardLineEdition';
 import styles from './styles.css';
 import { Loading } from './../media';
 import InfiniteScroll from 'react-infinite-scroller';
@@ -34,7 +35,7 @@ export default class BeerList extends Component {
     }
 
     render() {
-        const { error, isLoaded, activeStores, addBookmark, removeBookmark, bookmarks } = this.props;
+        const { error, isLoaded, activeStores, addBookmark, removeBookmark, bookmarks, lineView } = this.props;
         if (error) {
             console.log(error);
             return <div style={styles.beerListLoading}>Error: {error.message} </div>
@@ -57,7 +58,16 @@ export default class BeerList extends Component {
                             loader={<span key={"loading"}>loading</span>}>
                             {
                                 this.state.beersToShow.map(beer => {
-                                    return <BeerCard key={beer.materialNumber + beer.storeName}
+                                    return lineView ?
+                                    <BeerCardLine key={beer.materialNumber + beer.storeName}
+                                        activeStores={activeStores}
+                                        beer={beer}
+                                        addBookmark={addBookmark}
+                                        removeBookmark={removeBookmark}
+                                        bookmarks={bookmarks}
+                                    /> 
+                                    :
+                                    <BeerCard key={beer.materialNumber + beer.storeName}
                                         activeStores={activeStores}
                                         beer={beer}
                                         addBookmark={addBookmark}

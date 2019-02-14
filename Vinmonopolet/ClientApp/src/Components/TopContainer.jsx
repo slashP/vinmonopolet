@@ -14,6 +14,7 @@ export default class TopContainer extends Component {
             onlyNew: false,
             bookmarks: [],
             showOnlyBookmarks: false,
+            lineView: false,
         }
     }
 
@@ -26,6 +27,10 @@ export default class TopContainer extends Component {
         this.setState(() => {
             return { bookmarks: newBookmarks }
         }, () => localStorage.setItem("bookmarks", JSON.stringify(this.state.bookmarks)))
+    }
+
+    setLineView = () => {
+        this.setState((prevState) => {return { lineView: !prevState.lineView}})
     }
 
     setOnlyBookmarks = () => {
@@ -51,8 +56,8 @@ export default class TopContainer extends Component {
 
     fetchBeers = () => {
         this.setState({ isLoaded: false }, () =>
-            fetch(`/api/beers?query=${this.state.searchString || '*'}`)
-                .then(res => res.json())
+            fetch(`https://localhost:44390/api/beers?query=${this.state.searchString || '*'}`)
+                .then(res => {console.log(res); return res.json()})
                 .then(
                     (result) => {
                         this.setState({
@@ -108,7 +113,9 @@ export default class TopContainer extends Component {
                     onOnlyNew={this.setOnlyNew}
                     onlyNew={this.state.onlyNew}
                     setOnlyBookmarks={this.setOnlyBookmarks}
-                    showOnlyBookmarks={this.state.showOnlyBookmarks} />
+                    showOnlyBookmarks={this.state.showOnlyBookmarks}
+                    onLineView={this.setLineView}
+                    lineView={this.state.lineView}/>
                 <BeerList
                     error={this.state.error}
                     beers={this.filteredBeers()}
@@ -116,7 +123,8 @@ export default class TopContainer extends Component {
                     isLoaded={this.state.isLoaded}
                     addBookmark={this.addBookmark}
                     removeBookmark={this.removeBookmark}
-                    bookmarks={this.state.bookmarks} />
+                    bookmarks={this.state.bookmarks} 
+                    lineView={this.state.lineView}/>
             </div>
         )
     }

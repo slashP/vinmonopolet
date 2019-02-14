@@ -14,7 +14,9 @@ export default class Header extends Component {
                     onOnlyNew={this.props.onOnlyNew}
                     onlyNew={this.props.onlyNew}
                     setOnlyBookmarks={this.props.setOnlyBookmarks}
-                    showOnlyBookmarks={this.props.showOnlyBookmarks} />
+                    showOnlyBookmarks={this.props.showOnlyBookmarks} 
+                    onLineView={this.props.onLineView}
+                    lineView={this.props.lineView}/>
             </div>
         )
     }

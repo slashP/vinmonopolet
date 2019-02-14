@@ -4,6 +4,7 @@ import StoreDropdown from './StoreDropdown';
 import SortingDropdown from './SortingDropdown';
 import NewBeerCheckbox from './NewBeerCheckbox';
 import OnlyBookmarkCheckbox from './OnlyBookmarkCheckbox';
+import LineViewCheckbox from './LineviewCheckbox'
 import styles from './styles.css';
 
 export default class Menu extends Component {
@@ -22,6 +23,7 @@ export default class Menu extends Component {
                         <div style={styles.checkboxContainer}>
                             <OnlyBookmarkCheckbox setOnlyBookmarks={this.props.setOnlyBookmarks} showOnlyBookmarks={this.props.showOnlyBookmarks} />
                             <NewBeerCheckbox onOnlyNew={this.props.onOnlyNew} onlyNew={this.props.onlyNew} />
+                            <LineViewCheckbox onLineView={this.props.onLineView} lineView={this.props.lineView} />
                         </div>
                         <SearchArea submitSearch={this.props.submitSearch} />
                         <SortingDropdown onSortingSelected={this.props.onSortingSelected} />

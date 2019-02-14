@@ -15,7 +15,7 @@ const BeerCard = ({ beer, activeStores, bookmarks, addBookmark, removeBookmark }
             <div style={styles.beerProps}>
                 <div style={styles.cardTopbar}>
                     <StarRating rating={beer.averageScore} />
-                    <img alt="UntappdLink" style={styles.externalLink} src="https://upload.wikimedia.org/wikipedia/commons/9/92/Untappd.svg" onClick={() => window.open(`https://untappd.com/beer/${beer.untappdId}`)} ></img>
+                    {beer.untappdId && <img alt="UntappdLink" style={styles.externalLink} src="https://upload.wikimedia.org/wikipedia/commons/9/92/Untappd.svg" onClick={() => window.open(`https://untappd.com/beer/${beer.untappdId}`)} ></img>}
                     <img alt="VinmonopoletLink" style={styles.externalLink} src="https://upload.wikimedia.org/wikipedia/en/e/e4/Vinmonopolet_logo.svg" onClick={() => window.open(`https://www.vinmonopolet.no/p/${beer.materialNumber}`)} ></img>
                     {beer.onNewProductList && <NewTag />}
                 </div>

@@ -29,6 +29,8 @@ namespace Vinmonopolet
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddCors();
+
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<IWebCrawler, WebCrawler>();
@@ -55,6 +57,9 @@ namespace Vinmonopolet
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            app.UseCors(builder =>
+                builder.WithOrigins("http://localhost:3000"));
 
             app.UseStaticFiles();
             app.UseAuthentication();
