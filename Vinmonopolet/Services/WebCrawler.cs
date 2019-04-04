@@ -18,7 +18,7 @@ namespace Vinmonopolet.Services
         {
             var client = Client();
             var products = new List<BasicProduct>();
-            foreach (var visibleInSearch in new[] { "true", "false" })
+            foreach (var visibleInSearch in new[] {"true", "false" })
             {
                 var htmlDoc = await HtmlFromSearchPage(client, storeId, 0, visibleInSearch);
                 var totalNumberOfProducts = htmlDoc.DocumentNode.FirstElementWithClass("div", "in-page-nav")?.InnerText.ExtractInteger() ?? 0;
@@ -122,9 +122,8 @@ namespace Vinmonopolet.Services
                 .Select(x => new
                     {
                         LinkToProductPage = x.FirstElementsAttributeValue("a", "href"),
-                        StockStatusString = x.FirstElementWithClass("div", "product-stock-status")?.InnerText
-                                                .Trim() ?? string.Empty
-                    }
+                        StockStatusString = x.FirstElementWithClass("div", "product-stock-status")?.InnerText.Trim() ?? x.FirstElementWithClass("div", "product-item__actions")?.InnerText.Trim()
+                }
                 ).Where(x => x.LinkToProductPage != null)
                 .Select(x =>
                 {
@@ -148,7 +147,12 @@ namespace Vinmonopolet.Services
                 return quantityInStock.Value > 0 ? StockStatus.InStock : StockStatus.OutOfStock;
             }
 
-            return stockStatusString.Contains("lanseres") ? StockStatus.ToBeAnnounced : StockStatus.Unknown;
+            if (stockStatusString == null)
+            {
+                return StockStatus.Unknown;
+            }
+
+            return stockStatusString.ToLower().Contains("lanseres") ? StockStatus.ToBeAnnounced : StockStatus.Unknown;
         }
 
         static HttpClient Client()

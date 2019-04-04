@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Vinmonopolet.Api;
 using Vinmonopolet.Data;
 using Vinmonopolet.Models;
+using Vinmonopolet.Services;
 
 namespace Vinmonopolet.Controllers
 {
@@ -13,11 +14,13 @@ namespace Vinmonopolet.Controllers
     {
         readonly ApplicationDbContext _db;
         private readonly BeerWithStockMapper _beerWithStockMapper;
+        readonly ITime _time;
 
-        public ApiController(ApplicationDbContext db)
+        public ApiController(ApplicationDbContext db, ITime time)
         {
             _db = db;
             _beerWithStockMapper = new BeerWithStockMapper();
+            _time = time;
         }
 
         [HttpGet]
@@ -37,6 +40,24 @@ namespace Vinmonopolet.Controllers
             var untappdBeers = _db.UntappdBeers.Where(x => UntappdIds.Contains(x.Id)).ToList();
 
             var frontendBeerLocations = _beerWithStockMapper.BuildBeers(beers, untappdBeers);
+
+            return Json(frontendBeerLocations);
+        }
+
+        [HttpGet("api/new")]
+        public async Task<JsonResult> ApiNew()
+        {
+            var toBeAnnounced =
+                (await _db.BeerLocations.Include(x => x.WatchedBeer).Include(x => x.Store)
+                    .Where(x => x.StockStatus == StockStatus.ToBeAnnounced)
+                    .ToListAsync())
+                .GroupBy(x => x.WatchedBeer.MaterialNumber)
+                .ToList();
+
+            var untappdIds = toBeAnnounced.SelectMany(x => x.Select(y => y.WatchedBeer.UntappdId)).ToList();
+            var untappdBeers = _db.UntappdBeers.Where(x => untappdIds.Contains(x.Id)).ToList();
+
+            var frontendBeerLocations = _beerWithStockMapper.BuildBeers(toBeAnnounced, untappdBeers);
 
             return Json(frontendBeerLocations);
         }

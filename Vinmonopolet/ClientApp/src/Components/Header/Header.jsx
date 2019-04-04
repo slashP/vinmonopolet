@@ -16,7 +16,9 @@ export default class Header extends Component {
                     setOnlyBookmarks={this.props.setOnlyBookmarks}
                     showOnlyBookmarks={this.props.showOnlyBookmarks} 
                     onLineView={this.props.onLineView}
-                    lineView={this.props.lineView}/>
+                    lineView={this.props.lineView}
+                    showTBA={this.props.showTBA}
+                    setShowTBA={this.props.setShowTBA}/>
             </div>
         )
     }

@@ -11,10 +11,12 @@ export default class TopContainer extends Component {
             beerListSorting: 'averageRating',
             activeStores: [],
             beerApiResult: [],
+            toBeAnnouncedResult: [],
             onlyNew: false,
             bookmarks: [],
             showOnlyBookmarks: false,
             lineView: false,
+            showTBA: false,
         }
     }
 
@@ -27,6 +29,10 @@ export default class TopContainer extends Component {
         this.setState(() => {
             return { bookmarks: newBookmarks }
         }, () => localStorage.setItem("bookmarks", JSON.stringify(this.state.bookmarks)))
+    }
+
+    setShowTBA = () => {        
+        this.setState((prevState) => {return { showTBA: !prevState.showTBA}})
     }
 
     setLineView = () => {
@@ -72,6 +78,21 @@ export default class TopContainer extends Component {
                         });
                     }
                 )
+                .then( fetch("/api/new")
+                .then(res => {console.log(res); return res.json()})
+                .then(
+                    (result) => {
+                        this.setState({
+                            toBeAnnouncedResult: result.sort((a, b) => b.averageScore - a.averageScore)
+                        })
+                    },
+                    (error) => {
+                        this.setState({
+                            isLoaded: true,
+                            error
+                        });
+                    })
+                )
         )
     }
 
@@ -115,16 +136,32 @@ export default class TopContainer extends Component {
                     setOnlyBookmarks={this.setOnlyBookmarks}
                     showOnlyBookmarks={this.state.showOnlyBookmarks}
                     onLineView={this.setLineView}
-                    lineView={this.state.lineView} />
-                <BeerList
-                    error={this.state.error}
-                    beers={this.filteredBeers()}
-                    activeStores={this.state.activeStores}
-                    isLoaded={this.state.isLoaded}
-                    addBookmark={this.addBookmark}
-                    removeBookmark={this.removeBookmark}
-                    bookmarks={this.state.bookmarks}
-                    lineView={this.state.lineView} />
+                    lineView={this.state.lineView}
+                    showTBA={this.state.showTBA}
+                    setShowTBA={this.setShowTBA}
+                    />
+                {
+                    this.state.showTBA ?
+                    <BeerList
+                        error={this.state.error}
+                        beers={this.state.toBeAnnouncedResult}
+                        activeStores={this.state.activeStores}
+                        isLoaded={this.state.isLoaded}
+                        addBookmark={this.addBookmark}
+                        removeBookmark={this.removeBookmark}
+                        bookmarks={this.state.bookmarks} 
+                        lineView={this.state.lineView}/>
+                    :
+                    <BeerList
+                        error={this.state.error}
+                        beers={this.filteredBeers()}
+                        activeStores={this.state.activeStores}
+                        isLoaded={this.state.isLoaded}
+                        addBookmark={this.addBookmark}
+                        removeBookmark={this.removeBookmark}
+                        bookmarks={this.state.bookmarks} 
+                        lineView={this.state.lineView}/>
+                }
             </div>
         )
     }
