@@ -121,9 +121,14 @@ namespace Vinmonopolet.Services
 
         static async Task<HtmlNode> HtmlFromPage(HttpClient client, string requestUri)
         {
-            var html = await client.GetStringAsync(requestUri);
+            var message = await client.GetAsync(requestUri);
+            if (message.StatusCode == (HttpStatusCode) 429)
+            {
+                throw new BackOffException();
+            }
+
             var htmlDoc = new HtmlDocument();
-            htmlDoc.LoadHtml(html);
+            htmlDoc.LoadHtml(await message.Content.ReadAsStringAsync());
             return htmlDoc.DocumentNode;
         }
 
@@ -138,5 +143,9 @@ namespace Vinmonopolet.Services
             public double Ibu { get; set; }
             public double Rating { get; set; }
         }
+    }
+
+    internal class BackOffException : Exception
+    {
     }
 }
