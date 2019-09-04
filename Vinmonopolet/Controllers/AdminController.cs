@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EFCore.BulkExtensions;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -82,6 +83,91 @@ namespace Vinmonopolet.Controllers
                 await _db.SaveChangesAsync();
             }
 
+            return "ok";
+        }
+
+        [Route("admin/stockInfo")]
+        [HttpPost]
+        public async Task<string> StockInfo([FromBody] ProductsUpdateRequest request)
+        {
+            var products = request.Products;
+            var materialNumbers = new HashSet<string>(await _db.WatchedBeers.AsNoTracking().Select(x => x.MaterialNumber).ToListAsync());
+            var unknownProducts = products.Where(x => materialNumbers.Contains(x.ProductNumber) == false).ToList();
+            var watchedBeersToAdd = new List<WatchedBeer>();
+            foreach (var unknownProduct in unknownProducts)
+            {
+                var product = await _webCrawler.ProductFromProductPage(new BasicProduct
+                {
+                    LinkToProductPage = unknownProduct.LinkToProductPage,
+                    ProductNumber = unknownProduct.ProductNumber
+                });
+                watchedBeersToAdd.Add(product);
+            }
+
+            await _db.BulkInsertOrUpdateAsync(watchedBeersToAdd);
+
+            var updateBeerLocations = new List<BeerLocation>();
+            var insertBeerLocations = new List<BeerLocation>();
+            var allBeers = await _db.WatchedBeers.AsNoTracking().Include(x => x.BeerLocations).ToListAsync();
+
+            foreach (var basicProduct in products)
+            {
+                var beer = allBeers.First(x => x.MaterialNumber == basicProduct.ProductNumber);
+                var locations = beer.BeerLocations;
+                foreach (var store in basicProduct.Stores)
+                {
+                    var location = locations.FirstOrDefault(x => x.StoreId == store.StoreId);
+                    var stockLevel = store.QuantityInStock ?? 0;
+                    if (location != null)
+                    {
+                        location.StockLevel = stockLevel;
+                        location.StockStatus = StockStatus.InStock;
+                        updateBeerLocations.Add(location);
+                    }
+                    else
+                    {
+                        insertBeerLocations.Add(new BeerLocation
+                        {
+                            StoreId = store.StoreId,
+                            WatchedBeerId = beer.MaterialNumber,
+                            StockLevel = stockLevel,
+                            StockStatus = StockStatus.InStock
+                        });
+                    }
+                }
+
+                var storesWithProduct = basicProduct.Stores.Select(y => y.StoreId).ToList();
+                foreach (var location in locations.Where(x => !storesWithProduct.Contains(x.StoreId)))
+                {
+                    location.StockLevel = 0;
+                    location.StockStatus = StockStatus.OutOfStock;
+                    updateBeerLocations.Add(location);
+                }
+            }
+
+            var uniqueUpdatedBeerLocations = updateBeerLocations.GroupBy(x => new {x.StoreId, x.WatchedBeerId}).Select(x => x.First()).ToList();
+            await _db.BulkUpdateAsync(uniqueUpdatedBeerLocations);
+            await _db.BulkInsertAsync(insertBeerLocations);
+
+            return "ok";
+        }
+
+        [Route("admin/stores")]
+        [HttpPost]
+        public async Task<string> Stores([FromBody] StoresRequest request)
+        {
+            var storeIds = await _db.Stores.Select(x => x.Id).ToListAsync();
+            foreach (var store in request.Stores.Where(x => !storeIds.Contains(x.StoreId)))
+            {
+                _db.Stores.Add(new Store
+                {
+                    Id = store.StoreId,
+                    Name = store.Name,
+                    IsActive = false
+                });
+            }
+
+            await _db.SaveChangesAsync();
             return "ok";
         }
 

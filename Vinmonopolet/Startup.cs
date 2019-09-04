@@ -51,7 +51,6 @@ namespace Vinmonopolet
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
-                app.UseBrowserLink();
             }
             else
             {
