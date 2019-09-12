@@ -36,6 +36,7 @@ namespace Vinmonopolet.Controllers
                 (await _db.BeerLocations.Include(x => x.WatchedBeer).Include(x => x.Store)
                     .Where(x => x.StockStatus == StockStatus.InStock && (x.WatchedBeer.Name.Contains(query) || x.WatchedBeer.BeerCategory == beerCategory))
                     .ToListAsync())
+                .Where(x => string.IsNullOrEmpty(x.WatchedBeer.UntappdId))
                 .GroupBy(x => x.Store.Name)
                 .OrderByDescending(x => x.Count())
                 .ToList();
