@@ -40,10 +40,6 @@
         </Exec>
         <Error Condition="'$(ErrorCode)' != '0'" Text="Npm is required to build and run this project. To continue, please install npm, and then restart your command prompt or IDE." />
 
-        <Message Importance="high" Text="Running npm cache clean." />
-        <Exec WorkingDirectory="ClientApp\" Command="npm cache clean --force" />
-
-
         <Message Importance="high" Text="Running npm install." />
         <Exec WorkingDirectory="ClientApp\" Command="npm install" />
 
