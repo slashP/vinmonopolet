@@ -32,9 +32,9 @@
 
     <Target Name="DebugRunBuild" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug'">
         <ItemGroup>
-            <Content Remove="ClientApp\**; wwwroot\build\** " />
+            <Content Remove="wwwroot\build\** " />
         </ItemGroup>
-        <!-- Ensure Node.js is installed -->
+        <!-- Ensure Node.js is installed --> 
         <Exec Command="npm --version" ContinueOnError="true">
             <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
         </Exec>
@@ -49,10 +49,10 @@
 
     <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
         <ItemGroup>
-            <Content Remove="ClientApp\**; wwwroot\build\** " />
+            <Content Remove="wwwroot\build\** " />
         </ItemGroup>
         <Message Importance="high" Text="Running npm install." />
-        <Exec WorkingDirectory="ClientApp\" Command="npm ci" EnvironmentVariables="NO_UPDATE_NOTIFIER=1" />
+        <Exec WorkingDirectory="ClientApp\" Command="npm install" EnvironmentVariables="NO_UPDATE_NOTIFIER=1" />
 
         <Message Importance="high" Text="Building frontend. Npm run build should output to wwwroot\build" />
         <Exec WorkingDirectory="ClientApp\" Command="npm run build" EnvironmentVariables="NO_UPDATE_NOTIFIER=1" />
