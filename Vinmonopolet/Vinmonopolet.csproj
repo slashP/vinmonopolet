@@ -40,7 +40,7 @@
         </Exec>
         <Error Condition="'$(ErrorCode)' != '0'" Text="Npm is required to build and run this project. To continue, please install npm, and then restart your command prompt or IDE." />
 
-        <Message Importance="high" Text="Running npm install." />
+        <Message Importance="high" Text="Running npm install. Faktisk." />
         <Exec WorkingDirectory="ClientApp\" Command="npm install" />
 
         <Message Importance="high" Text="Building frontend. Npm run build should output to wwwroot\build" />
@@ -55,7 +55,7 @@
         <Exec WorkingDirectory="ClientApp\" Command="npm install" EnvironmentVariables="NO_UPDATE_NOTIFIER=1" />
 
         <Message Importance="high" Text="Building frontend. Npm run build should output to wwwroot\build" />
-        <Exec WorkingDirectory="ClientApp\" Command="npm run build" EnvironmentVariables="NO_UPDATE_NOTIFIER=1" />
+        <Exec WorkingDirectory="ClientApp\" Command="npm run build" EnvironmentVariables="NO_UPDATE_NOTIFIER=1" /> 
         <!-- Include the newly-built files in the publish output -->
         <ItemGroup>
             <Content Include ="wwwroot\build\**;"/>
