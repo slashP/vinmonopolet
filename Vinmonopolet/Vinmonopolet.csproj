@@ -51,16 +51,11 @@
         <ItemGroup>
             <Content Remove="ClientApp\**; wwwroot\build\** " />
         </ItemGroup>
-
-        <Message Importance="high" Text="Running npm cache clean." />
-        <Exec WorkingDirectory="ClientApp\" Command="npm cache clean --force" />
-
-
         <Message Importance="high" Text="Running npm install." />
-        <Exec WorkingDirectory="ClientApp\" Command="npm install" />
+        <Exec WorkingDirectory="ClientApp\" Command="npm ci" EnvironmentVariables="NO_UPDATE_NOTIFIER=1" />
 
         <Message Importance="high" Text="Building frontend. Npm run build should output to wwwroot\build" />
-        <Exec WorkingDirectory="ClientApp\" Command="npm run build" />
+        <Exec WorkingDirectory="ClientApp\" Command="npm run build" EnvironmentVariables="NO_UPDATE_NOTIFIER=1" />
         <!-- Include the newly-built files in the publish output -->
         <ItemGroup>
             <Content Include ="wwwroot\build\**;"/>
