@@ -31,6 +31,11 @@ namespace Vinmonopolet.Extensions
             return node.Descendants(elementType).FirstOrDefault(x => x.GetAttributeValue("class", string.Empty) == className);
         }
 
+        public static HtmlNode FirstElementWithId(this HtmlNode node, string id)
+        {
+            return node.Descendants().FirstOrDefault(x => x.GetAttributeValue("id", string.Empty) == id);
+        }
+
         public static IEnumerable<HtmlNode> ElementsWithClass(this HtmlNode node, string elementType, string className)
         {
             return node.Descendants(elementType).Where(x => x.GetAttributeValue("class", string.Empty).Contains(className));
@@ -45,7 +50,7 @@ namespace Vinmonopolet.Extensions
         [CanBeNull]
         public static HtmlNode SiblingOfElementStartingWithInnerText(this HtmlNode node, string elementType, string innerText)
         {
-            var element = node.Descendants(elementType).FirstOrDefault(x => x.InnerText?.StartsWith(innerText) ?? false);
+            var element = node.Descendants(elementType).FirstOrDefault(x => x.InnerText?.RemoveEmptyCharacters().StartsWith(innerText) ?? false);
             while (element?.NextSibling != null && element.NextSibling.NodeType == HtmlNodeType.Text)
             {
                 element = element.NextSibling;
@@ -54,6 +59,11 @@ namespace Vinmonopolet.Extensions
             return element?.NextSibling;
         }
 
+        [CanBeNull]
+        public static HtmlNode ElementWithInnerText(this HtmlNode node, string elementType, string innerText)
+        {
+            return node.Descendants(elementType).FirstOrDefault(x => x.InnerText?.RemoveEmptyCharacters().StartsWith(innerText) ?? false);
+        }
 
         public static string RemoveEmptyCharacters(this string value)
         {

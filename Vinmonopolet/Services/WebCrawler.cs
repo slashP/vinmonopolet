@@ -48,21 +48,20 @@ namespace Vinmonopolet.Services
             var htmlDoc = new HtmlDocument();
             htmlDoc.LoadHtml(html);
 
-            var productInfo = htmlDoc.DocumentNode.FirstElementWithClass("div", "product__all-info");
-            var siblingOfElementStartingWithInnerText = productInfo.SiblingOfElementStartingWithInnerText("dt", "Alkoholprosent");
-            var alcohol = siblingOfElementStartingWithInnerText?.InnerText.ExtractDecimal();
+            var productInfo = htmlDoc.DocumentNode.FirstElementWithClass("ul", "product__tab-list");
+            var alcohol = htmlDoc.DocumentNode.ElementWithInnerText("li", "Alkoholprosent")?.Descendants("span")?.FirstOrDefault()?.InnerText.ExtractDecimal();
             if (!alcohol.HasValue)
             {
                 return null;
             }
 
-            var beerType = productInfo.SiblingOfElementStartingWithInnerText("dt", "Varetype")?.InnerText?.Split(',').LastOrDefault()?.Trim().SafeSubstring(64);
+            var beerType = productInfo.SiblingOfElementStartingWithInnerText("span", "Varetype")?.InnerText?.Split(',').LastOrDefault()?.Trim().SafeSubstring(64);
             return new WatchedBeer
             {
-                Name = htmlDoc.DocumentNode.FirstElementWithClass("div", "product")?.Descendants("h1").First().InnerText.RemoveEmptyCharacters().SafeSubstring(256),
+                Name = htmlDoc.DocumentNode.FirstElementWithId("page").Descendants("h1").First().InnerText.RemoveEmptyCharacters().SafeSubstring(256),
                 AlcoholPercentage = alcohol.Value,
                 Type = beerType,
-                Brewery = productInfo.SiblingOfElementStartingWithInnerText("dt", "Produsent")?.InnerText,
+                Brewery = htmlDoc.DocumentNode.ElementWithInnerText("span", "Produsent")?.ParentNode?.InnerText?.Replace("Produsent", string.Empty).RemoveEmptyCharacters(),
                 //Country = productInfo.SiblingOfElementStartingWithInnerText("dt", "Land")?.InnerText.RemoveEmptyCharacters().Split(',').First(),
                 Volume = (htmlDoc.DocumentNode.FirstElementWithClass("span", "product__amount")?.InnerText.ExtractDecimal() ?? 0),
                 MaterialNumber = basicProduct.ProductNumber,
