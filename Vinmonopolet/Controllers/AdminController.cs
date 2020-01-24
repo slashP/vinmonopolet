@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Vinmonopolet.Data;
 using Vinmonopolet.Dto;
-using Vinmonopolet.Extensions;
 using Vinmonopolet.Models;
 using Vinmonopolet.Services;
 
@@ -19,12 +18,14 @@ namespace Vinmonopolet.Controllers
         readonly IWebCrawler _webCrawler;
         readonly ApplicationDbContext _db;
         readonly ITime _time;
+        readonly IStaticBeerProvider _staticBeerProvider;
 
-        public AdminController(IWebCrawler webCrawler, ApplicationDbContext db, ITime time)
+        public AdminController(IWebCrawler webCrawler, ApplicationDbContext db, ITime time, IStaticBeerProvider staticBeerProvider)
         {
             _webCrawler = webCrawler;
             _db = db;
             _time = time;
+            _staticBeerProvider = staticBeerProvider;
         }
 
         [Route("admin/fetch")]
@@ -82,7 +83,8 @@ namespace Vinmonopolet.Controllers
 
                 await _db.SaveChangesAsync();
             }
-
+            
+            await _staticBeerProvider.Update();
             return "ok";
         }
 
@@ -134,6 +136,7 @@ namespace Vinmonopolet.Controllers
             var uniqueUpdatedBeerLocations = updateBeerLocations.GroupBy(x => new {x.StoreId, x.WatchedBeerId}).Select(x => x.First()).ToList();
             await _db.BulkUpdateAsync(uniqueUpdatedBeerLocations);
             await _db.BulkInsertAsync(insertBeerLocations);
+            await _staticBeerProvider.Update();
 
             return "ok";
         }
@@ -154,6 +157,7 @@ namespace Vinmonopolet.Controllers
                 Volume = x.Volume
             }).ToList();
             await _db.BulkInsertOrUpdateAsync(watchedBeersToAdd);
+            await _staticBeerProvider.Update();
         }
 
         [Route("admin/stores")]
@@ -172,12 +176,13 @@ namespace Vinmonopolet.Controllers
             }
 
             await _db.SaveChangesAsync();
+            await _staticBeerProvider.Update();
             return "ok";
         }
 
         [Route("admin/updateProducts")]
         [HttpPost]
-        public string UpdateProducts([CanBeNull] string materialNumbers)
+        public async Task<string> UpdateProducts([CanBeNull] string materialNumbers)
         {
             var updateCount = 0;
             var products = materialNumbers?.Split(",").ToList() ?? _db.WatchedBeers.Where(x => x.Brewery == null).OrderByDescending(x => x.AlcoholPercentage).Select(x => x.MaterialNumber).ToList();
@@ -211,6 +216,7 @@ namespace Vinmonopolet.Controllers
                 }
             }
 
+            await _staticBeerProvider.Update();
             return $"{updateCount} products updated.";
         }
 
@@ -233,7 +239,7 @@ namespace Vinmonopolet.Controllers
             }
 
             await _db.SaveChangesAsync();
-
+            await _staticBeerProvider.Update();
             return $"{changedProducts} new products added to newlist";
         }
 
@@ -243,14 +249,15 @@ namespace Vinmonopolet.Controllers
         {
             _db.WatchedBeers.Find(matnr).UntappdId = bid;
             await _db.SaveChangesAsync();
+            await _staticBeerProvider.Update();
             return $"All OK. Matnr: {matnr} now corresponds to Untappd Id: {bid}";
         }
 
         [Route("admin/existingMaterialNumbers")]
         [HttpGet]
-        public async Task<List<string>> ExistingBeers()
+        public IEnumerable<string> ExistingBeers()
         {
-            return await _db.WatchedBeers.Select(x => x.MaterialNumber).ToListAsync();
+            return _staticBeerProvider.AllMaterialNumbers();
         }
     }
 }

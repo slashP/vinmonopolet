@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using HtmlAgilityPack;
@@ -74,6 +75,11 @@ namespace Vinmonopolet.Extensions
         {
             var s = value ?? string.Empty;
             return s.Substring(0, s.Length > length ? length : s.Length);
+        }
+
+        public static bool ContainsCaseInsensitive(this string str, string search)
+        {
+            return CultureInfo.InvariantCulture.CompareInfo.IndexOf(str, search, CompareOptions.IgnoreCase) >= 0;
         }
     }
 }

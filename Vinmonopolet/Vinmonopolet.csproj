@@ -6,6 +6,7 @@
     <ApplicationInsightsAnnotationResourceId>/subscriptions/d8ff5204-d623-45c2-84f7-153b73005012/resourcegroups/vinmonopolet/providers/microsoft.insights/components/vinmonopolet</ApplicationInsightsAnnotationResourceId>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Clave.BackgroundUpdatable" Version="0.1.4" />
     <PackageReference Include="EFCore.BulkExtensions" Version="2.6.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.7.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />

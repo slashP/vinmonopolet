@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Vinmonopolet.Api;
 using Vinmonopolet.Data;
+using Vinmonopolet.Extensions;
 using Vinmonopolet.Models;
 using Vinmonopolet.Services;
 
@@ -13,14 +14,16 @@ namespace Vinmonopolet.Controllers
     public class ApiController : Controller
     {
         readonly ApplicationDbContext _db;
-        private readonly BeerWithStockMapper _beerWithStockMapper;
+        readonly BeerWithStockMapper _beerWithStockMapper;
         readonly ITime _time;
+        readonly IStaticBeerProvider _staticBeerProvider;
 
-        public ApiController(ApplicationDbContext db, ITime time)
+        public ApiController(ApplicationDbContext db, ITime time, IStaticBeerProvider staticBeerProvider)
         {
             _db = db;
             _beerWithStockMapper = new BeerWithStockMapper();
             _time = time;
+            _staticBeerProvider = staticBeerProvider;
         }
 
         [HttpGet]
@@ -30,14 +33,14 @@ namespace Vinmonopolet.Controllers
             var beerCategory = BeerCategoryFromQuery(query);
 
             var beers =
-                (await _db.BeerLocations.Include(x => x.WatchedBeer).Include(x => x.Store)
-                    .Where(x => x.StockStatus == StockStatus.InStock && (query != "*" ? (x.WatchedBeer.Name.Contains(query) || x.WatchedBeer.BeerCategory == beerCategory) : x.StockLevel > 0))
-                    .ToListAsync())
+                _staticBeerProvider.All()
+                    .Where(x => x.StockStatus == StockStatus.InStock && (query != "*" ? (x.WatchedBeer.Name.ContainsCaseInsensitive(query) || x.WatchedBeer.BeerCategory == beerCategory || x.WatchedBeer.Brewery.ContainsCaseInsensitive(query)) : x.StockLevel > 0))
+                    .ToList()
                 .GroupBy(x => x.WatchedBeer.MaterialNumber)
                 .ToList();
 
             var UntappdIds = beers.SelectMany(x => x.Select(y => y.WatchedBeer.UntappdId)).Distinct().ToList();
-            var untappdBeers = _db.UntappdBeers.Where(x => UntappdIds.Contains(x.Id)).ToList();
+            var untappdBeers = await _db.UntappdBeers.Where(x => UntappdIds.Contains(x.Id)).ToListAsync();
 
             var frontendBeerLocations = _beerWithStockMapper.BuildBeers(beers, untappdBeers);
 
@@ -45,12 +48,12 @@ namespace Vinmonopolet.Controllers
         }
 
         [HttpGet("api/new")]
-        public async Task<JsonResult> ApiNew()
+        public JsonResult ApiNew()
         {
             var toBeAnnounced =
-                (await _db.BeerLocations.Include(x => x.WatchedBeer).Include(x => x.Store)
+                _staticBeerProvider.All()
                     .Where(x => x.StockStatus == StockStatus.ToBeAnnounced)
-                    .ToListAsync())
+                    .ToList()
                 .GroupBy(x => x.WatchedBeer.MaterialNumber)
                 .ToList();
 

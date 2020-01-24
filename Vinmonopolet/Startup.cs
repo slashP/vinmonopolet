@@ -42,6 +42,7 @@ namespace Vinmonopolet
             var serviceProvider = services.BuildServiceProvider();
             new ApplicationDbContext(
                 serviceProvider.GetService<DbContextOptions<ApplicationDbContext>>()).Database.Migrate();
+            services.AddSingleton<IStaticBeerProvider, StaticBeerProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
