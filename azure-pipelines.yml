@@ -30,8 +30,8 @@ steps:
 
 - task: Cache@2
   inputs:
-    key: 'CacheNode'
-    path: 'ClientApp\node_modules'
+    key: 'CacheNodeModules'
+    path: '$(Pipeline.Workspace)\ClientApp\node_modules'
 
 - task: VSTest@2
   inputs:
