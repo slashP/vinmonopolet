@@ -28,6 +28,11 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
+- task: Cache@2
+  inputs:
+    key: 'CacheNode'
+    path: 'ClientApp\node_modules'
+
 - task: VSTest@2
   inputs:
     platform: '$(buildPlatform)'
