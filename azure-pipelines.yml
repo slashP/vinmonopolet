@@ -28,11 +28,6 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-- task: Cache@2
-  inputs:
-    key: 'CacheNodeModules'
-    path: '$(Pipeline.Workspace)\ClientApp\node_modules'
-
 - task: VSTest@2
   inputs:
     platform: '$(buildPlatform)'
