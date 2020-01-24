@@ -22,4 +22,26 @@ namespace Vinmonopolet.Dto
     {
         public IReadOnlyCollection<ProductWithStores> Products { get; set; }
     }
+
+    public class ProductsAddRequest
+    {
+        public IReadOnlyCollection<WatchedBeerDto> Beers { get; set; }
+    }
+
+    public class WatchedBeerDto
+    {
+        public string MaterialNumber { get; set; }
+
+        public string Name { get; set; }
+
+        public string Brewery { get; set; }
+
+        public decimal AlcoholPercentage { get; set; }
+
+        public string Type { get; set; }
+
+        public decimal Price { get; set; }
+
+        public decimal Volume { get; set; }
+    }
 }

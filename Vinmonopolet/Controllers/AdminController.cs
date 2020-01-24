@@ -91,20 +91,6 @@ namespace Vinmonopolet.Controllers
         public async Task<string> StockInfo([FromBody] ProductsUpdateRequest request)
         {
             var products = request.Products;
-            var materialNumbers = new HashSet<string>(await _db.WatchedBeers.AsNoTracking().Select(x => x.MaterialNumber).ToListAsync());
-            var unknownProducts = products.Where(x => materialNumbers.Contains(x.ProductNumber) == false).ToList();
-            var watchedBeersToAdd = new List<WatchedBeer>();
-            foreach (var unknownProduct in unknownProducts)
-            {
-                var product = await _webCrawler.ProductFromProductPage(new BasicProduct
-                {
-                    LinkToProductPage = unknownProduct.LinkToProductPage,
-                    ProductNumber = unknownProduct.ProductNumber
-                });
-                watchedBeersToAdd.Add(product);
-            }
-
-            await _db.BulkInsertOrUpdateAsync(watchedBeersToAdd);
 
             var updateBeerLocations = new List<BeerLocation>();
             var insertBeerLocations = new List<BeerLocation>();
@@ -150,6 +136,24 @@ namespace Vinmonopolet.Controllers
             await _db.BulkInsertAsync(insertBeerLocations);
 
             return "ok";
+        }
+
+        [Route("admin/addNewBeers")]
+        [HttpPost]
+        public async Task AddNewBeers([FromBody] ProductsAddRequest request)
+        {
+            var watchedBeersToAdd = request.Beers.Select(x => new WatchedBeer
+            {
+                MaterialNumber = x.MaterialNumber,
+                AlcoholPercentage = x.AlcoholPercentage,
+                Brewery = x.Brewery,
+                Name = x.Name,
+                Price = x.Price,
+                Type = x.Type,
+                BeerCategory = WatchedBeer.Category(x.Type),
+                Volume = x.Volume
+            }).ToList();
+            await _db.BulkInsertOrUpdateAsync(watchedBeersToAdd);
         }
 
         [Route("admin/stores")]
@@ -240,6 +244,13 @@ namespace Vinmonopolet.Controllers
             _db.WatchedBeers.Find(matnr).UntappdId = bid;
             await _db.SaveChangesAsync();
             return $"All OK. Matnr: {matnr} now corresponds to Untappd Id: {bid}";
+        }
+
+        [Route("admin/existingMaterialNumbers")]
+        [HttpGet]
+        public async Task<List<string>> ExistingBeers()
+        {
+            return await _db.WatchedBeers.Select(x => x.MaterialNumber).ToListAsync();
         }
     }
 }
