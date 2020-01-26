@@ -4,75 +4,48 @@
 
 <h3>@Model.SearchTerm</h3>
 
-<div class="btn-group" role="group" aria-label="Beer types">
-    @foreach (var type in Model.Types)
-    {
-        <a href="?query=@(HttpUtility.UrlEncode(type))" class="btn btn-primary">@type</a>
-    }
-</div>
-
-@foreach (var pol in Model.GroupedBeers)
+<table class="table table-condensed">
+<tr>
+    <th></th>
+    <th>Beer</th>
+    <th></th>
+    <th class="text-right">Checkins</th>
+    <th class="text-right">Rating</th>
+    <th class="text-right">IBU</th>
+    <th class="text-right">Alc</th>
+    <th class="text-right">Antall</th>
+    <th class="text-right">Pris</th>
+    <th></th>
+</tr>
+@foreach (var beer in Model.UnregBeers.OrderByDescending(x => x.AlcoholPercentage))
 {
-    <table class="table table-condensed">
         <tr>
-            <th></th>
-            <th>@pol.Key</th>
-            <th></th>
-            <th class="text-right">Checkins</th>
-            <th class="text-right">Rating</th>
-            <th class="text-right">IBU</th>
-            <th class="text-right">Alc</th>
-            <th class="text-right">Antall</th>
-            <th class="text-right">Pris</th>
-            <th></th>
-        </tr>
-        @foreach (var location in pol.OrderByDescending(x => x.WatchedBeer.AlcoholPercentage))
-        {
-            var beer = Model.UntappdBeers.FirstOrDefault(x => x.Id == location.WatchedBeer?.UntappdId);
-        <tr>
-            <td class="img-responsive"><img style="height:30px" class="img-responsive" src="@beer?.LabelUrl" /></td>
+            <td class="img-responsive"><img style="height:30px" class="img-responsive" src="" /></td>
             <td>
-                @if (beer != null)
-                {
-                    <a href="https://untappd.com/beer/@beer.Id" target="_blank" rel=”noopener noreferrer”>@location.WatchedBeer.Name</a>
-                }
-                else
-                {
-                    <a href="https://untappd.com/search?q=@location.WatchedBeer.Name">@location.WatchedBeer.Name</a>
-                }
+                    <a href="https://untappd.com/search?q=@beer.Name">@beer.Name</a>
             </td>
             <td class="media-right">
-                @if (beer == null)
-                {
-                    using (Html.BeginForm("LinkAction", "Untappd", new { matnr = location.WatchedBeer.MaterialNumber }, FormMethod.Post))
+                @using (Html.BeginForm("LinkAction", "Untappd", new { matnr = beer.MaterialNumber }, FormMethod.Post))
                     {
                         <div class="input-group-sm" style="display: flex; float: right">
                             <input style="max-width:80px" class="form-control" type="text" name="bid" />
                             <input class="btn btn-sm btn-default" type="submit" value="Link" />
                         </div>
                     }
-                }
-                else
-                {
-                    using (Html.BeginForm("UpdateAction", "Untappd", new { id = beer.Id }, FormMethod.Post))
-                    {
-                        <input style="display: flex; float: right" class="btn btn-sm btn-default" type="submit" value="Update" />
-                    }
-                }
             </td>
-            <td class="text-right">@beer?.Ratings</td>
-            <td class="text-right">@(beer?.AverageScore.ToString("0.00"))</td>
-            <td class="text-right">@beer?.Ibu</td>
-            <td class="text-right">@(location.WatchedBeer.AlcoholPercentage) %</td>
-            <td class="text-right">@location.StockLevel</td>
-            <td class="text-right">@location.WatchedBeer.Price</td>
+            <td class="text-right">-</td>
+            <td class="text-right">-</td>
+            <td class="text-right">-</td>
+            <td class="text-right">@(beer.AlcoholPercentage) %</td>
+            <td class="text-right">-</td>
+            <td class="text-right">@beer.Price</td>
             <td class="text-right">
-                @if (location.WatchedBeer.UntappdFetchStatus == UntappdFetchStatus.Verified)
+                @if (beer.UntappdFetchStatus == UntappdFetchStatus.Verified)
                 {
                     <span class="text-right glyphicon glyphicon-check"></span>
                 }
             </td>
         </tr>
         }
-    </table>
 }
+</table>

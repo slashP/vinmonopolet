@@ -28,26 +28,13 @@ namespace Vinmonopolet.Controllers
         }
 
         [Route("beer")]
-        public async Task<ActionResult> Pol(string query = "Porter stout")
+        public async Task<ActionResult> Pol(string query = "*")
         {
-            var beerCategory = BeerCategoryFromQuery(query);
+            var unregBeers = await _db.WatchedBeers.Where(x => string.IsNullOrEmpty(x.UntappdId)).ToListAsync();
 
-            var groupedBeers =
-                (await _db.BeerLocations.Include(x => x.WatchedBeer).Include(x => x.Store)
-                    .Where(x => x.StockStatus == StockStatus.InStock && (x.WatchedBeer.Name.Contains(query) || x.WatchedBeer.BeerCategory == beerCategory))
-                    .ToListAsync())
-                .Where(x => string.IsNullOrEmpty(x.WatchedBeer.UntappdId))
-                .GroupBy(x => x.Store.Name)
-                .OrderByDescending(x => x.Count())
-                .ToList();
-
-            var bids = groupedBeers.SelectMany(x => x.Select(y => y.WatchedBeer.UntappdId)).ToList();
-            var untappdBeers = _db.UntappdBeers.Where(x => bids.Contains(x.Id)).ToList();
             return View(new PolViewModel
             {
-                GroupedBeers = groupedBeers,
-                Types = await BeerTypes(),
-                UntappdBeers = untappdBeers,
+                UnregBeers = unregBeers,
                 SearchTerm = query
             });
         }
@@ -81,8 +68,7 @@ namespace Vinmonopolet.Controllers
                 .ToList();
             return View("Pol", new PolViewModel
             {
-                GroupedBeers = groupedBeers,
-                Types = await BeerTypes(),
+                UnregBeers = null,
                 SearchTerm = query
             });
         }
