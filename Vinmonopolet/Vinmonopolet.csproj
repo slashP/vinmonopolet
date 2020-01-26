@@ -26,12 +26,4 @@
   <ItemGroup>
     <Folder Include="Config\" />
   </ItemGroup>
-  <ItemGroup>
-      <Content Include ="wwwroot\build\**;"/>
-      <DistFiles Include="wwwroot\build\**;" />
-      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
-          <RelativePath>%(DistFiles.Identity)</RelativePath>
-          <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      </ResolvedFileToPublish>
-  </ItemGroup>
 </Project>
