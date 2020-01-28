@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Clave.BackgroundUpdatable;
 using Microsoft.EntityFrameworkCore;
@@ -21,8 +20,6 @@ namespace Vinmonopolet.Services
             _configuration = configuration;
             _updater = new BackgroundUpdatable<List<BeerLocation>>(_refreshPeriod, UpdateAsync);
         }
-
-        public IEnumerable<string> AllMaterialNumbers() => _updater.Value().Select(x => x.WatchedBeer.MaterialNumber).Distinct();
 
         public List<BeerLocation> All() => _updater.Value();
 

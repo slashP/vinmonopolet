@@ -6,7 +6,6 @@ namespace Vinmonopolet.Services
 {
     public interface IStaticBeerProvider
     {
-        IEnumerable<string> AllMaterialNumbers();
         List<BeerLocation> All();
         Task Update();
     }

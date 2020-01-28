@@ -255,9 +255,9 @@ namespace Vinmonopolet.Controllers
 
         [Route("admin/existingMaterialNumbers")]
         [HttpGet]
-        public IEnumerable<string> ExistingBeers()
+        public async Task<IEnumerable<string>> ExistingBeers()
         {
-            return _staticBeerProvider.AllMaterialNumbers();
+            return await _db.WatchedBeers.Select(x => x.MaterialNumber).ToListAsync();
         }
     }
 }
