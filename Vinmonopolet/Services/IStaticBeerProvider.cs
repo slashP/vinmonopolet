@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Vinmonopolet.Models;
+using Vinmonopolet.Models.UntappdData;
 
 namespace Vinmonopolet.Services
 {
     public interface IStaticBeerProvider
     {
-        List<BeerLocation> All();
+        IReadOnlyCollection<BeerLocation> AllLocations();
         Task Update();
+        IReadOnlyDictionary<string, BasicBeer> UntappdBeers();
     }
 }

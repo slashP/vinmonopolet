@@ -14,26 +14,22 @@ namespace Vinmonopolet.Controllers
     public class ApiController : Controller
     {
         readonly ApplicationDbContext _db;
-        readonly BeerWithStockMapper _beerWithStockMapper;
-        readonly ITime _time;
         readonly IStaticBeerProvider _staticBeerProvider;
 
         public ApiController(ApplicationDbContext db, ITime time, IStaticBeerProvider staticBeerProvider)
         {
             _db = db;
-            _beerWithStockMapper = new BeerWithStockMapper();
-            _time = time;
             _staticBeerProvider = staticBeerProvider;
         }
 
         [HttpGet]
         [Route("api/beers")]
-        public async Task<JsonResult> ApiBeers(string query = "Porter stout")
+        public JsonResult ApiBeers(string query = "Porter stout")
         {
             var beerCategory = BeerCategoryFromQuery(query);
 
             var beers =
-                _staticBeerProvider.All()
+                _staticBeerProvider.AllLocations()
                     .Where(x => x.StockStatus == StockStatus.InStock && (query != "*"
                                     ? x.WatchedBeer.Name.ContainsCaseInsensitive(query) ||
                                       x.WatchedBeer.BeerCategory == beerCategory ||
@@ -43,11 +39,7 @@ namespace Vinmonopolet.Controllers
                 .GroupBy(x => x.WatchedBeer.MaterialNumber)
                 .ToList();
 
-            var UntappdIds = beers.SelectMany(x => x.Select(y => y.WatchedBeer.UntappdId)).Distinct().ToList();
-            var untappdBeers = await _db.UntappdBeers.Where(x => UntappdIds.Contains(x.Id)).ToListAsync();
-
-            var frontendBeerLocations = _beerWithStockMapper.BuildBeers(beers, untappdBeers);
-
+            var frontendBeerLocations = BeerWithStockMapper.BuildBeers(beers, _staticBeerProvider.UntappdBeers());
             return Json(frontendBeerLocations);
         }
 
@@ -55,16 +47,13 @@ namespace Vinmonopolet.Controllers
         public JsonResult ApiNew()
         {
             var toBeAnnounced =
-                _staticBeerProvider.All()
+                _staticBeerProvider.AllLocations()
                     .Where(x => x.StockStatus == StockStatus.ToBeAnnounced)
                     .ToList()
                 .GroupBy(x => x.WatchedBeer.MaterialNumber)
                 .ToList();
 
-            var untappdIds = toBeAnnounced.SelectMany(x => x.Select(y => y.WatchedBeer.UntappdId)).ToList();
-            var untappdBeers = _db.UntappdBeers.Where(x => untappdIds.Contains(x.Id)).ToList();
-
-            var frontendBeerLocations = _beerWithStockMapper.BuildBeers(toBeAnnounced, untappdBeers);
+            var frontendBeerLocations = BeerWithStockMapper.BuildBeers(toBeAnnounced, _staticBeerProvider.UntappdBeers());
 
             return Json(frontendBeerLocations);
         }

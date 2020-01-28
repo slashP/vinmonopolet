@@ -8,14 +8,13 @@ namespace Vinmonopolet.Api
 {
     public class BeerWithStockMapper
     {
-        public IList<BeerWithStocks> BuildBeers(
-            List<IGrouping<string, BeerLocation>> locationsGroupedByMatnr, IList<BasicBeer> UntappdBeers)
+        public static IList<BeerWithStocks> BuildBeers(List<IGrouping<string, BeerLocation>> locationsGroupedByMatnr, IReadOnlyDictionary<string, BasicBeer> untappdBeers)
         {
             var returnlist = new List<BeerWithStocks>();
             foreach (var matnr in locationsGroupedByMatnr)
             {
                 var watchedBeer = matnr.First().WatchedBeer;
-                var uBeer = UntappdBeers.FirstOrDefault(x => x.Id == matnr.Select(y => y.WatchedBeer.UntappdId).First());
+                untappdBeers.TryGetValue(watchedBeer.UntappdId ?? string.Empty, out var uBeer);
                 var newBeer = new BeerWithStocks
                 {
                     MaterialNumber = matnr.Key,
