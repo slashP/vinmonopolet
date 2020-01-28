@@ -133,6 +133,16 @@ namespace Vinmonopolet.Controllers
                 }
             }
 
+            await _db.BulkUpdateAsync(products.Select(x => new WatchedBeer
+                {
+                    MaterialNumber = x.ProductNumber,
+                    OnNewProductList = x.IsOnNewProductList,
+                    Price = x.Price
+                }).ToList(),
+                new BulkConfig
+                {
+                    PropertiesToInclude = new List<string> {nameof(WatchedBeer.OnNewProductList), nameof(WatchedBeer.Price)}
+                });
             var uniqueUpdatedBeerLocations = updateBeerLocations.GroupBy(x => new {x.StoreId, x.WatchedBeerId}).Select(x => x.First()).ToList();
             await _db.BulkUpdateAsync(uniqueUpdatedBeerLocations);
             await _db.BulkInsertAsync(insertBeerLocations);

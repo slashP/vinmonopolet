@@ -8,6 +8,10 @@ namespace Vinmonopolet.Dto
 
         public string ProductNumber { get; set; }
 
+        public bool IsOnNewProductList { get; set; }
+
+        public decimal Price { get; set; }
+
         public IReadOnlyCollection<StoreWithStock> Stores { get; set; }
     }
 
