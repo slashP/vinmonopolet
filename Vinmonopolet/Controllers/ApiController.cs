@@ -34,7 +34,11 @@ namespace Vinmonopolet.Controllers
 
             var beers =
                 _staticBeerProvider.All()
-                    .Where(x => x.StockStatus == StockStatus.InStock && (query != "*" ? (x.WatchedBeer.Name.ContainsCaseInsensitive(query) || x.WatchedBeer.BeerCategory == beerCategory || x.WatchedBeer.Brewery.ContainsCaseInsensitive(query)) : x.StockLevel > 0))
+                    .Where(x => x.StockStatus == StockStatus.InStock && (query != "*"
+                                    ? x.WatchedBeer.Name.ContainsCaseInsensitive(query) ||
+                                      x.WatchedBeer.BeerCategory == beerCategory ||
+                                      x.WatchedBeer.Brewery.ContainsCaseInsensitive(query)
+                                    : x.StockLevel > 0))
                     .ToList()
                 .GroupBy(x => x.WatchedBeer.MaterialNumber)
                 .ToList();
@@ -65,19 +69,12 @@ namespace Vinmonopolet.Controllers
             return Json(frontendBeerLocations);
         }
 
-        private static BeerCategory BeerCategoryFromQuery(string query)
+        private static BeerCategory? BeerCategoryFromQuery(string query)
         {
             var beerCategory = WatchedBeer.Category(query);
-            if (beerCategory == BeerCategory.Unknown)
-            {
-                var enumValue = query.DehumanizeTo(typeof(BeerCategory), OnNoMatch.ReturnsNull);
-                if (enumValue != null)
-                {
-                    return (BeerCategory)enumValue;
-                }
-            }
-
-            return beerCategory;
+            if (beerCategory != BeerCategory.Unknown) return beerCategory;
+            var enumValue = query.DehumanizeTo(typeof(BeerCategory), OnNoMatch.ReturnsNull);
+            return (BeerCategory?) enumValue;
         }
     }
 }
