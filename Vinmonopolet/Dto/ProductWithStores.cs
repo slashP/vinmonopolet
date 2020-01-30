@@ -13,6 +13,8 @@ namespace Vinmonopolet.Dto
         public decimal Price { get; set; }
 
         public IReadOnlyCollection<StoreWithStock> Stores { get; set; }
+
+        public string VinmonopoletStatus { get; set; }
     }
 
     public class StoreWithStock
@@ -47,5 +49,7 @@ namespace Vinmonopolet.Dto
         public decimal Price { get; set; }
 
         public decimal Volume { get; set; }
+
+        public string VinmonopoletStatus { get; set; }
     }
 }

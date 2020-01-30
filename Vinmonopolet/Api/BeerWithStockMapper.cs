@@ -8,25 +8,24 @@ namespace Vinmonopolet.Api
 {
     public class BeerWithStockMapper
     {
-        public static IList<BeerWithStocks> BuildBeers(List<IGrouping<string, BeerLocation>> locationsGroupedByMatnr, IReadOnlyDictionary<string, BasicBeer> untappdBeers)
+        public static IList<BeerWithStocks> BuildBeers(IEnumerable<WatchedBeer> watchedBeers, IReadOnlyDictionary<string, BasicBeer> untappdBeers)
         {
             var returnlist = new List<BeerWithStocks>();
-            foreach (var matnr in locationsGroupedByMatnr)
+            foreach (var beer in watchedBeers)
             {
-                var watchedBeer = matnr.First().WatchedBeer;
-                untappdBeers.TryGetValue(watchedBeer.UntappdId ?? string.Empty, out var uBeer);
+                untappdBeers.TryGetValue(beer.UntappdId ?? string.Empty, out var uBeer);
                 var newBeer = new BeerWithStocks
                 {
-                    MaterialNumber = matnr.Key,
-                    Name = uBeer?.Name ?? watchedBeer.Name,
-                    Brewery = uBeer?.Brewery ?? watchedBeer.Brewery,
-                    Type = watchedBeer.Type,
-                    Price = watchedBeer.Price,
-                    UntappdId = watchedBeer.UntappdId,
+                    MaterialNumber = beer.MaterialNumber,
+                    Name = uBeer?.Name ?? beer.Name,
+                    Brewery = uBeer?.Brewery ?? beer.Brewery,
+                    Type = beer.Type,
+                    Price = beer.Price,
+                    UntappdId = beer.UntappdId,
                     LabelUrl = uBeer?.LabelUrl,
                     Style = uBeer?.Style,
-                    Volume = watchedBeer?.Volume,
-                    Abv = (decimal?) uBeer?.Abv ?? watchedBeer.AlcoholPercentage,
+                    Volume = beer?.Volume,
+                    Abv = (decimal?) uBeer?.Abv ?? beer.AlcoholPercentage,
                     Ibu = (decimal?) uBeer?.Ibu,
                     Ratings = uBeer?.Ratings,
                     AverageScore = (decimal?) uBeer?.AverageScore,
@@ -34,8 +33,8 @@ namespace Vinmonopolet.Api
                     MonthlyCheckins = uBeer?.MonthlyCheckins,
                     TotalUserCount = uBeer?.TotalUserCount,
                     Description = uBeer?.Description,
-                    OnNewProductList = watchedBeer.OnNewProductList,
-                    StoreStocks = matnr.Select(x => new StoreStock()
+                    OnNewProductList = beer.OnNewProductList,
+                    StoreStocks = beer.BeerLocations.Select(x => new StoreStock
                     {
                         StockLevel = x.StockLevel,
                         StoreId = x.StoreId,

@@ -34,6 +34,9 @@ namespace Vinmonopolet.Models
 
         public bool OnNewProductList { get; set; }
 
+        [MaxLength(64)]
+        public string VinmonopoletStatus { get; set; }
+
         public static BeerCategory Category(string vareType)
         {
             switch (vareType)

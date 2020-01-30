@@ -7,7 +7,7 @@ namespace Vinmonopolet.Services
 {
     public interface IStaticBeerProvider
     {
-        IReadOnlyCollection<BeerLocation> AllLocations();
+        IReadOnlyCollection<WatchedBeer> AllBeers();
         Task Update();
         IReadOnlyDictionary<string, BasicBeer> UntappdBeers();
     }

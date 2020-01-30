@@ -14,27 +14,27 @@ namespace Vinmonopolet.Services
     {
         readonly IConfiguration _configuration;
         readonly TimeSpan _refreshPeriod = TimeSpan.FromHours(1);
-        readonly BackgroundUpdatable<List<BeerLocation>> _beerLocationsUpdater;
+        readonly BackgroundUpdatable<List<WatchedBeer>> _beerLocationsUpdater;
         readonly BackgroundUpdatableDictionary<string, BasicBeer> _untappdBeersUpdater;
 
         public StaticBeerProvider(IConfiguration configuration)
         {
             _configuration = configuration;
-            _beerLocationsUpdater = new BackgroundUpdatable<List<BeerLocation>>(_refreshPeriod, UpdateBeerLocations);
+            _beerLocationsUpdater = new BackgroundUpdatable<List<WatchedBeer>>(_refreshPeriod, UpdateBeerLocations);
             _untappdBeersUpdater = new BackgroundUpdatableDictionary<string, BasicBeer>(_refreshPeriod, UpdateUntappdBeers);
         }
 
-        public IReadOnlyCollection<BeerLocation> AllLocations() => _beerLocationsUpdater.Value();
+        public IReadOnlyCollection<WatchedBeer> AllBeers() => _beerLocationsUpdater.Value();
 
         public IReadOnlyDictionary<string, BasicBeer> UntappdBeers() => _untappdBeersUpdater.Value();
 
         public async Task Update() => await _beerLocationsUpdater.Update();
 
-        async Task<List<BeerLocation>> UpdateBeerLocations()
+        async Task<List<WatchedBeer>> UpdateBeerLocations()
         {
             using (var db = DbConnection())
             {
-                return await db.BeerLocations.Include(x => x.WatchedBeer).Include(x => x.Store).ToListAsync();
+                return await db.WatchedBeers.Include(x => x.BeerLocations).ThenInclude(x => x.Store).ToListAsync();
             }
         }
 

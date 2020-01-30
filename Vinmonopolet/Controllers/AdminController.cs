@@ -133,16 +133,23 @@ namespace Vinmonopolet.Controllers
                 }
             }
 
-            await _db.BulkUpdateAsync(products.Select(x => new WatchedBeer
+            var updateBeers = products.Select(x => new WatchedBeer
+            {
+                MaterialNumber = x.ProductNumber,
+                OnNewProductList = x.IsOnNewProductList,
+                Price = x.Price,
+                VinmonopoletStatus = x.VinmonopoletStatus
+            }).ToList();
+            var bulkConfig = new BulkConfig
+            {
+                PropertiesToInclude = new List<string>
                 {
-                    MaterialNumber = x.ProductNumber,
-                    OnNewProductList = x.IsOnNewProductList,
-                    Price = x.Price
-                }).ToList(),
-                new BulkConfig
-                {
-                    PropertiesToInclude = new List<string> {nameof(WatchedBeer.OnNewProductList), nameof(WatchedBeer.Price)}
-                });
+                    nameof(WatchedBeer.OnNewProductList),
+                    nameof(WatchedBeer.Price),
+                    nameof(WatchedBeer.VinmonopoletStatus)
+                }
+            };
+            await _db.BulkUpdateAsync(updateBeers, bulkConfig);
             var uniqueUpdatedBeerLocations = updateBeerLocations.GroupBy(x => new {x.StoreId, x.WatchedBeerId}).Select(x => x.First()).ToList();
             await _db.BulkUpdateAsync(uniqueUpdatedBeerLocations);
             await _db.BulkInsertAsync(insertBeerLocations);
@@ -164,7 +171,8 @@ namespace Vinmonopolet.Controllers
                 Price = x.Price,
                 Type = x.Type,
                 BeerCategory = WatchedBeer.Category(x.Type),
-                Volume = x.Volume
+                Volume = x.Volume,
+                VinmonopoletStatus = x.VinmonopoletStatus
             }).ToList();
             await _db.BulkInsertOrUpdateAsync(watchedBeersToAdd);
             await _staticBeerProvider.Update();
