@@ -1,0 +1,27 @@
+@value cardBackground, borders from "../../colors.module.css";
+
+.wrapping {
+    font-size: 12px;
+    composes: baseFilterModule from "../../Styles/filterCards.module.css";
+    padding: 10px 10px 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.dropdownWrap{
+    margin: 0px 10px;
+}
+
+.dropdown {
+    font-size: 12px !important;
+    font-family: 'Montserrat' !important;
+    margin: 5px 0px 5px !important;
+}
+.checkboxWrap {
+    font-size: 12px;
+    margin: -5px 0px;
+}
+.checkboxWrap * {
+    padding: 3px !important;
+}

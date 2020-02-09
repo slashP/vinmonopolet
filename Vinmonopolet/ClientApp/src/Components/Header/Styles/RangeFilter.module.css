@@ -1,0 +1,10 @@
+@value cardBackground, borders from "../../colors.module.css";
+
+.rangeWrapper{
+    composes: baseFilterModule from "../../Styles/filterCards.module.css";
+    padding: 10px 15px 0px;
+}
+
+.label {
+    font-size: 12px;
+} 

@@ -1,0 +1,56 @@
+@value cardBackground, borders from "../../colors.module.css";
+
+.topRow {
+    display: flex;
+    justify-content: space-between;
+}
+
+.brewery {
+    font-size: 12px;
+    overflow: hidden;
+}
+
+.name {
+    font-size: 14px;
+    font-weight: 600;
+    overflow: hidden;
+}
+
+.style {
+}
+
+.primaryStyle {
+    float: right;
+    display: block;
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.secondaryStyle {
+    display: block;
+    font-size: 10px;
+    font-weight: 200;
+}
+
+.baseStats {
+    padding-top: 2px;
+    font-size: 12px;
+}
+
+.labelWrapper{
+    flex-shrink: 0;
+    border-radius: 7px;
+    border: solid 2px borders;
+    background-color: cardBackground;
+    margin-right: -2px;
+    width: 68px;
+    padding: 4px;
+}
+
+.labelImage {
+    border: solid 0px borders;
+    border-radius: 4px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}

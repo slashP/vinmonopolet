@@ -1,0 +1,11 @@
+.container{
+    padding: 2px;
+}
+
+.beerFlow{
+    max-width: 1580px;
+    display: flex;
+    margin: 10px auto;
+    flex-wrap: wrap;
+    justify-content: center;
+}

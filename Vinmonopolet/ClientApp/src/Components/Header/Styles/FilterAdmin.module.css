@@ -1,0 +1,9 @@
+
+.wrapper {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.ranges{
+    margin: 0px 10px;
+}

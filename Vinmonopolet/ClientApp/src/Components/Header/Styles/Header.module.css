@@ -1,0 +1,67 @@
+@value cardBackground, borders from "../../colors.module.css";
+
+.wrapper {
+    width: 100%;
+    max-width: 1580px;
+    margin: auto;
+    /* height: 50px; */
+    border-bottom: solid 2px borders;
+}
+
+.logo{
+    font-weight: bold;
+    font-size: 30px;
+    color: rgb(85,85,85);
+    padding: 10px 10px;
+    margin: auto 20px;
+}
+
+.spacer {
+    flex-grow: 1;
+}
+
+.inside {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding: 10px;
+}
+
+.filterButton{
+    composes: button from "../../Styles/buttons.module.css";
+    background-color: cardBackground;
+    border-radius: 5px;
+    margin: 10px 0px;
+    height: 50px;
+    width: 50px;
+    padding: 13px;
+}
+
+.buttonGroup{
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    margin: 10px 20px
+}
+
+.filtersAndButtons{
+    margin: auto;
+    flex:1;
+    display: grid;
+    grid-auto-flow: dense;
+    grid-gap: 5px;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 300px));
+    grid-template-rows: repeat(auto-fill, minmax(60px, 60px));
+}
+
+@media (max-width: 600px) {
+    .inside {
+        flex-direction: column;
+    }
+
+    .buttonGroup {
+        flex-direction: row;
+        justify-content: space-around;
+    }
+}

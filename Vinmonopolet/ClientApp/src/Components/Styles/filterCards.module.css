@@ -1,0 +1,11 @@
+@value cardBackground, borders from "../colors.module.css";
+
+
+.baseFilterModule {
+    height: auto;
+    width: auto;
+    border: solid 2px borders;
+    border-radius: 5px;
+    background-color: cardBackground;
+
+}

@@ -1,0 +1,27 @@
+@value cardBackground, borders from "../../colors.module.css";
+
+.wrapping {
+    min-width: 300px;
+    max-width: 350px;
+    height: 80px;
+    margin: 6px;
+    flex: 1 1 0px;
+}
+
+.setup {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+}
+
+.content {
+    flex: 1 1 0px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-align: left;
+    padding: 6px;
+    border-radius: 7px;
+    border: solid 2px borders;
+    background-color: cardBackground;
+    cursor: pointer;
+}
