@@ -1,6 +1,5 @@
 import React, { useState, useContext } from 'react'
 import { Slider } from '@material-ui/core'
-import StarRating from '../Card/StarRating'
 
 import styles from './Styles/RatingFilter.module.css'
 import FilterContext from '../../Contexts/FilterContext';

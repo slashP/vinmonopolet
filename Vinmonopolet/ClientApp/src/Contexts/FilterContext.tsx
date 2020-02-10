@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext, useEffect, useMemo } from 'react'
 import { Beer } from '../Types/BeerTypes';
 import RawDataContext from './RawDataContext';
 
@@ -6,6 +6,8 @@ type FilterContextProps = {
     state: FilterState,
     filteredBeer: Beer[],
     showNew: boolean,
+    uniqueStores: Store[],
+    uniqueStyles: string[],
     setNew: (value: boolean) => void,
     tba: boolean,
     setTba: (value: boolean) => void,
@@ -16,6 +18,11 @@ type FilterContextProps = {
 type SetInput = {
     name: string,
     value: number | [number,number] | string[] | boolean,
+}
+
+export type Store = {
+    storeId: string,
+    storeName: string,
 }
 
 type FilterState = {
@@ -32,9 +39,9 @@ type FilterState = {
 
 const DefaultState: FilterState = {
     averageScore: 0,
-    price: [0, 1000],
+    price: [0, 500],
     volume: [0, 600],
-    abv: [0, 25],
+    abv: [0, 20],
     store: [],
     brewery: [],
     style: [],
@@ -46,6 +53,8 @@ const FilterContext = React.createContext<FilterContextProps>({
     state: DefaultState,
     filteredBeer: [],
     showNew: false,
+    uniqueStores: [],
+    uniqueStyles: [],
     setNew: () => {},
     tba: false,
     setTba: () => {},
@@ -64,6 +73,7 @@ export const FilterContextProvider: React.FC<{}> = (props) => {
     const rawData = () => {
         return tba ? rawDataContext.state.newBeerResponse : rawDataContext.state.apiResponse;
     }
+
     const setFilter = (input: SetInput) => {
         setFilterState({...filterState, [input.name]: input.value});
     }
@@ -86,6 +96,12 @@ export const FilterContextProvider: React.FC<{}> = (props) => {
             });
         }
 
+        if (filterState.style.length > 0) {
+            filtered = filtered.filter(x => {
+                return filterState.style.includes(x.style);
+            })
+        }
+
         filtered = filtered.filter(x => x.price >= filterState.price[0] && x.price <= filterState.price[1])
             .filter(x => x.averageScore >= filterState.averageScore)
             .filter(x => x.volume >= filterState.volume[0] && x.volume <= filterState.volume[1])
@@ -94,12 +110,38 @@ export const FilterContextProvider: React.FC<{}> = (props) => {
         setFilteredBeer(filtered);
     }
 
+    const calculateUniqueStores = (beers: Beer[]) => {
+        const totalStores = beers.map(x => x.storeStocks)
+            .reduce((prev, curr) => prev.concat(curr), []);
+        const uniqueStores = Array.from(new Set(totalStores.map(x => x.storeId))).map(
+            id => {
+                return {
+                    storeId: id,
+                    storeName: totalStores.find(x => x.storeId === id)?.storeName || ''
+                };
+            }
+        ).sort(function(a,b){
+            if(a.storeName < b.storeName) { return -1; }
+            if(a.storeName > b.storeName) { return 1; }
+            return 0;
+        });
+        return uniqueStores as Store[];
+    }
+
+    const calculateUniqueStyles = (beers: Beer[]) => {
+        return [...new Set(beers.map(x => x.style))];
+    }
+
+    const uniqueStyles = useMemo(() => calculateUniqueStyles(filteredBeer), [filteredBeer])
+
+    const uniqueStores = useMemo(() => calculateUniqueStores(filteredBeer), [filteredBeer])
+
     useEffect(() => {
         applyFilter();//eslint-disable-next-line
     },[rawDataContext.state.apiResponse, tba, showNew])
 
     return (
-        <FilterContext.Provider value={{state: filterState, showNew, setNew, tba, setTba, setFilter, filteredBeer, applyFilter }}>
+        <FilterContext.Provider value={{state: filterState, showNew, setNew, uniqueStores, uniqueStyles, tba, setTba, setFilter, filteredBeer, applyFilter }}>
             {props.children}
         </FilterContext.Provider>
     )

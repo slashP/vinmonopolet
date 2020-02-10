@@ -2,9 +2,7 @@ import React, { useContext } from 'react'
 import RangeFilter from './RangeFilter';
 import FilterContext from '../../Contexts/FilterContext';
 import StoreFilter from './StoreFilter';
-
-import styles from './Styles/FilterAdmin.module.css'
-import RatingFilter from './RatingFilter';
+import StyleFilter from './StyleFilter';
 
 interface Props {
 
@@ -28,26 +26,27 @@ const FilterAdmin: React.FC<Props> = () => {
     return (
         <>
             <StoreFilter />
+            <StyleFilter />
             <RangeFilter
                 min={0}
                 max={500}
+                step={10}
                 values={filterContext.state.price}
                 setValues={setPriceFilter}
-                variable={"Price"}
                 variableName={"Price [nok]"} />
             <RangeFilter
                 min={0}
                 max={20}
+                step={1}
                 values={filterContext.state.abv}
                 setValues={setAbvFilter}
-                variable={"abv"}
                 variableName={"Alcohol %"} />
             <RangeFilter
                 min={0}
                 max={150}
+                step={1}
                 values={filterContext.state.volume}
                 setValues={setVolumeFilter}
-                variable={"volume"}
                 variableName={"Volume [cl]"} />
         </>
     )

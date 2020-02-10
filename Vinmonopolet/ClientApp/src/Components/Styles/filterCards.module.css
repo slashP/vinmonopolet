@@ -1,6 +1,5 @@
 @value cardBackground, borders from "../colors.module.css";
 
-
 .baseFilterModule {
     height: auto;
     width: auto;
@@ -8,4 +7,9 @@
     border-radius: 5px;
     background-color: cardBackground;
 
+}
+
+.bigFilterModule {
+    composes: baseFilterModule;
+    grid-row: span 3;
 }
