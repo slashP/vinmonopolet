@@ -30,13 +30,13 @@ export const RawDataContextProvider: React.FC<{}> = (props) => {
     
     const getData = async () => {
         if(query === ""){
-            const result = await axios.request<Beer[]>({url: "https://øl.dev/api/beers?query=*"});
+            const result = await axios.request<Beer[]>({url: "/api/beers?query=*"});
             setApiResponse(await result.data);
         } else {
-        const result = await axios.request<Beer[]>({url: "https://øl.dev/api/beers?query=" + query});
+        const result = await axios.request<Beer[]>({url: "/beers?query=" + query});
         setApiResponse(await result.data);
         }
-        const newBeer = await  axios.request<Beer[]>({url: "https://øl.dev/api/new"});
+        const newBeer = await  axios.request<Beer[]>({url: "/api/new"});
         setNewBeerResponse(await newBeer.data);
     }
 
