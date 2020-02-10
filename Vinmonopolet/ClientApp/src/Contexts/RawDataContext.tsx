@@ -34,7 +34,8 @@ export const RawDataContextProvider: React.FC<{}> = (props) => {
     const [apiResponse, setApiResponse] = useState<Beer[]>([])
     const [newBeerResponse, setNewBeerResponse] = useState<Beer[]>([])
 
-    const rawStores = () => { 
+    const rawStores = () => {
+        var t1 = performance.now();
         const totalStores = apiResponse.map(x => x.storeStocks)
             .reduce((prev, curr) => prev.concat(curr), []);
         const uniqueStores = Array.from(new Set(totalStores.map(x => x.storeId))).map(
@@ -49,6 +50,8 @@ export const RawDataContextProvider: React.FC<{}> = (props) => {
             if(a.storeName > b.storeName) { return 1; }
             return 0;
         });
+        var t2 = performance.now();
+        console.log("Getting unique stores took " + (t2 - t1) + " ms");
         return uniqueStores as Store[];
     }
 

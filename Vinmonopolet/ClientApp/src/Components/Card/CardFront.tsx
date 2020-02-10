@@ -13,12 +13,16 @@ interface Props {
 const CardFront: React.FC<Props> = ({ beer }) => {
     const [primaryStyle, secondaryStyle] = beer.style ? [beer.style.split(' - ')[0], beer.style.split(' - ')[1]] : ['', ''];
 
+    const formatVolume = (volume: number) => {
+        return volume > 1 ? volume/100 : volume
+    }
+
     return (
         <>
             <div className={styles.topRow}>
                 <StarRating rating={beer.averageScore} />
                 <div className={styles.baseStats}>
-                    {beer.abv} % - {beer.volume} cl - {Math.round(beer.price)} kr
+                    {beer.abv} % - {formatVolume(beer.volume)} - {Math.round(beer.price)} kr
                 </div>
             </div>
             <div className={styles.brewery}>

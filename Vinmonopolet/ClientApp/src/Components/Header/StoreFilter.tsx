@@ -30,7 +30,6 @@ const StoreFilter: React.FC<Props> = () => {
     }
 
     const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-        console.log("changing")
         const { options } = event.target as HTMLSelectElement;
         const value: string[] = [];
         for (let i = 0, l = options.length; i < l; i += 1) {
@@ -46,11 +45,11 @@ const StoreFilter: React.FC<Props> = () => {
     return (
         <div className={styles.wrapper}>
             <div>
-                <input 
+                <input
                     className={styles.textField}
-                    type="text"    
-                    onChange={handleTextChange} 
-                    value={textFilter} 
+                    type="text"
+                    onChange={handleTextChange}
+                    value={textFilter}
                     placeholder="Filtrer stores list"
                     />
                 <button className={styles.clearButton} onClick={() => clearFilter()}>
