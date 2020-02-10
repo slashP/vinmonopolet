@@ -11,6 +11,8 @@ const filterSvg = <svg aria-hidden="true" focusable="false" data-prefix="fas" da
 
 const checkmarkSvg = <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z" /></svg>
 
+const resetButton = <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M9.5 1.293a6.47 6.47 0 0 0-6.462 6.46v3.002l-1.5-1.5-1.5 1.5 3.991 3.951 4.009-3.951-1.5-1.5-1.5 1.5v-3c0-2.46 2.001-4.462 4.462-4.462s4.462 2.001 4.462 4.462a4.468 4.468 0 0 1-1.458 3.298l1.348 1.479a6.476 6.476 0 0 0 2.11-4.777A6.47 6.47 0 0 0 9.5 1.293z"/></svg>
+
 interface Props {
 }
 
@@ -25,7 +27,7 @@ const Header: React.FC<Props> = () => {
         <div className={styles.wrapper}>
             <div className={styles.inside}>
                 <div className={styles.logo}>
-                    ølPolet
+                    ølPol
                 </div>
                 <div className={styles.filtersAndButtons}>
                     <SearchFilter />
