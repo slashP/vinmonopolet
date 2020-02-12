@@ -15,7 +15,7 @@ const StyleFilter: React.FC<Props> = () => {
     const filterContext = useContext(FilterContext);
     const uniqueStyles = filterContext.uniqueStyles.sort();
 
-    const filteredStyles = uniqueStyles.filter(x => x.toUpperCase().includes(textFilter.toUpperCase())) || [];
+    const filteredStyles = uniqueStyles?.filter(x => x.toUpperCase().includes(textFilter.toUpperCase())) || [];
 
     const clearFilter = () => {
         setTextFilter('');
@@ -67,7 +67,7 @@ const StyleFilter: React.FC<Props> = () => {
                     filteredStyles.map(style => (
                         <MenuItem className={styles.option} value={style} key={style}>
                             <Checkbox checked={styleFilter.indexOf(style) > -1} />
-                            <ListItemText primary={style} />                        
+                            <ListItemText primary={style} />
                         </MenuItem>
                     ))
                 }

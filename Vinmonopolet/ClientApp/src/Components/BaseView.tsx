@@ -43,7 +43,7 @@ const BaseView: React.FC<Props> = () => {
                         )
                     }
                 </InfiniteScroll>}
-            {!sortingContext.sortedBeers && <div className={loader.loader} />}
+            {sortingContext.sortedBeers.length === 0 && <div className={loader.loader} />}
         </div>
     )
 }
