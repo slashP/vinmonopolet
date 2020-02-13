@@ -16,6 +16,7 @@ namespace Vinmonopolet.Controllers
         }
 
         [Route("stores")]
+        [HttpGet]
         public async Task<ActionResult> Stores()
         {
             var stores = await _db.Stores.ToListAsync();

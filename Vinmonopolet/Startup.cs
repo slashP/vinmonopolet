@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Vinmonopolet.Data;
 using Vinmonopolet.Models;
 using Vinmonopolet.Services;
@@ -38,15 +39,11 @@ namespace Vinmonopolet
             services.AddTransient<IUntappdClient, UntappdClient>();
 
             services.AddMvc();
-
-            var serviceProvider = services.BuildServiceProvider();
-            new ApplicationDbContext(
-                serviceProvider.GetService<DbContextOptions<ApplicationDbContext>>()).Database.Migrate();
             services.AddSingleton<IStaticBeerProvider, StaticBeerProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -58,18 +55,19 @@ namespace Vinmonopolet
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseCors(builder =>
-                builder.WithOrigins("http://localhost:3000"));
+            app.UseCors(builder => builder.WithOrigins("http://localhost:3000"));
 
             app.UseStaticFiles();
             app.UseAuthentication();
-
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+            app.UseRouting();
+            app.UseAuthorization();
+            app.UseEndpoints(endpoints => {
+                endpoints.MapControllers();
+                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
+            using var scope = app.ApplicationServices.CreateScope();
+            var dbContext = scope.ServiceProvider.GetService<ApplicationDbContext>();
+            dbContext.Database.Migrate();
         }
     }
 }
