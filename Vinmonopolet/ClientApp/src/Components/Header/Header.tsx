@@ -23,6 +23,11 @@ const Header: React.FC<Props> = () => {
 
     const applyFilters = () => { filterContext.applyFilter() }
 
+    const onFilterButtonClick = () => {
+        if (filtersOpen) applyFilters();
+        setFiltersOpen(!filtersOpen);
+    }
+
     return (
         <div className={styles.wrapper}>
             <div className={styles.inside}>
@@ -36,7 +41,7 @@ const Header: React.FC<Props> = () => {
                     <SortingField />
                 </div>
                 <div className={styles.buttonGroup}>
-                    <button className={styles.filterButton} onClick={() => setFiltersOpen(!filtersOpen)} >
+                    <button className={styles.filterButton} onClick={() => onFilterButtonClick()} >
                         {filterSvg}
                     </button>
                     {filtersOpen && <button className={styles.filterButton} onClick={() => applyFilters()}>
