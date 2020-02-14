@@ -1,19 +1,28 @@
-import React, { useState } from 'react'
-import { Beer } from '../../Types/BeerTypes';
+import React, { useState, useContext } from 'react'
+import { Beer, StoreStock } from '../../Types/BeerTypes';
 
 import styles from './styles/CardBase.module.css'
 import CardFront from './CardFront';
 import BeerLabel from './BeerLabel'
 import StockCard from './StockCard';
+import FilterContext from '../../Contexts/FilterContext';
 
 interface Props {
     beer: Beer,
 }
 
 const CardBase: React.FC<Props> = ({ beer }) => {
+    const filterContext = useContext(FilterContext);
     const [showFront, setShowFront] = useState(true)
-    
-    let tooltipTitle = beer.storeStocks.sort((a,b) => b.stockLevel - a.stockLevel).map(stock => "" + stock.storeName + " : " + stock.stockLevel + " \n").join("");
+
+    const storeString = (stock: StoreStock) => "" + stock.storeName + " : " + stock.stockLevel;
+
+    const sortedStocks = beer.storeStocks.sort((a,b) => b.stockLevel - a.stockLevel);
+    const inselectedStores = sortedStocks.filter(x => filterContext.state.store.includes(x.storeId));
+    const nonSelectedStores = sortedStocks.filter(x => !filterContext.state.store.includes(x.storeId));
+    const selectedStoreString = inselectedStores.length > 0 ? inselectedStores.map(x => storeString(x)).concat("\u2015\u2015\u2015\u2015\u2015\u2015\u2015\u2015\u2015") : [];
+
+    const tooltipTitle = selectedStoreString.concat(nonSelectedStores.map(x => storeString(x))).join("\n");
 
     return (
         <div className={styles.wrapping}>
