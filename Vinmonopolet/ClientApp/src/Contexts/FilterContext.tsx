@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useMemo } from 'react'
+import React, { useState, useContext, useEffect, useMemo, useCallback } from 'react'
 import { Beer } from '../Types/BeerTypes';
 import RawDataContext from './RawDataContext';
 
@@ -69,10 +69,13 @@ export const FilterContextProvider: React.FC<{}> = (props) => {
     const [tba, setTba] = useState(false);
 
     const rawDataContext = useContext(RawDataContext);
-    
-    const rawData = () => {
-        return tba ? rawDataContext.state.newBeerResponse : rawDataContext.state.apiResponse;
-    }
+
+    const rawData = useCallback(
+        () => {
+            return tba ? rawDataContext.state.newBeerResponse : rawDataContext.state.apiResponse;
+        },
+        [tba, rawDataContext.state.newBeerResponse, rawDataContext.state.apiResponse],
+    )
 
     const setFilter = (input: SetInput) => {
         setFilterState({...filterState, [input.name]: input.value});
@@ -129,10 +132,10 @@ export const FilterContextProvider: React.FC<{}> = (props) => {
     }
 
     const calculateUniqueStyles = (beers: Beer[]) => {
-        return [...new Set(beers.map(x => x.style))];
+        return [...new Set(beers.map(x => x.style))].filter(x => x.length > 0);
     }
 
-    const uniqueStyles = useMemo(() => calculateUniqueStyles(filteredBeer), [filteredBeer])
+    const uniqueStyles = useMemo(() => calculateUniqueStyles(rawData()), [rawData])
 
     const uniqueStores = useMemo(() => calculateUniqueStores(filteredBeer), [filteredBeer])
 
