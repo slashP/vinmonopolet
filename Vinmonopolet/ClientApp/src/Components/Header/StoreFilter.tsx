@@ -9,10 +9,10 @@ interface Props {
 }
 
 const StoreFilter: React.FC<Props> = () => {
-    const [storeFilter, setStoreFilter] = useState<string[]>([])
+    const filterContext = useContext(FilterContext);
+    const [storeFilter, setStoreFilter] = useState<string[]>(filterContext.state.store)
     const [textFilter, setTextFilter] = useState('')
 
-    const filterContext = useContext(FilterContext);
     const allStores = filterContext.uniqueStores;
 
     const filteredStores = allStores.filter(x => x.storeName.toUpperCase().includes(textFilter.toUpperCase())) || [];
@@ -68,7 +68,7 @@ const StoreFilter: React.FC<Props> = () => {
                     filteredStores.map(store => (
                         <MenuItem className={styles.option} value={store.storeId} key={store.storeId}>
                             <Checkbox checked={storeFilter.indexOf(store.storeId) > -1} />
-                            <ListItemText primary={store.storeName} />                        
+                            <ListItemText primary={store.storeName} />
                         </MenuItem>
                     ))
                 }

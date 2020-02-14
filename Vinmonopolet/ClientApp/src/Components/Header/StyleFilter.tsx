@@ -9,10 +9,10 @@ interface Props {
 }
 
 const StyleFilter: React.FC<Props> = () => {
-    const [styleFilter, setStyleFilter] = useState<string[]>([])
-    const [textFilter, setTextFilter] = useState('')
-
     const filterContext = useContext(FilterContext);
+    const [styleFilter, setStyleFilter] = useState<string[]>(filterContext.state.style);
+    const [textFilter, setTextFilter] = useState('');
+
     const uniqueStyles = filterContext.uniqueStyles.sort();
 
     const filteredStyles = (textFilter.length > 0) ? uniqueStyles.filter(x => x.toUpperCase().includes(textFilter.toUpperCase())) : uniqueStyles;
