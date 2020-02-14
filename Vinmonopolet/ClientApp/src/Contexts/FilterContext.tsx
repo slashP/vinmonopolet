@@ -132,7 +132,8 @@ export const FilterContextProvider: React.FC<{}> = (props) => {
     }
 
     const calculateUniqueStyles = (beers: Beer[]) => {
-        return [...new Set(beers.map(x => x.style))].filter(x => x.length > 0);
+        var allstyles = [...new Set(beers.map(x => x.style))];
+        return allstyles.length !== 0 ? allstyles.filter(x => x != null) : [];
     }
 
     const uniqueStyles = useMemo(() => calculateUniqueStyles(rawData()), [rawData])
