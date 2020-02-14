@@ -15,7 +15,7 @@ const StyleFilter: React.FC<Props> = () => {
     const filterContext = useContext(FilterContext);
     const uniqueStyles = filterContext.uniqueStyles.sort();
 
-    const filteredStyles = (uniqueStyles.length > 0 && textFilter.length > 0) ? uniqueStyles.filter(x => x.toUpperCase().includes(textFilter.toUpperCase())) : [];
+    const filteredStyles = (textFilter.length > 0) ? uniqueStyles.filter(x => x.toUpperCase().includes(textFilter.toUpperCase())) : uniqueStyles;
 
     const clearFilter = () => {
         setTextFilter('');
