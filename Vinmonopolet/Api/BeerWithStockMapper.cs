@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Vinmonopolet.Api.DTOs;
 using Vinmonopolet.Models;
@@ -8,7 +9,10 @@ namespace Vinmonopolet.Api
 {
     public class BeerWithStockMapper
     {
-        public static IList<BeerWithStocks> BuildBeers(IEnumerable<WatchedBeer> watchedBeers, IReadOnlyDictionary<string, BasicBeer> untappdBeers)
+        public static IList<BeerWithStocks> BuildBeers(
+            IEnumerable<WatchedBeer> watchedBeers,
+            IReadOnlyDictionary<string, BasicBeer> untappdBeers,
+            Func<BeerLocation, bool> locationSelector)
         {
             var returnlist = new List<BeerWithStocks>();
             foreach (var beer in watchedBeers)
@@ -34,7 +38,7 @@ namespace Vinmonopolet.Api
                     TotalUserCount = uBeer?.TotalUserCount,
                     Description = uBeer?.Description,
                     OnNewProductList = beer.OnNewProductList,
-                    StoreStocks = beer.BeerLocations.Select(x => new StoreStock
+                    StoreStocks = beer.BeerLocations.Where(locationSelector).Select(x => new StoreStock
                     {
                         StockLevel = x.StockLevel,
                         StoreId = x.StoreId,

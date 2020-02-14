@@ -32,7 +32,7 @@ namespace Vinmonopolet.Controllers
                                     : x.BeerLocations.Any(l => l.StockLevel > 0)))
                     .ToList();
 
-            var frontendBeerLocations = BeerWithStockMapper.BuildBeers(beers, _staticBeerProvider.UntappdBeers());
+            var frontendBeerLocations = BeerWithStockMapper.BuildBeers(beers, _staticBeerProvider.UntappdBeers(), x => x.StockLevel > 0);
             return Json(frontendBeerLocations);
         }
 
@@ -43,7 +43,7 @@ namespace Vinmonopolet.Controllers
                 _staticBeerProvider.AllBeers()
                     .Where(x => x.VinmonopoletStatus == "lanseres")
                     .ToList();
-            var frontendBeerLocations = BeerWithStockMapper.BuildBeers(toBeAnnounced, _staticBeerProvider.UntappdBeers());
+            var frontendBeerLocations = BeerWithStockMapper.BuildBeers(toBeAnnounced, _staticBeerProvider.UntappdBeers(), _ => true);
             return Json(frontendBeerLocations);
         }
 
