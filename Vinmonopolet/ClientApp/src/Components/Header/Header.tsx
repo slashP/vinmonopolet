@@ -32,7 +32,7 @@ const Header: React.FC<Props> = () => {
         <div className={styles.wrapper}>
             <div className={styles.inside}>
                 <div className={styles.logo}>
-                    ølPol
+                    ølPol!
                 </div>
                 <div className={styles.filtersAndButtons}>
                     <SearchFilter />

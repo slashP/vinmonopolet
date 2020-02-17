@@ -51,7 +51,7 @@ export const RawDataContextProvider: React.FC<{}> = (props) => {
     return (
         <RawDataContext.Provider value={{state, setQuery, getData}} >
             {props.children}
-        </RawDataContext.Provider>           
+        </RawDataContext.Provider>
     )
 }
 
