@@ -12,6 +12,8 @@ const trackingId = "UA-136322230-2";
 
 const App: React.FC = () => {
   ReactGA.initialize(trackingId);
+  console.log("GA initialized")
+  ReactGA.pageview("/");
 
   return (
     <div className="App">
