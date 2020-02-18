@@ -4,7 +4,6 @@
     <UserSecretsId>aspnet-Vinmonopolet-B59B2533-A5EA-468E-ACFC-D5DE00FC0E06</UserSecretsId>
     <ApplicationInsightsResourceId>/subscriptions/d8ff5204-d623-45c2-84f7-153b73005012/resourcegroups/vinmonopolet/providers/microsoft.insights/components/vinmonopolet</ApplicationInsightsResourceId>
     <ApplicationInsightsAnnotationResourceId>/subscriptions/d8ff5204-d623-45c2-84f7-153b73005012/resourcegroups/vinmonopolet/providers/microsoft.insights/components/vinmonopolet</ApplicationInsightsAnnotationResourceId>
-    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Clave.BackgroundUpdatable" Version="0.1.4" />
@@ -33,23 +32,4 @@
   <ItemGroup>
     <Folder Include="Config\" />
   </ItemGroup>
-  <!--<Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish" Condition="'$(Configuration)' == 'Release'">
-    <ItemGroup>
-      <Content Remove="wwwroot\build\** " />
-    </ItemGroup>
-    <Message Importance="high" Text="Running npm install." />
-    <Exec WorkingDirectory="ClientApp\" Command="npm install" EnvironmentVariables="NO_UPDATE_NOTIFIER=1" />
-
-    <Message Importance="high" Text="Building frontend. Npm run build should output to wwwroot\build" />
-    <Exec WorkingDirectory="ClientApp\" Command="npm run build" EnvironmentVariables="NO_UPDATE_NOTIFIER=1" /> 
-    --><!-- Include the newly-built files in the publish output --><!--
-    <ItemGroup>
-      <Content Include ="wwwroot\build\**;"/>
-      <DistFiles Include="wwwroot\build\**;" />
-      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
-        <RelativePath>%(DistFiles.Identity)</RelativePath>
-        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      </ResolvedFileToPublish>
-    </ItemGroup>
-  </Target>-->
 </Project>
