@@ -4,20 +4,20 @@
     composes: bigFilterModule from "../../Styles/filterCards.module.css";
     padding: 10px;
     display: grid;
+    align-items: center;
     grid-template-columns: 4fr 1fr 1fr;
-    grid-template-rows: 40px 120px;
+    grid-template-rows: 1fr 1fr;
     grid-gap: 5px;
 }
 
 .select {
     width: 100%;
-    height: 120px !important;
+    height: 40px !important;
     margin: 0;
     grid-column: span 3;
 }
 
 .select * {
-    height: 105px !important;
     font-family: 'Montserrat' !important;
     font-size: 14px !important;
 }

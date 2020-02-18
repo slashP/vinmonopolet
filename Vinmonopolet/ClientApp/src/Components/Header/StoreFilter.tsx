@@ -39,43 +39,41 @@ const StoreFilter: React.FC<Props> = () => {
     };
 
     const displaySelected = (stores: string[]) => {
-        return stores.map(store => {return <span key={store} >{(filteredStores.find(x => x.storeId === store)?.storeName || '')}<br /></span>
-        });
-        }
-    
-        return (
+        return <span> {stores.length} stores selected </span>
+    }
+    return (
         <div className={styles.wrapper}>
-                <input
-                    className={styles.textField}
-                    type="text"
-                    onChange={handleTextChange}
-                    value={textFilter}
-                    placeholder="Filtrer store list"
-                />
-                <button className={styles.clearButton} onClick={() => selectAll()}>
-                    ALL
+            <input
+                className={styles.textField}
+                type="text"
+                onChange={handleTextChange}
+                value={textFilter}
+                placeholder="Filtrer store list"
+            />
+            <button className={styles.clearButton} onClick={() => selectAll()}>
+                ALL
             </button>
-                <button className={styles.clearButton} onClick={() => clearFilter()}>
-                    X
+            <button className={styles.clearButton} onClick={() => clearFilter()}>
+                X
             </button>
-                <Select
-                    className={styles.select}
-                    multiple
-                    value={storeFilter}
-                    input={<Input />}
-                    renderValue={stores => displaySelected(stores as string[])}
-                    onChange={handleChange} >
-                    {
-                        filteredStores.map(store => (
-                            <MenuItem className={styles.option} value={store.storeId} key={store.storeId}>
-                                <Checkbox checked={storeFilter.indexOf(store.storeId) > -1} />
-                                <ListItemText primary={store.storeName} />
-                            </MenuItem>
-                        ))
-                    }
-                </Select>
-            </div>
-            )
-        }
-        
+            <Select
+                className={styles.select}
+                multiple
+                value={storeFilter}
+                input={<Input />}
+                renderValue={stores => displaySelected(stores as string[])}
+                onChange={handleChange} >
+                {
+                    filteredStores.map(store => (
+                        <MenuItem className={styles.option} value={store.storeId} key={store.storeId}>
+                            <Checkbox checked={storeFilter.indexOf(store.storeId) > -1} />
+                            <ListItemText primary={store.storeName} />
+                        </MenuItem>
+                    ))
+                }
+            </Select>
+        </div>
+    )
+}
+
 export default StoreFilter
