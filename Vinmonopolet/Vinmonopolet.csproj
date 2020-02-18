@@ -33,7 +33,7 @@
   <ItemGroup>
     <Folder Include="Config\" />
   </ItemGroup>
-  <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish" Condition="'$(Configuration)' == 'Release'">
+  <!--<Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish" Condition="'$(Configuration)' == 'Release'">
     <ItemGroup>
       <Content Remove="wwwroot\build\** " />
     </ItemGroup>
@@ -42,7 +42,7 @@
 
     <Message Importance="high" Text="Building frontend. Npm run build should output to wwwroot\build" />
     <Exec WorkingDirectory="ClientApp\" Command="npm run build" EnvironmentVariables="NO_UPDATE_NOTIFIER=1" /> 
-    <!-- Include the newly-built files in the publish output -->
+    --><!-- Include the newly-built files in the publish output --><!--
     <ItemGroup>
       <Content Include ="wwwroot\build\**;"/>
       <DistFiles Include="wwwroot\build\**;" />
@@ -51,5 +51,5 @@
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       </ResolvedFileToPublish>
     </ItemGroup>
-  </Target>
+  </Target>-->
 </Project>
