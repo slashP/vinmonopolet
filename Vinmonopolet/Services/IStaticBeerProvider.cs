@@ -10,5 +10,6 @@ namespace Vinmonopolet.Services
         IReadOnlyCollection<WatchedBeer> AllBeers();
         Task Update();
         IReadOnlyDictionary<string, BasicBeer> UntappdBeers();
+        Task UpdateUntappd();
     }
 }

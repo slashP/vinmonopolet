@@ -20,11 +20,13 @@ namespace Vinmonopolet.Controllers
     {
         private IUntappdClient _untappdClient;
         private readonly ApplicationDbContext _db;
+        private readonly IStaticBeerProvider _staticBeerProvider;
 
-        public UntappdController(IUntappdClient _client, ApplicationDbContext db)
+        public UntappdController(IUntappdClient _client, ApplicationDbContext db, IStaticBeerProvider staticBeerProvider)
         {
             _untappdClient = _client;
             _db = db;
+            _staticBeerProvider = staticBeerProvider;
         }
 
         [HttpPost]
@@ -96,6 +98,7 @@ namespace Vinmonopolet.Controllers
                 await UpdateBeer(id);
             }
 
+            await _staticBeerProvider.UpdateUntappd();
             return $"{antall} beers updated";
         }
 

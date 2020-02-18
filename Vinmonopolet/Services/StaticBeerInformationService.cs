@@ -28,6 +28,8 @@ namespace Vinmonopolet.Services
 
         public IReadOnlyDictionary<string, BasicBeer> UntappdBeers() => _untappdBeersUpdater.Value();
 
+        public Task UpdateUntappd() => _untappdBeersUpdater.Update();
+
         public async Task Update() => await _beerLocationsUpdater.Update();
 
         async Task<List<WatchedBeer>> UpdateBeerLocations()
