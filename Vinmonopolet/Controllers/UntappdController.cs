@@ -91,7 +91,8 @@ namespace Vinmonopolet.Controllers
         [HttpPost]
         public async Task<string> UpdateOldestUntappdBeersFromApi(int antall = 10)
         {
-            var ids = _db.UntappdBeers.OrderBy(x => x.UpdatedAt).Take(antall).Select(x => x.Id).ToList();
+            var watchedUntappdIds = _db.WatchedBeers.Select(x => x.UntappdId).ToList();
+            var ids = _db.UntappdBeers.Where(x => watchedUntappdIds.Contains(x.Id)).OrderBy(x => x.UpdatedAt).Take(antall).Select(x => x.Id).ToList();
 
             foreach (var id in ids)
             {
@@ -99,7 +100,7 @@ namespace Vinmonopolet.Controllers
             }
 
             await _staticBeerProvider.UpdateUntappd();
-            return $"{antall} beers updated";
+            return $"{antall} beers updated: " + string.Join("\n", ids);
         }
 
         [HttpPost]
