@@ -7,33 +7,21 @@ trigger:
 - master
 
 pool:
-  vmImage: 'windows-latest'
-
-variables:
-  solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
+  vmImage: 'ubuntu-latest'
 
 steps:
-- task: NuGetToolInstaller@1
+  - task: UseDotNet@2
+    displayName: 'Use .NET Core sdk'
+    inputs:
+      packageType: sdk
+      version: '7.0.x'
+      installationPath: $(Agent.ToolsDirectory)/dotnet
 
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
-
-- script: npm install
-  workingDirectory: '$(System.DefaultWorkingDirectory)/Vinmonopolet/ClientApp'
-
-- task: VSBuild@1
-  inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-
-- task: VSTest@2
-  inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-
-- task: PublishBuildArtifacts@1
+  - task: DotNetCoreCLI@2
+    displayName: 'Publish Vinmonopolet.Web'
+    inputs:
+      command: publish
+      publishWebProjects: false
+      arguments: 'src/Vinmonopolet.Web/Vinmonopolet.Web.csproj -c Release -o "$(Build.ArtifactStagingDirectory)/webapp" /p:Version=$(GitVersion.MajorMinorPatch) --runtime linux-x64 --self-contained false'
+      zipAfterPublish: false
+      modifyOutputPath: false
