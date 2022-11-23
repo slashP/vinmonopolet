@@ -51,7 +51,9 @@ public class WebBrowserService : IWebBrowserService, IDisposable
         var browser = await Puppeteer.LaunchAsync(new LaunchOptions
         {
             ExecutablePath = executablePath,
-            Headless = true
+            Headless = true,
+            EnqueueTransportMessages = false,
+            Args = new[] { "--no-sandbox" }
         });
         foreach (var _ in Enumerable.Repeat(string.Empty, NumberOfPages))
         {

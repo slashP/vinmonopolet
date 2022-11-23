@@ -18,8 +18,8 @@ RUN mkdir -p /var/run/sshd \
     && mkdir -p $WWWROOT_DIRECTORY \
     && echo "root:Docker!" | chpasswd
 
-COPY ../sshd_config /etc/ssh/
-COPY ../init_container.sh /bin
+COPY sshd_config /etc/ssh/
+COPY init_container.sh /bin
 RUN tr -d '\r' < /bin/init_container.sh > /bin/init_container_unix.sh && chmod 755 /bin/init_container_unix.sh
 
 EXPOSE 80 2222
