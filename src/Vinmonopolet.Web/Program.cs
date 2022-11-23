@@ -1,8 +1,20 @@
+using Scrutor;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddRazorPages();
+string[] skipRegistrationOfInterfaces = {};
+builder.Services.Scan(scan => scan
+    .FromAssemblies(typeof(Program).Assembly)
+    .AddClasses(classes => classes
+        .Where(c => c.Namespace != null && c.Namespace.StartsWith("Vinmonopolet") && c.GetInterfaces()
+            .Any(i => i.Namespace != null &&
+                      !skipRegistrationOfInterfaces.Contains(i.Name) &&
+                      i.Namespace.StartsWith("Vinmonopolet") &&
+                      i.GetGenericArguments().Length == 0 &&
+                      c.Name.EndsWith(i.Name[1..])))).AsImplementedInterfaces().UsingRegistrationStrategy(RegistrationStrategy.Append));
 
 var app = builder.Build();
 
@@ -20,11 +32,8 @@ else
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
+app.MapControllers();
 app.UseAuthorization();
-
 app.MapRazorPages();
-
 app.Run();
