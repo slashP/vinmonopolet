@@ -21,7 +21,7 @@ public class TestController : Controller
     {
         await using var browserPage = await _webBrowserService.GetPage();
         var page = browserPage.Page;
-        await page.GoToAsync("https://untappd.com/search?q=lervig");
+        await page.GoToAsync("https://clave.no");
         var content = await page.GetContentAsync();
         return content;
     }

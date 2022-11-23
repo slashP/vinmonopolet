@@ -1,4 +1,5 @@
 using Scrutor;
+using Vinmonopolet.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,7 @@ builder.Services.Scan(scan => scan
                       i.Namespace.StartsWith("Vinmonopolet") &&
                       i.GetGenericArguments().Length == 0 &&
                       c.Name.EndsWith(i.Name[1..])))).AsImplementedInterfaces().UsingRegistrationStrategy(RegistrationStrategy.Append));
+builder.Services.AddSingleton<IWebBrowserService, WebBrowserService>();
 
 var app = builder.Build();
 
