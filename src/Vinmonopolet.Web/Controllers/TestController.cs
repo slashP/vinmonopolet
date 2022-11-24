@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Vinmonopolet.Web.Models;
+using Vinmonopolet.Web.Models.UntappdData;
 using Vinmonopolet.Web.Services;
 
 namespace Vinmonopolet.Web.Controllers;
@@ -28,13 +29,13 @@ public class TestController : Controller
 
     [Route("crawlBeer")]
     [HttpPost]
-    public async Task<string?> CrawlBeer(string name, decimal alcohol)
+    public async Task<BasicBeer?> CrawlBeer(string name, decimal alcohol)
     {
         var beer = await _untappdCrawler.CrawlBeer(new WatchedBeer
         {
             Name = name,
             AlcoholPercentage = alcohol
         });
-        return beer?.ToString();
+        return beer;
     }
 }

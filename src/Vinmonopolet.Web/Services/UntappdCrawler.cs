@@ -23,7 +23,7 @@ public class UntappdCrawler : IUntappdCrawler
             "doppelbock", "helles", "brown ale", "cider", "dark ale", "bitter", "fruit beer", "heffeweizen",
             "new england", "imperial", "stout", "lager", "lambic", "mead", "old ale", "pale ale", "pilsner", "porter",
             "red ale", "saison", "sour", "berliner weisse", "flanders", "oud bruin", "gose", "geuze", "wit", "edition",
-            "ed.", "barrel aged", "imp.", "christmas"
+            "ed.", "barrel aged", "imp.", "christmas", "dipa", "tropical"
         }.Select(x => SingleCharacterTerms.Select(y => new[] { $"{y}{x}", $"{x}{y}" })).SelectMany(x => x).SelectMany(x => x).ToArray();
 
     public UntappdCrawler(IWebBrowserService webBrowserService)
